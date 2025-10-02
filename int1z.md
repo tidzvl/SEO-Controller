@@ -143,3 +143,58 @@ Each node is defined in `src/config/nodesConfig.js` with:
 - **0 (Circle)**: Circular nodes (140x140px) - used for TikTok, Facebook, Twitter, Telegram, Slack, WooCommerce
 - **1 (Square)**: Square nodes (140x140px) - used for Google, Instagram, LinkedIn, WhatsApp, Shopify
 - **2 (Rectangle)**: Rectangular nodes (180-220px × 120px) - used for Gmail, YouTube, Pinterest, Discord, WordPress
+
+
+### User Interface
+- **Dual Theme**: Light and dark mode with smooth transitions and persistent preferences
+- **Collapsible Sidebar**: Toggle between full palette (280px) and icon-only mode (80px)
+- **Responsive Design**: 
+  - Mobile-optimized (< 768px): Auto-collapse sidebar, reduced node sizes, optimized handle dimensions
+  - Tablet-friendly: Adaptive layouts and touch-friendly controls
+  - Desktop-optimized: Full feature set with all controls visible
+- **Modern Aesthetics**: Clean design with smooth animations, hover effects, and visual feedback
+
+### Recent Updates (October 2025)
+
+**Interactive Node Configuration System (Latest):**
+- **Input Data Nodes**: 5 specialized small nodes (80x80px) for data entry - Text, Number, JSON, Boolean, List
+  - Each with custom icons and color coding for easy identification
+  - Dedicated sidebar section "Input Nodes" separate from platform nodes
+  - Fields-based configuration system for flexible data input
+- **ModalStateContext**: React Context for managing modal state across the application
+  - Centralized modal visibility and node selection management
+  - Clean API with openModal/closeModal functions
+- **NodeModal Component System**: 
+  - Modal shell with overlay, header, body, and footer
+  - Three dedicated sub-components for clean architecture:
+    - **NodeRenameField**: Handles node display name editing
+    - **InputDataForm**: Renders dynamic fields for input data nodes (text, number, textarea, checkbox)
+    - **NodeDetailsForm**: Shows inputs/requirements for platform nodes
+  - Fixed checkbox handling with nullish coalescing to preserve explicit false values
+- **Double-Click Configuration**: Click đúp vào bất kỳ node nào để mở modal cấu hình
+  - Input nodes: Nhập dữ liệu qua form fields
+  - Platform nodes: Cấu hình inputs và requirements
+  - Đổi tên node display name
+- **Data Persistence**: Node configuration stored in node.data.config
+  - displayName: Custom node name
+  - values: Form data (input fields, requirements, etc.)
+  - Updates reflected immediately on canvas
+- **Enhanced Handle/Label System**:
+  - Handle icons positioned at node edge (close to shape)
+  - Labels positioned close to handle icons with minimal gap (no background/border)
+  - Clean, unobtrusive label design with shape-aware positioning
+  - Desktop: 20px default, 24px rectangles, 16px input nodes
+  - Mobile: 18px default, 22px rectangles, 14px input nodes
+
+**Previous Updates:**
+- **Node Shape System**: Implemented shape attribute (0=circle, 1=square, 2=rectangle) allowing visual customization of node appearance
+- **Bezier Connection Lines**: Professional bezier curves with theme-aware colors - black (#1a1a1a) in light theme, white (#ffffff) in dark theme for optimal visibility
+- **Navbar Responsive Design**: Added 4 progressive breakpoints (992px, 768px, 640px, 480px) for optimal layout on all devices, hiding brand name on very small screens
+- **JSON-Based Configuration**: Centralized node definitions in `src/config/nodesConfig.js` for easy platform management
+- **Custom Node Component**: Dynamic handle rendering based on JSON configuration with automatic positioning
+- **Handle Shape Differentiation**: Three distinct handle types (square=input, circle=output, diamond=requirement) for clear visual identification
+- **Connection Validation**: Max connection limits enforced per handle with data type compatibility checking
+- **Responsive Optimizations**: Mobile and tablet adaptations for nodes, handles, and navigation
+- **Shape-Aware Styling**: CSS classes (node-shape-circle, node-shape-square, node-shape-rectangle) with responsive sizing
+
+**Architecture Note:** The application currently has no backend, database, or external API integrations. It is a pure frontend application with client-side state management, suitable for future expansion with backend workflow execution services.
