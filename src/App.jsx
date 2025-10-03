@@ -4,6 +4,7 @@ import Navbar from './components/Navbar'
 import Sidebar from './components/Sidebar'
 import WorkflowCanvas from './components/WorkflowCanvas'
 import WorkflowList from './components/WorkflowList'
+import DataCenter from './components/DataCenter'
 import { useSidebar } from './contexts/SidebarContext'
 
 function AppContent() {
@@ -29,6 +30,9 @@ function AppContent() {
         <main className={`main-content ${isCollapsed ? 'sidebar-collapsed' : ''}`}>
           <div style={{ display: activeTab === 'Overview' ? 'block' : 'none', height: '100%' }}>
             <WorkflowCanvas ref={workflowCanvasRef} />
+          </div>
+          <div style={{ display: activeTab === 'Data Center' ? 'block' : 'none', height: '100%' }}>
+            <DataCenter />
           </div>
           <div style={{ display: activeTab === 'Workflow' ? 'block' : 'none', height: '100%' }}>
             <WorkflowList onLoadWorkflow={handleLoadWorkflow} />
