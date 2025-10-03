@@ -1,0 +1,155 @@
+.workflow-list-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.workflow-list-header {
+  margin-bottom: 2rem;
+}
+
+.workflow-list-header h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.workflow-count {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: var(--bg-primary);
+  border-radius: 12px;
+  border: 2px dashed var(--border-color);
+}
+
+.empty-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.empty-state h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.workflow-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.workflow-card {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: all 0.2s ease;
+}
+
+.workflow-card:hover {
+  border-color: var(--accent-color);
+  box-shadow: 0 4px 12px var(--shadow);
+  transform: translateY(-2px);
+}
+
+.workflow-card-header {
+  margin-bottom: 1.25rem;
+}
+
+.workflow-name {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+}
+
+.workflow-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.workflow-nodes-count,
+.workflow-date {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.workflow-card-actions {
+  display: flex;
+  gap: 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.workflow-btn {
+  flex: 1;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.workflow-btn-load {
+  background: var(--accent-color);
+  color: white;
+}
+
+.workflow-btn-load:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+}
+
+.workflow-btn-run {
+  background: #10b981;
+  color: white;
+}
+
+.workflow-btn-run:hover {
+  background: #059669;
+  transform: translateY(-1px);
+}
+
+.workflow-btn-delete {
+  background: #ef4444;
+  color: white;
+}
+
+.workflow-btn-delete:hover {
+  background: #dc2626;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+  .workflow-list-container {
+    padding: 1rem;
+  }
+
+  .workflow-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .workflow-card-actions {
+    flex-direction: column;
+  }
+
+  .workflow-btn {
+    width: 100%;
+  }
+}

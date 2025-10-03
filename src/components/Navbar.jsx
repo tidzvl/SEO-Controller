@@ -2,11 +2,16 @@ import React, { useState } from 'react';
 import { useTheme } from '../ThemeContext';
 import './Navbar.css';
 
-const Navbar = () => {
+const Navbar = ({ activeTab = 'Overview', onTabChange }) => {
   const { isDark, toggleTheme } = useTheme();
-  const [activeItem, setActiveItem] = useState('Overview');
 
   const menuItems = ['Overview', 'Data Center', 'Workflow', 'Analytics'];
+
+  const handleTabClick = (item) => {
+    if (onTabChange) {
+      onTabChange(item);
+    }
+  };
 
   return (
     <nav className="navbar">
@@ -35,11 +40,11 @@ const Navbar = () => {
           {menuItems.map((item) => (
             <li key={item} className="menu-item">
               <button
-                className={`menu-link ${activeItem === item ? 'active' : ''}`}
-                onClick={() => setActiveItem(item)}
+                className={`menu-link ${activeTab === item ? 'active' : ''}`}
+                onClick={() => handleTabClick(item)}
               >
                 {item}
-                {activeItem === item && <span className="active-indicator" />}
+                {activeTab === item && <span className="active-indicator" />}
               </button>
             </li>
           ))}

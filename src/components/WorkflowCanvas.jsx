@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState, forwardRef, useImperativeHandle } from 'react';
 import ReactFlow, {
   Background,
   Controls,
@@ -98,12 +98,19 @@ const nodeTypes = {
   custom: CustomNode,
 };
 
-function WorkflowCanvasInner() {
+const WorkflowCanvasInner = forwardRef((props, ref) => {
   const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const { openModal } = useModalState();
+
+  useImperativeHandle(ref, () => ({
+    loadWorkflow: (workflow) => {
+      setNodes(workflow.nodes || []);
+      setEdges(workflow.edges || []);
+    }
+  }));
 
   const isValidConnection = useCallback(
     (connection) => {
@@ -191,6 +198,7 @@ function WorkflowCanvasInner() {
         id: `${nodeData.type}-${Date.now()}`,
         type: 'custom',
         position,
+        className: nodeData.shape === 0 ? 'react-flow__node_circle' : '',
         data: {
           label: nodeData.label,
           icon: nodeData.icon,
@@ -246,6 +254,31 @@ function WorkflowCanvasInner() {
     [setNodes]
   );
 
+  const saveWorkflow = useCallback(() => {
+    const workflowName = prompt('Nhập tên workflow:');
+    if (!workflowName) return;
+
+    const workflow = {
+      id: Date.now().toString(),
+      name: workflowName,
+      nodes: nodes,
+      edges: edges,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+
+    const savedWorkflows = JSON.parse(localStorage.getItem('workflows') || '[]');
+    savedWorkflows.push(workflow);
+    localStorage.setItem('workflows', JSON.stringify(savedWorkflows));
+
+    alert(`Đã lưu workflow "${workflowName}" thành công!`);
+  }, [nodes, edges]);
+
+  const loadWorkflow = useCallback((workflow) => {
+    setNodes(workflow.nodes || []);
+    setEdges(workflow.edges || []);
+  }, [setNodes, setEdges]);
+
   const defaultEdgeOptions = {
     type: 'default',
     animated: false,
@@ -258,6 +291,11 @@ function WorkflowCanvasInner() {
 
   return (
     <div className="workflow-canvas" ref={reactFlowWrapper}>
+      <div className="workflow-toolbar">
+        <button className="save-workflow-btn" onClick={saveWorkflow}>
+          💾 Lưu Workflow
+        </button>
+      </div>
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -285,14 +323,14 @@ function WorkflowCanvasInner() {
       <NodeModal onSave={handleModalSave} />
     </div>
   );
-}
+});
 
-function WorkflowCanvas() {
+const WorkflowCanvas = forwardRef((props, ref) => {
   return (
     <ReactFlowProvider>
-      <WorkflowCanvasInner />
+      <WorkflowCanvasInner ref={ref} />
     </ReactFlowProvider>
   );
-}
+});
 
 export default WorkflowCanvas;
