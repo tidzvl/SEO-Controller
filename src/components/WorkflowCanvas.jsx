@@ -15,6 +15,7 @@ import './WorkflowCanvas.css';
 import { nodesConfig, inputNodes } from '../config/nodesConfig';
 import { useModalState } from '../contexts/ModalStateContext';
 import NodeModal from './modals/NodeModal';
+import Swal from 'sweetalert2';
 
 const CustomNode = ({ data }) => {
   const IconComponent = data.iconComponent;
@@ -107,7 +108,21 @@ const WorkflowCanvasInner = forwardRef((props, ref) => {
 
   useImperativeHandle(ref, () => ({
     loadWorkflow: (workflow) => {
-      setNodes(workflow.nodes || []);
+      const allNodes = [...nodesConfig, ...inputNodes];
+      
+      const restoredNodes = (workflow.nodes || []).map(node => {
+        const nodeConfig = allNodes.find(n => n.id === node.data.icon);
+        
+        return {
+          ...node,
+          data: {
+            ...node.data,
+            iconComponent: nodeConfig?.icon
+          }
+        };
+      });
+      
+      setNodes(restoredNodes);
       setEdges(workflow.edges || []);
     }
   }));
@@ -254,8 +269,22 @@ const WorkflowCanvasInner = forwardRef((props, ref) => {
     [setNodes]
   );
 
-  const saveWorkflow = useCallback(() => {
-    const workflowName = prompt('Nhập tên workflow:');
+  const saveWorkflow = useCallback(async () => {
+    const { value: workflowName } = await Swal.fire({
+      title: 'Lưu Workflow',
+      input: 'text',
+      inputLabel: 'Nhập tên workflow:',
+      inputPlaceholder: 'Tên workflow...',
+      showCancelButton: true,
+      confirmButtonText: 'Lưu',
+      cancelButtonText: 'Hủy',
+      inputValidator: (value) => {
+        if (!value) {
+          return 'Vui lòng nhập tên workflow!';
+        }
+      }
+    });
+
     if (!workflowName) return;
 
     const workflow = {
@@ -271,11 +300,31 @@ const WorkflowCanvasInner = forwardRef((props, ref) => {
     savedWorkflows.push(workflow);
     localStorage.setItem('workflows', JSON.stringify(savedWorkflows));
 
-    alert(`Đã lưu workflow "${workflowName}" thành công!`);
+    Swal.fire({
+      icon: 'success',
+      title: 'Thành công!',
+      text: `Đã lưu workflow "${workflowName}" thành công!`,
+      timer: 2000,
+      showConfirmButton: false
+    });
   }, [nodes, edges]);
 
   const loadWorkflow = useCallback((workflow) => {
-    setNodes(workflow.nodes || []);
+    const allNodes = [...nodesConfig, ...inputNodes];
+    
+    const restoredNodes = (workflow.nodes || []).map(node => {
+      const nodeConfig = allNodes.find(n => n.id === node.data.icon);
+      
+      return {
+        ...node,
+        data: {
+          ...node.data,
+          iconComponent: nodeConfig?.icon
+        }
+      };
+    });
+    
+    setNodes(restoredNodes);
     setEdges(workflow.edges || []);
   }, [setNodes, setEdges]);
 
