@@ -33,7 +33,7 @@ const Navbar = ({ activeTab = 'Overview', onTabChange }) => {
               />
             </svg>
           </div>
-          <span className="brand-name">SEO-Controller</span>
+          <span className="brand-name">INT Solutions</span>
         </div>
 
         <ul className="navbar-menu">
