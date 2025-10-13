@@ -1,11 +1,42 @@
-import { useState } from 'react'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { useState, useMemo } from 'react'
+import { ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react'
 import { nodesConfig } from '@/config/nodes.config'
 import NodeItem from './NodeItem'
 import { motion, AnimatePresence } from 'framer-motion'
+import * as Collapsible from '@radix-ui/react-collapsible'
 
 export default function NodesSidebar() {
   const [isOpen, setIsOpen] = useState(true)
+  const [expandedGroups, setExpandedGroups] = useState<Set<string>>(
+    new Set(['Social Media', 'AI', 'Processing', 'Basic', 'Output', 'Charts', 'Action'])
+  )
+
+  const groupedNodes = useMemo(() => {
+    const groups: Record<string, typeof nodesConfig> = {}
+    
+    nodesConfig.forEach(node => {
+      if (!groups[node.group]) {
+        groups[node.group] = []
+      }
+      groups[node.group].push(node)
+    })
+    
+    return groups
+  }, [])
+
+  const groupOrder = ['Social Media', 'AI', 'Processing', 'Basic', 'Output', 'Charts', 'Action']
+
+  const toggleGroup = (group: string) => {
+    setExpandedGroups(prev => {
+      const newSet = new Set(prev)
+      if (newSet.has(group)) {
+        newSet.delete(group)
+      } else {
+        newSet.add(group)
+      }
+      return newSet
+    })
+  }
 
   return (
     <div className="relative h-full">
@@ -31,12 +62,40 @@ export default function NodesSidebar() {
                 </button>
               </div>
               
-              <div className="flex-1 overflow-y-auto p-4">
-                <div className="grid grid-cols-4 gap-3">
-                  {nodesConfig.map((node) => (
-                    <NodeItem key={node.id} node={node} />
-                  ))}
-                </div>
+              <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                {groupOrder.map((groupName) => {
+                  const groupNodes = groupedNodes[groupName]
+                  if (!groupNodes) return null
+                  
+                  const isExpanded = expandedGroups.has(groupName)
+                  
+                  return (
+                    <Collapsible.Root
+                      key={groupName}
+                      open={isExpanded}
+                      onOpenChange={() => toggleGroup(groupName)}
+                    >
+                      <Collapsible.Trigger className="flex items-center justify-between w-full px-2 py-1.5 rounded-md hover:bg-accent/50 transition-colors group">
+                        <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                          {groupName}
+                        </span>
+                        <ChevronDown 
+                          className={`h-3.5 w-3.5 text-muted-foreground transition-transform ${
+                            isExpanded ? 'rotate-0' : '-rotate-90'
+                          }`} 
+                        />
+                      </Collapsible.Trigger>
+                      
+                      <Collapsible.Content className="mt-2">
+                        <div className="grid grid-cols-4 gap-3">
+                          {groupNodes.map((node) => (
+                            <NodeItem key={node.id} node={node} />
+                          ))}
+                        </div>
+                      </Collapsible.Content>
+                    </Collapsible.Root>
+                  )
+                })}
               </div>
             </div>
           </motion.div>

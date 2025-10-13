@@ -70,9 +70,6 @@ function CustomNode({ data }: NodeProps<CustomNodeData>) {
             className="absolute flex items-center"
             style={{ left: 0, top: `${offset}%`, transform: 'translateY(-50%)' }}
           >
-            <span className="text-[10px] font-medium text-muted-foreground mr-2 whitespace-nowrap -translate-x-full">
-              {handle.label}
-            </span>
             <Handle
               type="target"
               position={Position.Left}
@@ -84,9 +81,13 @@ function CustomNode({ data }: NodeProps<CustomNodeData>) {
                 position: 'absolute',
                 left: 0,
                 top: '50%',
-                transform: 'translate(-50%, -50%)'
+                transform: 'translate(-50%, -50%)',
+                zIndex: 10
               }}
             />
+            <span className="text-[10px] font-medium text-muted-foreground mr-2 whitespace-nowrap -translate-x-full pointer-events-none">
+              {handle.label}
+            </span>
           </div>
         )
       })}
@@ -115,10 +116,11 @@ function CustomNode({ data }: NodeProps<CustomNodeData>) {
                 left: '50%',
                 bottom: 0,
                 transform: 'translate(-50%, 50%) rotate(45deg)',
-                borderRadius: '2px'
+                borderRadius: '2px',
+                zIndex: 10
               }}
             />
-            <span className="text-[10px] font-medium text-muted-foreground whitespace-nowrap translate-y-full mt-3">
+            <span className="text-[10px] font-medium text-muted-foreground whitespace-nowrap translate-y-full mt-3 pointer-events-none">
               {handle.label}
             </span>
           </div>
@@ -148,10 +150,11 @@ function CustomNode({ data }: NodeProps<CustomNodeData>) {
                 position: 'absolute',
                 right: 0,
                 top: '50%',
-                transform: 'translate(50%, -50%)'
+                transform: 'translate(50%, -50%)',
+                zIndex: 10
               }}
             />
-            <span className="text-[10px] font-medium text-muted-foreground ml-2 whitespace-nowrap translate-x-full">
+            <span className="text-[10px] font-medium text-muted-foreground ml-2 whitespace-nowrap translate-x-full pointer-events-none">
               {handle.label}
             </span>
           </div>
