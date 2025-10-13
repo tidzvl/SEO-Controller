@@ -263,6 +263,17 @@ export class WorkflowExecutionEngine {
   async execute(onUpdate: (context: ExecutionContext) => void): Promise<void> {
     try {
       const executionOrder = this.topologicalSort()
+      
+      console.log('[DEBUG] ======================')
+      console.log('[DEBUG] Execution Order:', executionOrder)
+      console.log('[DEBUG] Total nodes:', this.context.nodes.length)
+      console.log('[DEBUG] Node details:', this.context.nodes.map(n => ({
+        id: n.id,
+        name: n.data.config.name,
+        group: n.data.config.group,
+        hasOutputValues: !!n.data.outputValues
+      })))
+      console.log('[DEBUG] ======================')
 
       for (const nodeId of executionOrder) {
         const outgoingEdges = this.context.edges.filter(edge => edge.source === nodeId)
