@@ -116,7 +116,39 @@ Các thư viện kéo thả canvas:
 
 ---
 
+## UI/UX Specifications
+
+### 🚫 Excluded Features (Skip)
+- Landing page - sẽ làm sau
+- Login/Register pages - sẽ làm sau
+
+### 📐 Layout Components
+
+#### 1. Navbar (Top Navigation)
+**Vị trí**: Top, fixed/sticky
+
+**Bên trái**:
+- Logo/Brand: **"INT SOLUTION"**
+- Navigation Menu (4 mục):
+  1. **Overview** (Tổng quan)
+  2. **Data Center** (Trung tâm dữ liệu)
+  3. **Workflow** (Quy trình)
+  4. **Analyst** (Phân tích)
+
+**Bên phải**:
+- Theme Switcher (Dark/Light mode toggle)
+- Language Switcher (EN/VI)
+- User Avatar/Profile
+
+**Animation**: Vừa đủ, không quá nhiều
+- Smooth transitions
+- Hover effects tinh tế
+- Theme/language switch có animation mượt
+
+---
+
 ## Notes
-- Đang chờ mô tả chi tiết về giao diện từ người dùng
+- Skip landing page và authentication pages (làm sau)
 - Ưu tiên sử dụng các thư viện có community lớn và được maintain tốt
 - Code phải clean, dễ bảo trì và mở rộng
+- Animation vừa đủ, không overdo
