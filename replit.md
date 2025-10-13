@@ -26,8 +26,9 @@ The application's core functionality revolves around a **React Flow**-based canv
 - **Connections**: Smooth, animated dashed Bezier curves with arrow markers and customizable colors.
 - **Canvas Features**: Supports zoom in/out, fit view, locking, background dots pattern, and theme-aware styling. Double-clicking a node opens a configuration modal for display name, input/requirement values, and data persistence.
 - **Canvas Control Buttons**: "Run" (execute workflow), "Pause" (placeholder), "Save" (download JSON), and "Clear" (remove all elements).
-- **Node Types**: A comprehensive system of 31 nodes categorized into 7 groups: Social Media (5), AI (1), Processing (2), Basic (8 - input-only), Output (2), Charts (6), and Action (6). These nodes support complex data analysis workflows.
-- **Workflow Save/Load**: Implemented using `localStorage` for auto-saving drafts every second, auto-restoring drafts, and explicitly saving/loading named workflows through a dedicated management page.
+- **Node Types**: A comprehensive system of 32 nodes categorized into 7 groups: Social Media (5), AI (1), Processing (2), Basic (9 - input-only), Output (2), Charts (6), and Action (6). These nodes support complex data analysis workflows.
+- **Workflow Save/Load**: Implemented using `localStorage` for auto-saving drafts every second, auto-restoring drafts, and explicitly saving/loading named workflows through a dedicated management page with advanced features (rename, duplicate, export, search).
+- **Workflow Management**: Enhanced workflow page with rename (modal dialog), duplicate (copy workflow), export (download JSON), and search/filter capabilities.
 
 ### System Design Choices
 The project prioritizes a component-based architecture for maintainability and scalability. Strict TypeScript usage ensures type safety. The UI emphasizes a minimalist and professional look, avoiding excessive animations. The decision to use React Flow provides a powerful foundation for node-based diagrams, with extensive customization for nodes, handles, and connections to meet specific design requirements. Storage for workflows is handled client-side using `localStorage` for quick access and persistence.
@@ -47,3 +48,16 @@ The project prioritizes a component-based architecture for maintainability and s
 - **react-i18next**: React integration for i18n
 - **i18next**: Internationalization framework
 - **React Flow (reactflow)**: Node-based diagram library
+
+## Recent Changes
+
+### Latest Update (13/10/2025)
+- ✅ **Added Time Range Node**: New Basic node with calendar icon for date range selection (From/To outputs)
+- ✅ **Enhanced Workflow Page**: 
+  - Rename workflow (modal dialog with validation)
+  - Duplicate workflow (creates copy with "(Copy)" suffix)
+  - Export workflow (download as JSON with sanitized filename)
+  - Search/Filter (live filtering by workflow name, case-insensitive)
+  - Improved UI with action buttons and tooltips
+- ✅ **Total nodes**: 32 (Basic group now has 9 nodes)
+- ✅ **Verified**: Load workflow functionality works correctly (saves to draft → navigates to Overview → auto-restores)
