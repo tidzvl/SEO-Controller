@@ -51,6 +51,21 @@ The project prioritizes a component-based architecture for maintainability and s
 
 ## Recent Changes
 
+### Latest Update (13/10/2025) - Part 4
+- ✅ **Phase 2: Function Selector for Social Media Nodes**: Dynamic action selection system
+  - **Function Catalog**: Defined functions for all 5 Social Media platforms
+    - Facebook: Post, Comment, Like, Share, Get Posts (5 functions)
+    - Instagram: Post, Comment, Like, Get Posts (4 functions)
+    - TikTok: Post Video, Comment, Like, Get Videos (4 functions)
+    - LinkedIn: Post, Comment, Like, Share, Get Posts (5 functions)
+    - Twitter: Tweet, Reply, Retweet, Like, Get Tweets (5 functions)
+  - **Function Selector UI**: Dropdown in config modal for Social Media nodes
+  - **Dynamic Parameters**: Config fields change based on selected function
+  - **Field Types**: Support text, textarea, select, number inputs
+  - **Validation**: Enforces function selection and required field completion
+  - **Data Persistence**: selectedFunction and functionFields saved with node
+  - **Smart UI**: Hides Input/Requirement sections for Social Media nodes (replaced by Function Parameters)
+
 ### Latest Update (13/10/2025) - Part 3
 - ✅ **Auto-Populate Config Modal**: Config fields automatically show connected node data
   - **Smart Detection**: Modal detects connected edges and displays source node data
