@@ -12,11 +12,13 @@ interface NodeConfigModalProps {
     displayName?: string
     inputValues?: Record<string, string>
     requirementValues?: Record<string, string>
+    outputValues?: Record<string, string>
   } | null
   onSave: (data: {
     displayName: string
     inputValues: Record<string, string>
     requirementValues: Record<string, string>
+    outputValues: Record<string, string>
   }) => void
 }
 
@@ -24,12 +26,14 @@ export default function NodeConfigModal({ open, onOpenChange, nodeData, onSave }
   const [displayName, setDisplayName] = useState('')
   const [inputValues, setInputValues] = useState<Record<string, string>>({})
   const [requirementValues, setRequirementValues] = useState<Record<string, string>>({})
+  const [outputValues, setOutputValues] = useState<Record<string, string>>({})
 
   useEffect(() => {
     if (nodeData) {
       setDisplayName(nodeData.displayName || nodeData.config.name)
       setInputValues(nodeData.inputValues || {})
       setRequirementValues(nodeData.requirementValues || {})
+      setOutputValues(nodeData.outputValues || {})
     }
   }, [nodeData])
 
@@ -37,12 +41,16 @@ export default function NodeConfigModal({ open, onOpenChange, nodeData, onSave }
 
   const inputHandles = nodeData.config.links.filter(link => link.type === 'input')
   const requirementHandles = nodeData.config.links.filter(link => link.type === 'requirement')
+  const outputHandles = nodeData.config.links.filter(link => link.type === 'output')
+  
+  const isBasicNode = nodeData.config.group === 'Basic'
 
   const handleSave = () => {
     onSave({
       displayName,
       inputValues,
-      requirementValues
+      requirementValues,
+      outputValues
     })
     onOpenChange(false)
   }
@@ -130,6 +138,30 @@ export default function NodeConfigModal({ open, onOpenChange, nodeData, onSave }
                         placeholder={`Enter ${handle.label.toLowerCase()}`}
                       />
                     )}
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {outputHandles.length > 0 && (
+              <div>
+                <h3 className="text-sm font-semibold mb-2">
+                  {isBasicNode ? 'Input Data' : 'Output Data'}
+                </h3>
+                {outputHandles.map((handle, index) => (
+                  <div key={`output-${index}`} className="mb-3">
+                    <label className="text-sm font-medium mb-1.5 block">
+                      {handle.label}
+                    </label>
+                    <textarea
+                      value={outputValues[`output-${index}`] || ''}
+                      onChange={(e) => setOutputValues({
+                        ...outputValues,
+                        [`output-${index}`]: e.target.value
+                      })}
+                      className="w-full px-3 py-2 bg-background border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50 min-h-[100px] font-mono text-sm"
+                      placeholder={isBasicNode ? `Enter ${handle.label.toLowerCase()} data...` : 'Output data will appear here...'}
+                    />
                   </div>
                 ))}
               </div>

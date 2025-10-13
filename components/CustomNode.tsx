@@ -7,6 +7,7 @@ interface CustomNodeData {
   displayName?: string
   inputValues?: Record<string, string>
   requirementValues?: Record<string, string>
+  outputValues?: Record<string, string>
 }
 
 function CustomNode({ data }: NodeProps<CustomNodeData>) {

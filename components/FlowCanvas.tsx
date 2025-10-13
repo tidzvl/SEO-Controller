@@ -102,6 +102,7 @@ function FlowCanvas() {
     displayName: string
     inputValues: Record<string, string>
     requirementValues: Record<string, string>
+    outputValues: Record<string, string>
   }) => {
     if (!selectedNode) return
 
@@ -110,6 +111,7 @@ function FlowCanvas() {
       displayName: data.displayName,
       inputValues: data.inputValues,
       requirementValues: data.requirementValues,
+      outputValues: data.outputValues,
     }
 
     setNodes((nds) =>
@@ -218,7 +220,8 @@ function FlowCanvas() {
           config: nodeConfig,
           displayName: nodeConfig.name,
           inputValues: {},
-          requirementValues: {}
+          requirementValues: {},
+          outputValues: {}
         },
       }
 
@@ -270,7 +273,8 @@ function FlowCanvas() {
           config: selectedNode.data.config,
           displayName: selectedNode.data.displayName,
           inputValues: selectedNode.data.inputValues,
-          requirementValues: selectedNode.data.requirementValues
+          requirementValues: selectedNode.data.requirementValues,
+          outputValues: selectedNode.data.outputValues
         } : null}
         onSave={handleSaveNodeConfig}
       />
