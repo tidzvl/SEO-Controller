@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
 import { X } from 'lucide-react'
 import { NodeConfig } from '@/config/nodes.config'
+import { getSocialMediaFunctions, getFunctionById } from '@/config/social-media-functions.config'
 
 interface NodeConfigModalProps {
   open: boolean
@@ -13,6 +14,8 @@ interface NodeConfigModalProps {
     inputValues?: Record<string, string>
     requirementValues?: Record<string, string>
     outputValues?: Record<string, string>
+    selectedFunction?: string
+    functionFields?: Record<string, string>
   } | null
   edges: any[]
   nodes: any[]
@@ -21,6 +24,8 @@ interface NodeConfigModalProps {
     inputValues: Record<string, string>
     requirementValues: Record<string, string>
     outputValues: Record<string, string>
+    selectedFunction?: string
+    functionFields?: Record<string, string>
   }) => void
 }
 
@@ -29,6 +34,8 @@ export default function NodeConfigModal({ open, onOpenChange, nodeData, edges, n
   const [inputValues, setInputValues] = useState<Record<string, string>>({})
   const [requirementValues, setRequirementValues] = useState<Record<string, string>>({})
   const [outputValues, setOutputValues] = useState<Record<string, string>>({})
+  const [selectedFunction, setSelectedFunction] = useState<string>('')
+  const [functionFields, setFunctionFields] = useState<Record<string, string>>({})
   const [connectedData, setConnectedData] = useState<{
     inputs: Record<string, { value: string; sourceName: string }>,
     requirements: Record<string, { value: string; sourceName: string }>
@@ -40,6 +47,8 @@ export default function NodeConfigModal({ open, onOpenChange, nodeData, edges, n
       setInputValues(nodeData.inputValues || {})
       setRequirementValues(nodeData.requirementValues || {})
       setOutputValues(nodeData.outputValues || {})
+      setSelectedFunction(nodeData.selectedFunction || '')
+      setFunctionFields(nodeData.functionFields || {})
 
       // Calculate connected data from edges
       const inputs: Record<string, { value: string; sourceName: string }> = {}
@@ -81,13 +90,18 @@ export default function NodeConfigModal({ open, onOpenChange, nodeData, edges, n
   const outputHandles = nodeData.config.links.filter(link => link.type === 'output')
   
   const isBasicNode = nodeData.config.group === 'Basic'
+  const isSocialMediaNode = nodeData.config.group === 'Social Media'
+  const availableFunctions = isSocialMediaNode ? getSocialMediaFunctions(nodeData.config.name) : []
+  const currentFunction = selectedFunction ? getFunctionById(nodeData.config.name, selectedFunction) : null
 
   const handleSave = () => {
     onSave({
       displayName,
       inputValues,
       requirementValues,
-      outputValues
+      outputValues,
+      selectedFunction: isSocialMediaNode ? selectedFunction : undefined,
+      functionFields: isSocialMediaNode ? functionFields : undefined
     })
     onOpenChange(false)
   }
@@ -122,7 +136,87 @@ export default function NodeConfigModal({ open, onOpenChange, nodeData, edges, n
               />
             </div>
 
-            {inputHandles.length > 0 && (
+            {isSocialMediaNode && (
+              <div>
+                <label className="text-sm font-medium mb-1.5 block">
+                  Function
+                </label>
+                <select
+                  value={selectedFunction}
+                  onChange={(e) => {
+                    setSelectedFunction(e.target.value)
+                    setFunctionFields({})
+                  }}
+                  className="w-full px-3 py-2 bg-background border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50"
+                >
+                  <option value="">Select a function...</option>
+                  {availableFunctions.map(func => (
+                    <option key={func.id} value={func.id}>
+                      {func.label}
+                    </option>
+                  ))}
+                </select>
+                {currentFunction && (
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {currentFunction.description}
+                  </p>
+                )}
+              </div>
+            )}
+
+            {isSocialMediaNode && currentFunction && (
+              <div>
+                <h3 className="text-sm font-semibold mb-2">Function Parameters</h3>
+                {currentFunction.fields.map(field => (
+                  <div key={field.name} className="mb-3">
+                    <label className="text-sm font-medium mb-1.5 block">
+                      {field.label}
+                      {field.required && <span className="text-destructive ml-1">*</span>}
+                    </label>
+                    {field.type === 'textarea' ? (
+                      <textarea
+                        value={functionFields[field.name] || ''}
+                        onChange={(e) => setFunctionFields({
+                          ...functionFields,
+                          [field.name]: e.target.value
+                        })}
+                        className="w-full px-3 py-2 bg-background border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50 min-h-[80px]"
+                        placeholder={field.placeholder}
+                        required={field.required}
+                      />
+                    ) : field.type === 'select' ? (
+                      <select
+                        value={functionFields[field.name] || ''}
+                        onChange={(e) => setFunctionFields({
+                          ...functionFields,
+                          [field.name]: e.target.value
+                        })}
+                        className="w-full px-3 py-2 bg-background border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50"
+                      >
+                        <option value="">Select...</option>
+                        {field.options?.map(opt => (
+                          <option key={opt} value={opt}>{opt}</option>
+                        ))}
+                      </select>
+                    ) : (
+                      <input
+                        type={field.type}
+                        value={functionFields[field.name] || ''}
+                        onChange={(e) => setFunctionFields({
+                          ...functionFields,
+                          [field.name]: e.target.value
+                        })}
+                        className="w-full px-3 py-2 bg-background border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50"
+                        placeholder={field.placeholder}
+                        required={field.required}
+                      />
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {inputHandles.length > 0 && !isSocialMediaNode && (
               <div>
                 <h3 className="text-sm font-semibold mb-2">Input Values</h3>
                 {inputHandles.map((handle, index) => {
@@ -160,7 +254,7 @@ export default function NodeConfigModal({ open, onOpenChange, nodeData, edges, n
               </div>
             )}
 
-            {requirementHandles.length > 0 && (
+            {requirementHandles.length > 0 && !isSocialMediaNode && (
               <div>
                 <h3 className="text-sm font-semibold mb-2">Requirements</h3>
                 {requirementHandles.map((handle, index) => {
