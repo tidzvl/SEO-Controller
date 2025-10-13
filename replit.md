@@ -52,15 +52,17 @@ The project prioritizes a component-based architecture for maintainability and s
 ## Recent Changes
 
 ### Latest Update (13/10/2025)
-- ✅ **Added Time Range Node**: New Basic node with calendar icon for date range selection (From/To outputs)
+- ✅ **Enhanced Node Configuration Modal**: Major upgrade for data analyst workflows
+  - **Output Data Display**: All nodes with output handles now show output data in config modal
+  - **Basic Nodes Input**: Basic nodes (Text, Integer, JSON, CSV, etc.) have "Input Data" section to enter data directly
+  - **Data Persistence**: outputValues are saved with node data and persist through workflows
+  - **Smart UI**: Modal adapts based on node type (Basic vs Processing vs Output nodes)
+  - **Monospace textarea**: Better data visualization with monospace font for JSON/CSV data
 - ✅ **Enhanced Workflow Page**: 
   - Rename workflow (modal dialog with validation)
   - Duplicate workflow (creates copy with "(Copy)" suffix)
   - Export workflow (download as JSON with sanitized filename)
   - Search/Filter (live filtering by workflow name, case-insensitive)
-  - Improved UI with action buttons and tooltips
+- ✅ **Added Time Range Node**: New Basic node with calendar icon for date range selection (From/To outputs)
 - ✅ **Total nodes**: 32 (Basic group now has 9 nodes)
-- ✅ **Fixed Critical Bug**: Load workflow now works correctly
-  - Added router event listener with route guard
-  - Draft reloads only when navigating TO /overview page
-  - Prevents unwanted reloads on other routes
+- ✅ **Fixed Critical Bug**: Load workflow with route guard (reloads only when navigating to /overview)
