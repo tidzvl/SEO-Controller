@@ -60,4 +60,7 @@ The project prioritizes a component-based architecture for maintainability and s
   - Search/Filter (live filtering by workflow name, case-insensitive)
   - Improved UI with action buttons and tooltips
 - ✅ **Total nodes**: 32 (Basic group now has 9 nodes)
-- ✅ **Verified**: Load workflow functionality works correctly (saves to draft → navigates to Overview → auto-restores)
+- ✅ **Fixed Critical Bug**: Load workflow now works correctly
+  - Added router event listener with route guard
+  - Draft reloads only when navigating TO /overview page
+  - Prevents unwanted reloads on other routes
