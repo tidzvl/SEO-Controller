@@ -1,104 +1,165 @@
-# Draw.io-like Diagram Tool
+# Overview
 
-## Overview
-This project is a web-based drag-and-drop diagramming tool, similar to draw.io, built with Next.js, TypeScript, and modern UI libraries. Its purpose is to provide users with an intuitive platform to create and customize various types of diagrams and charts. The tool aims for a modern, minimalist user interface with professional iconography and alerts, offering both dark and light themes, and supporting English and Vietnamese languages. The long-term vision is to become a comprehensive solution for data analysis workflows, offering advanced features like workflow execution, data transformation, and collaboration.
+This is a web-based drag-and-drop diagramming tool similar to draw.io, built with Next.js and TypeScript. The application enables users to create visual workflows by connecting nodes on a canvas, with support for various node types including social media integrations, AI services, data processing, and visualization components. Users can configure nodes, execute workflows, and save/load their work.
 
-## User Preferences
-- **Ngôn ngữ giao tiếp:** Tiếng Việt
-- **Coding Style:** TypeScript strict mode, component-based architecture
-- **UI Approach:** Modern, minimalist, professional
+# User Preferences
 
-## System Architecture
+Preferred communication style: Simple, everyday language.
 
-### UI/UX Decisions
-The application features a modern, minimalist design with a balanced and professional aesthetic. It includes a sticky top navigation bar ("INT SOLUTION" brand with gradient, navigation links for Overview, Data Center, Workflow, Analyst, active page indicator with gradient animation) and a simple, professional footer. Key UI components like theme and language switchers are integrated seamlessly. Animations are implemented using Framer Motion for smooth transitions and subtle hover effects.
+# System Architecture
 
-The core of the application is the "Overview Page" which houses the diagramming canvas and a collapsible sidebar for nodes. The sidebar is responsive and features smooth animations, displaying node items in a grid layout. Node items are square icon cards with tooltips and hover effects, draggable onto the canvas.
+## Frontend Architecture
 
-### Technical Implementations
-The application is built using **Next.js** (Pages Router), **TypeScript**, and styled with **Tailwind CSS**. **Lucide React** and **React Icons** provide a comprehensive icon system, while **Framer Motion** handles animations. **next-themes** is used for theme switching (dark/light mode), and **Radix UI** provides accessible UI components like Tooltip, Collapsible, and Dialog. For internationalization, **next-i18next** and **react-i18next** are integrated, supporting English and Vietnamese. Utility functions for class names are managed by `clsx` and `tailwind-merge`.
+**Framework**: Next.js (Pages Router) with TypeScript strict mode
+- Component-based architecture for maintainability and scalability
+- Pages organized by route: `/` (home), `/overview` (main canvas), `/workflow` (management), `/data-center`, `/analyst`
+- Custom components for modular UI: `CustomNode`, `NodesSidebar`, `FlowCanvas`, `Navbar`, `Footer`
 
-### Feature Specifications
-The application's core functionality revolves around a **React Flow**-based canvas:
-- **Drag & Drop Canvas**: Users can drag and drop nodes from a sidebar onto the canvas.
-- **Custom Nodes**: Nodes are configurable with various shapes (square, rectangle, circle) and compact sizing.
-- **Handles System**: Input, requirement, and output handles are positioned precisely on node borders with distinct shapes (square, diamond, rectangle respectively), theme-colored, and have transparent labels positioned outside the node.
-- **Connections**: Smooth, animated dashed Bezier curves with arrow markers and customizable colors.
-- **Canvas Features**: Supports zoom in/out, fit view, locking, background dots pattern, and theme-aware styling. Double-clicking a node opens a configuration modal for display name, input/requirement values, and data persistence.
-- **Canvas Control Buttons**: "Run" (execute workflow), "Pause" (placeholder), "Save" (download JSON), and "Clear" (remove all elements).
-- **Node Types**: A comprehensive system of 32 nodes categorized into 7 groups: Social Media (5), AI (1), Processing (2), Basic (9 - input-only), Output (2), Charts (6), and Action (6). These nodes support complex data analysis workflows.
-- **Workflow Save/Load**: Implemented using `localStorage` for auto-saving drafts every second, auto-restoring drafts, and explicitly saving/loading named workflows through a dedicated management page with advanced features (rename, duplicate, export, search).
-- **Workflow Management**: Enhanced workflow page with rename (modal dialog), duplicate (copy workflow), export (download JSON), and search/filter capabilities.
+**UI/UX Design**:
+- Modern, minimalist design with professional aesthetic
+- Sticky navigation bar with gradient brand logo
+- Collapsible sidebar with smooth Framer Motion animations
+- Responsive layout with theme support (light/dark modes via next-themes)
+- Modal dialogs for node configuration, workflow saving, and renaming using Radix UI
 
-### System Design Choices
-The project prioritizes a component-based architecture for maintainability and scalability. Strict TypeScript usage ensures type safety. The UI emphasizes a minimalist and professional look, avoiding excessive animations. The decision to use React Flow provides a powerful foundation for node-based diagrams, with extensive customization for nodes, handles, and connections to meet specific design requirements. Storage for workflows is handled client-side using `localStorage` for quick access and persistence.
+**Styling**: Tailwind CSS with custom theme system
+- HSL-based color variables for consistent theming
+- Custom utility classes via clsx and tailwind-merge
+- Component-specific styles in `reactflow-custom.css`
 
-## External Dependencies
-- **Next.js**: Frontend Framework
-- **TypeScript**: Language
-- **Tailwind CSS**: Styling framework
-- **Lucide React**: Icon system
-- **React Icons**: Additional icon library (Font Awesome, Material Design, Tabler Icons)
-- **Framer Motion**: Animations
-- **next-themes**: Theme management (dark/light mode)
-- **Radix UI**: UI components (Tooltip, Collapsible, Dialog)
-- **clsx**: Utility for conditionally joining class names
-- **tailwind-merge**: Utility for merging Tailwind CSS classes
-- **next-i18next**: Internationalization for Next.js
-- **react-i18next**: React integration for i18n
-- **i18next**: Internationalization framework
-- **React Flow (reactflow)**: Node-based diagram library
+## Core Diagramming System
 
-## Recent Changes
+**Canvas Implementation**: React Flow library
+- Drag-and-drop interface for adding nodes from sidebar to canvas
+- Custom node types with configurable shapes (square, rectangle, circle)
+- Three handle types with distinct visual styles:
+  - Input handles: square shapes on left border
+  - Requirement handles: diamond shapes on top border  
+  - Output handles: rectangle shapes on right border
+- Bezier curve connections with dashed animations and arrow markers
+- Canvas controls: zoom, fit view, background dots pattern, theme-aware styling
 
-### Latest Update (13/10/2025) - Part 4
-- ✅ **Phase 2: Function Selector for Social Media Nodes**: Dynamic action selection system
-  - **Function Catalog**: Defined functions for all 5 Social Media platforms
-    - Facebook: Post, Comment, Like, Share, Get Posts (5 functions)
-    - Instagram: Post, Comment, Like, Get Posts (4 functions)
-    - TikTok: Post Video, Comment, Like, Get Videos (4 functions)
-    - LinkedIn: Post, Comment, Like, Share, Get Posts (5 functions)
-    - Twitter: Tweet, Reply, Retweet, Like, Get Tweets (5 functions)
-  - **Function Selector UI**: Dropdown in config modal for Social Media nodes
-  - **Dynamic Parameters**: Config fields change based on selected function
-  - **Field Types**: Support text, textarea, select, number inputs
-  - **Validation**: Enforces function selection and required field completion
-  - **Data Persistence**: selectedFunction and functionFields saved with node
-  - **Smart UI**: Hides Input/Requirement sections for Social Media nodes (replaced by Function Parameters)
+**Node System**: 32+ node types across 7 categories
+- Social Media (5): TikTok, YouTube, Facebook, Instagram, Twitter
+- AI (1): OpenAI integration
+- Processing (2): Data transformation nodes
+- Basic (9): Input-only nodes (String, Number, etc.)
+- Output (2): Display results
+- Charts (6): Visualization nodes
+- Action (6): Workflow actions
 
-### Latest Update (13/10/2025) - Part 3
-- ✅ **Auto-Populate Config Modal**: Config fields automatically show connected node data
-  - **Smart Detection**: Modal detects connected edges and displays source node data
-  - **Input/Requirement Auto-Fill**: Fields auto-populate with data from connected nodes
-  - **Visual Indicators**: Shows "(from [NodeName])" label for connected data
-  - **Readonly Connected Fields**: Connected data displayed as readonly with distinct styling
-  - **Editable Manual Fields**: Unconnected fields remain editable for manual input
-  - **Real-time Updates**: Data refreshes when connections change
+Each node defined in `config/nodes.config.ts` with:
+- Icon from react-icons library
+- Theme color for visual identity
+- Shape preference (0=square, 1=rectangle, 2=circle)
+- Link definitions (inputs, requirements, outputs with data types)
 
-### Latest Update (13/10/2025) - Part 2
-- ✅ **Workflow Execution Engine (Phase 1)**: Fully functional execution system
-  - **Topological Sort**: Automatically determines correct node execution order, detects cycles
-  - **Data Validation**: Validates input data types against node config before execution
-  - **Real-time Visual Feedback**: Edge colors change during execution
-    - Blue (#3b82f6): Currently running with animation
-    - Green (#10b981): Successfully completed
-    - Red (#ef4444): Error occurred
-  - **Data Flow**: Passes data between nodes through connections
-  - **Error Handling**: Comprehensive error messages for validation failures, missing inputs
-  - **Run Button**: Executes entire workflow with visual progress
+**Social Media Functions**: Dynamic configuration system
+- Platform-specific functions defined in `config/social-media-functions.config.ts`
+- Function selection in node configuration modal
+- Custom fields per function (text, textarea, select, number types)
+- Input/output requirements per function
 
-### Latest Update (13/10/2025) - Part 1
-- ✅ **Enhanced Node Configuration Modal**: Major upgrade for data analyst workflows
-  - **Output Data Display**: All nodes with output handles now show output data in config modal
-  - **Basic Nodes Input**: Basic nodes (Text, Integer, JSON, CSV, etc.) have "Input Data" section to enter data directly
-  - **Data Persistence**: outputValues are saved with node data and persist through workflows
-  - **Smart UI**: Modal adapts based on node type (Basic vs Processing vs Output nodes)
-  - **Monospace textarea**: Better data visualization with monospace font for JSON/CSV data
-- ✅ **Enhanced Workflow Page**: 
-  - Rename workflow (modal dialog with validation)
-  - Duplicate workflow (creates copy with "(Copy)" suffix)
-  - Export workflow (download as JSON with sanitized filename)
-  - Search/Filter (live filtering by workflow name, case-insensitive)
-- ✅ **Added Time Range Node**: New Basic node with calendar icon for date range selection (From/To outputs)
-- ✅ **Total nodes**: 32 (Basic group now has 9 nodes)
-- ✅ **Fixed Critical Bug**: Load workflow with route guard (reloads only when navigating to /overview)
+## Workflow Management
+
+**Execution Engine** (`lib/execution-engine.ts`):
+- Topological sort for dependency resolution
+- Node execution state tracking (idle, running, success, error)
+- Data flow between connected nodes via edges
+- Input validation and requirement checking
+- Debug logging for execution tracing
+
+**Persistence** (`lib/storage.ts`):
+- LocalStorage-based data persistence
+- Auto-save draft every second during editing
+- Named workflow save/load with metadata (id, name, timestamps)
+- CRUD operations: create, read, update, delete, duplicate workflows
+- Export workflows as JSON files
+
+**Workflow Features**:
+- Canvas control buttons: Run, Pause, Save, Clear
+- Double-click nodes to open configuration modal
+- Real-time connection validation
+- Search and filter saved workflows
+- Rename and duplicate existing workflows
+
+## Internationalization
+
+**i18n Setup**: next-i18next and i18next
+- Supported locales: English (en), Vietnamese (vi)
+- Translation files in `public/locales/{locale}/common.json`
+- Language switcher in navbar
+- Route-based locale switching with Next.js i18n routing
+
+## State Management
+
+**Local State**: React hooks (useState, useEffect, useCallback, useMemo)
+- Node and edge states via React Flow hooks (useNodesState, useEdgesState)
+- Modal visibility states
+- Form inputs and selections
+- Draft auto-save with useEffect timers
+
+**Data Flow**:
+- Props drilling for component communication
+- Callback functions for event handling
+- Context-free architecture (no React Context used)
+
+## Design Patterns
+
+**Component Composition**: Small, focused components
+- Separation of concerns (UI vs logic)
+- Reusable UI primitives (modals, tooltips, collapsibles)
+- Custom node rendering with dynamic icon loading
+
+**Configuration-Driven**: External config files
+- Node definitions in centralized config
+- Social media functions in separate config
+- Type-safe configurations with TypeScript interfaces
+
+**Migration Support**: Backward compatibility
+- Legacy node data migration on load
+- Ensures Social Media nodes have required fields
+
+# External Dependencies
+
+## Core Framework
+- **Next.js** (^15.2.3): React framework for production with Pages Router
+- **React** (^19.0.0): UI library
+- **React DOM** (^19.0.0): React renderer
+- **TypeScript** (^5.8.2): Type-safe JavaScript
+
+## Styling & UI
+- **Tailwind CSS** (^3.4.18): Utility-first CSS framework
+- **PostCSS** (^8.5.6): CSS transformation
+- **Autoprefixer** (^10.4.21): CSS vendor prefixing
+- **class-variance-authority** (^0.7.1): Variant-based styling
+- **clsx** (^2.1.1): Conditional class names
+- **tailwind-merge** (^3.3.1): Merge Tailwind classes intelligently
+
+## UI Components
+- **Radix UI**: Headless component library
+  - @radix-ui/react-collapsible (^1.1.12): Collapsible panels
+  - @radix-ui/react-dialog (^1.1.15): Modal dialogs
+  - @radix-ui/react-tooltip (^1.2.8): Tooltips
+- **Framer Motion** (^12.23.24): Animation library
+- **next-themes** (^0.4.6): Theme management (dark/light mode)
+
+## Icons
+- **Lucide React** (^0.545.0): Icon system (primary)
+- **React Icons** (^5.5.0): Icon libraries (Font Awesome, Material Design, Tabler)
+
+## Diagramming
+- **React Flow** (reactflow ^11.11.4): Node-based diagram library for canvas, nodes, edges, handles, and controls
+
+## Internationalization
+- **next-i18next** (^15.4.2): Next.js i18n integration
+- **react-i18next** (^16.0.0): React i18n hooks
+- **i18next** (^25.6.0): i18n framework core
+
+## Development Tools
+- **ESLint** (^9.23.0): Linting
+- **eslint-config-next** (^15.2.3): Next.js ESLint configuration
+- **TypeScript Types**: @types/node, @types/react, @types/react-dom
+
+## Storage
+- **Browser LocalStorage**: Client-side persistence for workflows and drafts (no external database)
