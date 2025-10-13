@@ -22,6 +22,7 @@ import SaveWorkflowModal from './SaveWorkflowModal'
 import { nodesConfig } from '@/config/nodes.config'
 import { useTheme } from 'next-themes'
 import { storage } from '@/lib/storage'
+import { WorkflowExecutionEngine, ExecutionContext } from '@/lib/execution-engine'
 
 let id = 0
 const getId = () => `node_${id++}`
@@ -122,9 +123,55 @@ function FlowCanvas() {
     })
   }, [selectedNode, setNodes])
 
-  const handleRun = useCallback(() => {
-    console.log('Running workflow...', { nodes, edges })
-  }, [nodes, edges])
+  const handleRun = useCallback(async () => {
+    if (nodes.length === 0) {
+      alert('No nodes to execute')
+      return
+    }
+
+    try {
+      const engine = new WorkflowExecutionEngine(nodes, edges)
+      
+      const updateVisualization = (context: ExecutionContext) => {
+        const updatedEdges = edges.map(edge => {
+          const edgeState = context.edgeStates.get(edge.id)
+          if (!edgeState) return edge
+
+          let strokeColor = '#6366f1'
+          let animated = true
+
+          if (edgeState.status === 'running') {
+            strokeColor = '#3b82f6'
+            animated = true
+          } else if (edgeState.status === 'success') {
+            strokeColor = '#10b981'
+            animated = false
+          } else if (edgeState.status === 'error') {
+            strokeColor = '#ef4444'
+            animated = false
+          }
+
+          return {
+            ...edge,
+            animated,
+            style: { ...edge.style, stroke: strokeColor, strokeWidth: 2 },
+            markerEnd: {
+              type: MarkerType.ArrowClosed,
+              color: strokeColor,
+            },
+          }
+        })
+
+        setEdges(updatedEdges)
+      }
+
+      await engine.execute(updateVisualization)
+      
+      alert('Workflow executed successfully!')
+    } catch (error) {
+      alert(`Workflow execution failed: ${error instanceof Error ? error.message : 'Unknown error'}`)
+    }
+  }, [nodes, edges, setEdges])
 
   const handlePause = useCallback(() => {
     console.log('Pausing workflow...')
