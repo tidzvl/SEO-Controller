@@ -14,6 +14,8 @@ interface NodeConfigModalProps {
     requirementValues?: Record<string, string>
     outputValues?: Record<string, string>
   } | null
+  edges: any[]
+  nodes: any[]
   onSave: (data: {
     displayName: string
     inputValues: Record<string, string>
@@ -22,11 +24,15 @@ interface NodeConfigModalProps {
   }) => void
 }
 
-export default function NodeConfigModal({ open, onOpenChange, nodeData, onSave }: NodeConfigModalProps) {
+export default function NodeConfigModal({ open, onOpenChange, nodeData, edges, nodes, onSave }: NodeConfigModalProps) {
   const [displayName, setDisplayName] = useState('')
   const [inputValues, setInputValues] = useState<Record<string, string>>({})
   const [requirementValues, setRequirementValues] = useState<Record<string, string>>({})
   const [outputValues, setOutputValues] = useState<Record<string, string>>({})
+  const [connectedData, setConnectedData] = useState<{
+    inputs: Record<string, { value: string; sourceName: string }>,
+    requirements: Record<string, { value: string; sourceName: string }>
+  }>({ inputs: {}, requirements: {} })
 
   useEffect(() => {
     if (nodeData) {
@@ -34,8 +40,39 @@ export default function NodeConfigModal({ open, onOpenChange, nodeData, onSave }
       setInputValues(nodeData.inputValues || {})
       setRequirementValues(nodeData.requirementValues || {})
       setOutputValues(nodeData.outputValues || {})
+
+      // Calculate connected data from edges
+      const inputs: Record<string, { value: string; sourceName: string }> = {}
+      const requirements: Record<string, { value: string; sourceName: string }> = {}
+
+      edges.forEach(edge => {
+        if (edge.target === nodeData.id) {
+          const sourceNode = nodes.find(n => n.id === edge.source)
+          if (sourceNode && sourceNode.data.outputValues) {
+            const targetHandle = edge.targetHandle || ''
+            const sourceHandle = edge.sourceHandle || ''
+            
+            // Get the index from handle ID (e.g., "output-0" -> 0)
+            const sourceIndex = sourceHandle.split('-')[1]
+            const outputKey = `output-${sourceIndex}`
+            const outputValue = sourceNode.data.outputValues[outputKey]
+
+            if (outputValue) {
+              const sourceName = sourceNode.data.displayName || sourceNode.data.config.name
+              
+              if (targetHandle.startsWith('input-')) {
+                inputs[targetHandle] = { value: outputValue, sourceName }
+              } else if (targetHandle.startsWith('requirement-')) {
+                requirements[targetHandle] = { value: outputValue, sourceName }
+              }
+            }
+          }
+        }
+      })
+
+      setConnectedData({ inputs, requirements })
     }
-  }, [nodeData])
+  }, [nodeData, edges, nodes])
 
   if (!nodeData) return null
 
@@ -88,58 +125,93 @@ export default function NodeConfigModal({ open, onOpenChange, nodeData, onSave }
             {inputHandles.length > 0 && (
               <div>
                 <h3 className="text-sm font-semibold mb-2">Input Values</h3>
-                {inputHandles.map((handle, index) => (
-                  <div key={`input-${index}`} className="mb-3">
-                    <label className="text-sm font-medium mb-1.5 block">
-                      {handle.label}
-                    </label>
-                    <input
-                      type="text"
-                      value={inputValues[`input-${index}`] || ''}
-                      onChange={(e) => setInputValues({
-                        ...inputValues,
-                        [`input-${index}`]: e.target.value
-                      })}
-                      className="w-full px-3 py-2 bg-background border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50"
-                      placeholder={`Enter ${handle.label.toLowerCase()}`}
-                    />
-                  </div>
-                ))}
+                {inputHandles.map((handle, index) => {
+                  const handleKey = `input-${index}`
+                  const connected = connectedData.inputs[handleKey]
+                  
+                  return (
+                    <div key={handleKey} className="mb-3">
+                      <label className="text-sm font-medium mb-1.5 block">
+                        {handle.label}
+                        {connected && (
+                          <span className="ml-2 text-xs text-primary/70">
+                            (from {connected.sourceName})
+                          </span>
+                        )}
+                      </label>
+                      <input
+                        type="text"
+                        value={connected ? connected.value : (inputValues[handleKey] || '')}
+                        onChange={(e) => setInputValues({
+                          ...inputValues,
+                          [handleKey]: e.target.value
+                        })}
+                        readOnly={!!connected}
+                        className={`w-full px-3 py-2 border rounded-md ${
+                          connected 
+                            ? 'bg-primary/5 border-primary/30 text-foreground cursor-not-allowed' 
+                            : 'bg-background border-border focus:outline-none focus:ring-2 focus:ring-primary/50'
+                        }`}
+                        placeholder={connected ? '' : `Enter ${handle.label.toLowerCase()}`}
+                      />
+                    </div>
+                  )
+                })}
               </div>
             )}
 
             {requirementHandles.length > 0 && (
               <div>
                 <h3 className="text-sm font-semibold mb-2">Requirements</h3>
-                {requirementHandles.map((handle, index) => (
-                  <div key={`requirement-${index}`} className="mb-3">
-                    <label className="text-sm font-medium mb-1.5 block">
-                      {handle.label}
-                    </label>
-                    {handle.data_type.includes('text') || handle.label.toLowerCase().includes('text') ? (
-                      <textarea
-                        value={requirementValues[`requirement-${index}`] || ''}
-                        onChange={(e) => setRequirementValues({
-                          ...requirementValues,
-                          [`requirement-${index}`]: e.target.value
-                        })}
-                        className="w-full px-3 py-2 bg-background border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50 min-h-[80px]"
-                        placeholder={`Enter ${handle.label.toLowerCase()}`}
-                      />
-                    ) : (
-                      <input
-                        type="text"
-                        value={requirementValues[`requirement-${index}`] || ''}
-                        onChange={(e) => setRequirementValues({
-                          ...requirementValues,
-                          [`requirement-${index}`]: e.target.value
-                        })}
-                        className="w-full px-3 py-2 bg-background border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50"
-                        placeholder={`Enter ${handle.label.toLowerCase()}`}
-                      />
-                    )}
-                  </div>
-                ))}
+                {requirementHandles.map((handle, index) => {
+                  const handleKey = `requirement-${index}`
+                  const connected = connectedData.requirements[handleKey]
+                  
+                  return (
+                    <div key={handleKey} className="mb-3">
+                      <label className="text-sm font-medium mb-1.5 block">
+                        {handle.label}
+                        {connected && (
+                          <span className="ml-2 text-xs text-primary/70">
+                            (from {connected.sourceName})
+                          </span>
+                        )}
+                      </label>
+                      {handle.data_type.includes('text') || handle.label.toLowerCase().includes('text') ? (
+                        <textarea
+                          value={connected ? connected.value : (requirementValues[handleKey] || '')}
+                          onChange={(e) => setRequirementValues({
+                            ...requirementValues,
+                            [handleKey]: e.target.value
+                          })}
+                          readOnly={!!connected}
+                          className={`w-full px-3 py-2 border rounded-md min-h-[80px] ${
+                            connected 
+                              ? 'bg-primary/5 border-primary/30 text-foreground cursor-not-allowed' 
+                              : 'bg-background border-border focus:outline-none focus:ring-2 focus:ring-primary/50'
+                          }`}
+                          placeholder={connected ? '' : `Enter ${handle.label.toLowerCase()}`}
+                        />
+                      ) : (
+                        <input
+                          type="text"
+                          value={connected ? connected.value : (requirementValues[handleKey] || '')}
+                          onChange={(e) => setRequirementValues({
+                            ...requirementValues,
+                            [handleKey]: e.target.value
+                          })}
+                          readOnly={!!connected}
+                          className={`w-full px-3 py-2 border rounded-md ${
+                            connected 
+                              ? 'bg-primary/5 border-primary/30 text-foreground cursor-not-allowed' 
+                              : 'bg-background border-border focus:outline-none focus:ring-2 focus:ring-primary/50'
+                          }`}
+                          placeholder={connected ? '' : `Enter ${handle.label.toLowerCase()}`}
+                        />
+                      )}
+                    </div>
+                  )
+                })}
               </div>
             )}
 

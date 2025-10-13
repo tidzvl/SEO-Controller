@@ -313,6 +313,8 @@ function FlowCanvas() {
           requirementValues: selectedNode.data.requirementValues,
           outputValues: selectedNode.data.outputValues
         } : null}
+        edges={edges}
+        nodes={nodes}
         onSave={handleSaveNodeConfig}
       />
 
