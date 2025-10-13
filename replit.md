@@ -65,38 +65,40 @@ Các thư viện kéo thả canvas:
 ```
 /
 ├── components/
-│   ├── Navbar.tsx          # Navbar component
-│   ├── Footer.tsx          # Footer component
-│   ├── NodesSidebar.tsx    # Collapsible sidebar cho nodes
-│   ├── NodeItem.tsx        # Node item với tooltip
-│   ├── CustomNode.tsx      # React Flow custom node với handles
-│   ├── FlowCanvas.tsx      # React Flow canvas wrapper
-│   └── ThemeProvider.tsx   # Theme provider wrapper
+│   ├── Navbar.tsx           # Navbar component
+│   ├── Footer.tsx           # Footer component
+│   ├── NodesSidebar.tsx     # Collapsible sidebar cho nodes
+│   ├── NodeItem.tsx         # Node item với tooltip
+│   ├── CustomNode.tsx       # React Flow custom node với handles
+│   ├── FlowCanvas.tsx       # React Flow canvas wrapper
+│   ├── NodeConfigModal.tsx  # Modal config node (double-click)
+│   ├── CanvasControls.tsx   # Control buttons (Run/Pause/Save/Clear)
+│   └── ThemeProvider.tsx    # Theme provider wrapper
 ├── config/
-│   └── nodes.config.ts     # Node configurations
+│   └── nodes.config.ts      # Node configurations (13 nodes)
 ├── lib/
-│   └── utils.ts            # Utility functions (cn)
+│   └── utils.ts             # Utility functions (cn)
 ├── pages/
-│   ├── _app.tsx           # App wrapper với providers
-│   ├── index.tsx          # Home page
-│   ├── overview.tsx       # Overview page với canvas
-│   ├── data-center.tsx    # Data Center page
-│   ├── workflow.tsx       # Workflow page
-│   └── analyst.tsx        # Analyst page
+│   ├── _app.tsx            # App wrapper với providers
+│   ├── index.tsx           # Home page
+│   ├── overview.tsx        # Overview page với canvas
+│   ├── data-center.tsx     # Data Center page
+│   ├── workflow.tsx        # Workflow page
+│   └── analyst.tsx         # Analyst page
 ├── public/
-│   └── locales/           # i18n translation files
+│   └── locales/            # i18n translation files
 │       ├── en/
 │       │   └── common.json
 │       └── vi/
 │           └── common.json
 ├── styles/
-│   ├── globals.css        # Global styles + Tailwind
+│   ├── globals.css         # Global styles + Tailwind
 │   └── reactflow-custom.css # Custom React Flow styling
-├── next.config.ts         # Next.js config + i18n
-├── next-i18next.config.js # i18n configuration
-├── tailwind.config.js     # Tailwind v3 config
-├── postcss.config.mjs     # PostCSS config
-└── tsconfig.json          # TypeScript config
+├── next.config.ts          # Next.js config + i18n
+├── next-i18next.config.js  # i18n configuration
+├── tailwind.config.js      # Tailwind v3 config
+├── postcss.config.mjs      # PostCSS config
+└── tsconfig.json           # TypeScript config
 ```
 
 ---
@@ -106,14 +108,14 @@ Các thư viện kéo thả canvas:
 ### React Flow Integration
 - ✅ **React Flow (reactflow)** - Node-based diagram library
 - ✅ **Custom Nodes** - Hình dạng theo config (square/rectangle/circle)
-  - Compact sizing: w-28/h-28 (square), w-36/h-24 (rectangle), w-28/h-28 (circle)
+  - Compact sizing: w-24/h-24 (square), w-32/h-20 (rectangle), w-24/h-24 (circle)
   - Reduced padding (p-2) cho giao diện gọn gàng
 - ✅ **Handles System**:
   - Positioned EXACTLY on node borders (không nằm bên trong)
   - Input handles (left) - hình VUÔNG, màu theo theme_color
   - Requirement handles (bottom) - hình THOI (rotated 45°), màu theo theme_color
   - Output handles (right) - hình CHỮ NHẬT (dài hơn), màu theo theme_color
-  - Labels nằm BÊN NGOÀI node (translate-x-full/translate-y-full)
+  - Labels nằm BÊN NGOÀI node (không có background, trong suốt)
 - ✅ **Connections**:
   - Bezier curves (mềm mại, tự nhiên)
   - Animated dashed lines
@@ -121,9 +123,31 @@ Các thư viện kéo thả canvas:
   - Màu sắc tùy chỉnh
 - ✅ **Canvas Features**:
   - Drag & drop nodes từ sidebar
+  - Double-click để config node (modal)
   - Zoom in/out, fit view, lock
   - Background dots pattern theo theme
   - Theme-aware styling
+- ✅ **Control Buttons**:
+  - Run (xanh lá) - Chạy workflow
+  - Pause (vàng) - Tạm dừng
+  - Save (xanh dương) - Download JSON
+  - Clear (đỏ) - Xóa tất cả nodes
+
+### Node Types (13 nodes)
+**Social Media & APIs:**
+- TikTok, YouTube, Facebook, Instagram, Twitter (đen/đỏ/xanh/hồng/xanh nhạt)
+- OpenAI (tím đậm)
+
+**Data Processing:**
+- Data Processor (xanh lá) - Transform data
+- Storage (vàng cam) - Lưu trữ
+
+**Input Nodes (5 types):**
+- String (tím) - Text input
+- Integer (cyan) - Number input
+- Array (hồng) - List items
+- JSON (teal) - Object data
+- Text Area (cam) - Multi-line text
 
 ---
 
@@ -137,10 +161,10 @@ Các thư viện kéo thả canvas:
 
 ### ✅ UI & Styling
 - **Lucide React** - Icon system
-- **React Icons** - Additional icon library (FaTiktok, etc.)
+- **React Icons** - Additional icon library (FaTiktok, MdTextFields, etc.)
 - **Framer Motion** - Smooth animations
 - **next-themes** - Theme switching (dark/light)
-- **Radix UI** - Tooltip, Collapsible components
+- **Radix UI** - Tooltip, Collapsible, Dialog components
 - **clsx + tailwind-merge** - Class name utilities
 
 ### ✅ Internationalization
@@ -193,10 +217,26 @@ Các thư viện kéo thả canvas:
   - Requirement: hình THOI (12x12px rotated 45°)
 - ✅ Thay đổi connection lines thành Bezier curves (mềm mại hơn)
 
+### Phase 4.2: Overview Enhancements ✅ COMPLETED (13/10/2025)
+- ✅ Xóa background của handle labels (trong suốt, gọn gàng hơn)
+- ✅ Thu nhỏ node size thêm (w-24/h-24, w-32/h-20)
+- ✅ Thêm 5 node input mới: String, Integer, Array, JSON, Text Area
+- ✅ Node config modal (double-click):
+  - Chỉnh display name
+  - Config input values
+  - Config requirement values
+  - Persist data vào node state
+- ✅ Canvas control buttons:
+  - Run - Execute workflow (log data)
+  - Pause - Pause execution (placeholder)
+  - Save - Download diagram JSON
+  - Clear - Remove all nodes/edges (confirm)
+
 ### Phase 5: Diagram Features (Next)
-- [ ] Chart/diagram types
-- [ ] Properties panel
-- [ ] Export functionality
+- [ ] Workflow execution engine
+- [ ] Data transformation logic
+- [ ] Export to multiple formats
+- [ ] Load saved diagrams
 
 ---
 
