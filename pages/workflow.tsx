@@ -36,10 +36,7 @@ const Workflow: NextPage = () => {
   }, [workflows, searchQuery])
 
   const handleLoad = (workflow: SavedWorkflow) => {
-    console.log('📋 Loading workflow:', workflow.name)
-    console.log('📦 Workflow data:', workflow.data)
     storage.saveDraft(workflow.data)
-    console.log('✅ Draft saved, navigating to overview...')
     router.push('/overview')
   }
 

@@ -41,11 +41,8 @@ function FlowCanvas() {
 
   useEffect(() => {
     const loadDraftFromStorage = () => {
-      console.log('🔄 Loading draft from storage...')
       const draft = storage.loadDraft()
       if (draft) {
-        console.log('✅ Draft found:', draft)
-        console.log('📊 Nodes:', draft.nodes.length, 'Edges:', draft.edges.length)
         setNodes(draft.nodes)
         setEdges(draft.edges)
         
@@ -56,21 +53,14 @@ function FlowCanvas() {
           }, 0)
           id = maxId + 1
         }
-      } else {
-        console.log('❌ No draft found in storage')
       }
     }
 
-    console.log('🚀 FlowCanvas useEffect - Initial load')
     loadDraftFromStorage()
 
     const handleRouteChange = (url: string) => {
-      console.log('🔀 Route changed to:', url)
       if (url.includes('/overview')) {
-        console.log('✅ Route is /overview, loading draft...')
         loadDraftFromStorage()
-      } else {
-        console.log('⏭️ Not /overview, skipping draft load')
       }
     }
 
