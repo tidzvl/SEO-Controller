@@ -108,14 +108,15 @@ Các thư viện kéo thả canvas:
 ### React Flow Integration
 - ✅ **React Flow (reactflow)** - Node-based diagram library
 - ✅ **Custom Nodes** - Hình dạng theo config (square/rectangle/circle)
-  - Compact sizing: w-24/h-24 (square), w-32/h-20 (rectangle), w-24/h-24 (circle)
+  - Compact sizing: w-20/h-20 (square), w-28/h-16 (rectangle), w-20/h-20 (circle)
   - Reduced padding (p-2) cho giao diện gọn gàng
 - ✅ **Handles System**:
   - Positioned EXACTLY on node borders (không nằm bên trong)
-  - Input handles (left) - hình VUÔNG, màu theo theme_color
-  - Requirement handles (bottom) - hình THOI (rotated 45°), màu theo theme_color
-  - Output handles (right) - hình CHỮ NHẬT (dài hơn), màu theo theme_color
+  - Input handles (left) - hình VUÔNG 10x10px, màu theo theme_color
+  - Requirement handles (bottom) - hình THOI 10x10px (rotated 45°), màu theo theme_color
+  - Output handles (right) - hình CHỮ NHẬT 14x6px (dài hơn), màu theo theme_color
   - Labels nằm BÊN NGOÀI node (không có background, trong suốt)
+  - Spacing: label cách handle 8px (input/output), 12px (requirement)
 - ✅ **Connections**:
   - Bezier curves (mềm mại, tự nhiên)
   - Animated dashed lines
@@ -219,7 +220,7 @@ Các thư viện kéo thả canvas:
 
 ### Phase 4.2: Overview Enhancements ✅ COMPLETED (13/10/2025)
 - ✅ Xóa background của handle labels (trong suốt, gọn gàng hơn)
-- ✅ Thu nhỏ node size thêm (w-24/h-24, w-32/h-20)
+- ✅ Thu nhỏ node size (w-20/h-20 square, w-28/h-16 rectangle)
 - ✅ Thêm 5 node input mới: String, Integer, Array, JSON, Text Area
 - ✅ Node config modal (double-click):
   - Chỉnh display name
@@ -231,6 +232,9 @@ Các thư viện kéo thả canvas:
   - Pause - Pause execution (placeholder)
   - Save - Download diagram JSON
   - Clear - Remove all nodes/edges (confirm)
+- ✅ UI refinements:
+  - Spacing giữa label và handle (8px input/output, 12px requirement)
+  - Handle icons nhỏ hơn (10x10px square/diamond, 14x6px rectangle)
 
 ### Phase 5: Diagram Features (Next)
 - [ ] Workflow execution engine
