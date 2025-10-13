@@ -253,6 +253,7 @@ Các thư viện kéo thả canvas:
 - ✅ UI refinements:
   - Spacing giữa label và handle (8px input/output, 12px requirement)
   - Handle icons nhỏ hơn (10x10px square/diamond, 14x6px rectangle)
+  - Label transform: -150% cho spacing tốt hơn (thay vì -100%)
 
 ### Phase 4.3: Node System Expansion ✅ COMPLETED (13/10/2025)
 - ✅ **Critical bug fix**: Label không đè lên handle (zIndex + pointer-events-none)

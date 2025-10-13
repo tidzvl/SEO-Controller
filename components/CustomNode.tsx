@@ -85,7 +85,7 @@ function CustomNode({ data }: NodeProps<CustomNodeData>) {
                 zIndex: 10
               }}
             />
-            <span className="text-[10px] font-medium text-muted-foreground mr-2 whitespace-nowrap -translate-x-full pointer-events-none">
+            <span className="text-[10px] font-medium text-muted-foreground mr-2 whitespace-nowrap -translate-x-[150%] pointer-events-none">
               {handle.label}
             </span>
           </div>
@@ -154,7 +154,7 @@ function CustomNode({ data }: NodeProps<CustomNodeData>) {
                 zIndex: 10
               }}
             />
-            <span className="text-[10px] font-medium text-muted-foreground ml-2 whitespace-nowrap translate-x-full pointer-events-none">
+            <span className="text-[10px] font-medium text-muted-foreground ml-2 whitespace-nowrap translate-x-[150%] pointer-events-none">
               {handle.label}
             </span>
           </div>
