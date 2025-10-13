@@ -1,0 +1,17 @@
+{
+  "navbar": {
+    "brand": "INT SOLUTION",
+    "overview": "Overview",
+    "dataCenter": "Data Center",
+    "workflow": "Workflow",
+    "analyst": "Analyst"
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark"
+  },
+  "language": {
+    "en": "English",
+    "vi": "Vietnamese"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "navbar": {
+    "brand": "INT SOLUTION",
+    "overview": "Tổng quan",
+    "dataCenter": "Trung tâm dữ liệu",
+    "workflow": "Quy trình",
+    "analyst": "Phân tích"
+  },
+  "theme": {
+    "light": "Sáng",
+    "dark": "Tối"
+  },
+  "language": {
+    "en": "Tiếng Anh",
+    "vi": "Tiếng Việt"
+  }
+}
