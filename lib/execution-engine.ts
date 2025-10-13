@@ -204,13 +204,22 @@ export class WorkflowExecutionEngine {
         }
 
         const requirementHandles = config.links.filter((link: any) => link.type === 'requirement')
-        const requirementValues = node.data.requirementValues || {}
         
         for (const [index, handle] of requirementHandles.entries()) {
           const handleKey = `requirement-${index}`
-          const value = requirementValues[handleKey]
           
-          if (!value || value.trim() === '') {
+          // Check from connected edges first, then manual input
+          let value = inputData.get(handleKey)
+          
+          if (value === undefined) {
+            // Fallback to manual input from requirementValues
+            const requirementValues = node.data.requirementValues || {}
+            value = requirementValues[handleKey]
+          }
+          
+          console.log(`[DEBUG] Checking requirement ${handleKey} (${handle.label}):`, value)
+          
+          if (!value || (typeof value === 'string' && value.trim() === '')) {
             throw new Error(`Missing requirement: ${handle.label}`)
           }
         }
