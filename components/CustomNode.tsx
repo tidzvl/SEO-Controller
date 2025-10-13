@@ -31,13 +31,13 @@ function CustomNode({ data }: NodeProps<CustomNodeData>) {
   const getNodeSize = () => {
     switch (config.shape) {
       case 0:
-        return 'w-32 h-32'
+        return 'w-28 h-28'
       case 1:
-        return 'w-40 h-28'
+        return 'w-36 h-24'
       case 2:
-        return 'w-32 h-32'
+        return 'w-28 h-28'
       default:
-        return 'w-32 h-32'
+        return 'w-28 h-28'
     }
   }
 
@@ -48,11 +48,11 @@ function CustomNode({ data }: NodeProps<CustomNodeData>) {
   return (
     <div className="relative">
       <div
-        className={`${getNodeSize()} ${getShapeClass()} bg-card border-2 shadow-lg flex flex-col items-center justify-center p-4 transition-all hover:shadow-xl`}
+        className={`${getNodeSize()} ${getShapeClass()} bg-card border-2 shadow-lg flex flex-col items-center justify-center p-2 transition-all hover:shadow-xl`}
         style={{ borderColor: config.theme_color }}
       >
-        <Icon className="text-4xl mb-2" style={{ color: config.theme_color }} />
-        <p className="text-xs font-semibold text-center">{config.name}</p>
+        <Icon className="text-2xl mb-1" style={{ color: config.theme_color }} />
+        <p className="text-[10px] font-semibold text-center">{config.name}</p>
       </div>
 
       {inputHandles.map((handle, index) => {
@@ -64,24 +64,24 @@ function CustomNode({ data }: NodeProps<CustomNodeData>) {
         return (
           <div 
             key={`input-${index}`} 
-            className="absolute left-0 -translate-x-2 flex items-center"
-            style={{ top: `${offset}%`, transform: 'translateY(-50%) translateX(-0.5rem)' }}
+            className="absolute flex items-center"
+            style={{ left: 0, top: `${offset}%`, transform: 'translateY(-50%)' }}
           >
-            <span className="text-[10px] font-medium text-muted-foreground mr-2 whitespace-nowrap bg-background/80 px-1.5 py-0.5 rounded">
+            <span className="text-[10px] font-medium text-muted-foreground mr-1 whitespace-nowrap bg-background/80 px-1.5 py-0.5 rounded -translate-x-full">
               {handle.label}
             </span>
             <Handle
               type="target"
               position={Position.Left}
               id={`input-${index}`}
-              className="!w-3 !h-3 !border-2"
+              className="!w-3 !h-3 !border-2 !rounded-[2px]"
               style={{ 
                 background: config.theme_color,
                 borderColor: config.theme_color,
-                position: 'relative',
+                position: 'absolute',
                 left: 0,
-                top: 0,
-                transform: 'none'
+                top: '50%',
+                transform: 'translate(-50%, -50%)'
               }}
             />
           </div>
@@ -97,8 +97,8 @@ function CustomNode({ data }: NodeProps<CustomNodeData>) {
         return (
           <div 
             key={`requirement-${index}`} 
-            className="absolute bottom-0 translate-y-2 flex flex-col items-center"
-            style={{ left: `${offset}%`, transform: 'translateX(-50%) translateY(0.5rem)' }}
+            className="absolute flex flex-col items-center"
+            style={{ left: `${offset}%`, bottom: 0, transform: 'translateX(-50%)' }}
           >
             <Handle
               type="target"
@@ -108,13 +108,14 @@ function CustomNode({ data }: NodeProps<CustomNodeData>) {
               style={{ 
                 background: config.theme_color,
                 borderColor: config.theme_color,
-                position: 'relative',
-                left: 0,
-                top: 0,
-                transform: 'none'
+                position: 'absolute',
+                left: '50%',
+                bottom: 0,
+                transform: 'translate(-50%, 50%) rotate(45deg)',
+                borderRadius: '2px'
               }}
             />
-            <span className="text-[10px] font-medium text-muted-foreground mt-1 whitespace-nowrap bg-background/80 px-1.5 py-0.5 rounded">
+            <span className="text-[10px] font-medium text-muted-foreground whitespace-nowrap bg-background/80 px-1.5 py-0.5 rounded translate-y-full mt-2">
               {handle.label}
             </span>
           </div>
@@ -130,24 +131,24 @@ function CustomNode({ data }: NodeProps<CustomNodeData>) {
         return (
           <div 
             key={`output-${index}`} 
-            className="absolute right-0 translate-x-2 flex items-center"
-            style={{ top: `${offset}%`, transform: 'translateY(-50%) translateX(0.5rem)' }}
+            className="absolute flex items-center"
+            style={{ right: 0, top: `${offset}%`, transform: 'translateY(-50%)' }}
           >
             <Handle
               type="source"
               position={Position.Right}
               id={`output-${index}`}
-              className="!w-3 !h-3 !border-2"
+              className="!w-4 !h-2 !border-2 !rounded-sm"
               style={{ 
                 background: config.theme_color,
                 borderColor: config.theme_color,
-                position: 'relative',
-                left: 0,
-                top: 0,
-                transform: 'none'
+                position: 'absolute',
+                right: 0,
+                top: '50%',
+                transform: 'translate(50%, -50%)'
               }}
             />
-            <span className="text-[10px] font-medium text-muted-foreground ml-2 whitespace-nowrap bg-background/80 px-1.5 py-0.5 rounded">
+            <span className="text-[10px] font-medium text-muted-foreground ml-1 whitespace-nowrap bg-background/80 px-1.5 py-0.5 rounded translate-x-full">
               {handle.label}
             </span>
           </div>

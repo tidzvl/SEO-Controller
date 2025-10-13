@@ -35,7 +35,7 @@ function FlowCanvas() {
         addEdge(
           {
             ...params,
-            type: 'smoothstep',
+            type: 'default',
             animated: true,
             style: { stroke: '#6366f1', strokeWidth: 2 },
             markerEnd: {
@@ -98,7 +98,7 @@ function FlowCanvas() {
         onDrop={onDrop}
         onDragOver={onDragOver}
         nodeTypes={nodeTypes}
-        connectionLineType={ConnectionLineType.SmoothStep}
+        connectionLineType={ConnectionLineType.Bezier}
         fitView
         className="bg-background"
       >
