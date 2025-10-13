@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState, DragEvent, useMemo } from 'react'
+import { useCallback, useRef, useState, DragEvent, useMemo, useEffect } from 'react'
 import ReactFlow, {
   ReactFlowProvider,
   addEdge,
@@ -17,8 +17,10 @@ import ReactFlow, {
 import CustomNode from './CustomNode'
 import NodeConfigModal from './NodeConfigModal'
 import CanvasControls from './CanvasControls'
-import { NodeConfig, nodesConfig } from '@/config/nodes.config'
+import SaveWorkflowModal from './SaveWorkflowModal'
+import { nodesConfig } from '@/config/nodes.config'
 import { useTheme } from 'next-themes'
+import { storage } from '@/lib/storage'
 
 let id = 0
 const getId = () => `node_${id++}`
@@ -31,8 +33,35 @@ function FlowCanvas() {
   const [edges, setEdges, onEdgesChange] = useEdgesState([])
   const [reactFlowInstance, setReactFlowInstance] = useState<any>(null)
   const [configModalOpen, setConfigModalOpen] = useState(false)
+  const [saveModalOpen, setSaveModalOpen] = useState(false)
   const [selectedNode, setSelectedNode] = useState<Node | null>(null)
   const { theme } = useTheme()
+
+  useEffect(() => {
+    const draft = storage.loadDraft()
+    if (draft && draft.nodes.length > 0) {
+      setNodes(draft.nodes)
+      setEdges(draft.edges)
+      
+      const maxId = draft.nodes.reduce((max, node) => {
+        const nodeId = parseInt(node.id.split('_')[1] || '0')
+        return Math.max(max, nodeId)
+      }, 0)
+      id = maxId + 1
+    }
+  }, [setNodes, setEdges])
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (nodes.length === 0 && edges.length === 0) {
+        storage.clearDraft()
+      } else {
+        storage.saveDraft({ nodes, edges })
+      }
+    }, 1000)
+
+    return () => clearTimeout(timer)
+  }, [nodes, edges])
 
   const handleNodeDoubleClick = useCallback((_event: React.MouseEvent, node: Node) => {
     setSelectedNode(node)
@@ -80,36 +109,29 @@ function FlowCanvas() {
   }, [])
 
   const handleSave = useCallback(() => {
-    const diagramData = {
-      nodes: nodes.map(node => ({
-        id: node.id,
-        type: node.type,
-        position: node.position,
-        data: node.data
-      })),
-      edges: edges.map(edge => ({
-        id: edge.id,
-        source: edge.source,
-        target: edge.target,
-        sourceHandle: edge.sourceHandle,
-        targetHandle: edge.targetHandle
-      }))
+    if (nodes.length === 0) {
+      alert('Cannot save empty workflow')
+      return
     }
-    
-    const dataStr = JSON.stringify(diagramData, null, 2)
-    const blob = new Blob([dataStr], { type: 'application/json' })
-    const url = URL.createObjectURL(blob)
-    const link = document.createElement('a')
-    link.href = url
-    link.download = `diagram-${Date.now()}.json`
-    link.click()
-    URL.revokeObjectURL(url)
+    setSaveModalOpen(true)
+  }, [nodes])
+
+  const handleSaveWorkflow = useCallback((name: string) => {
+    try {
+      const workflowData = { nodes, edges }
+      storage.saveWorkflow(name, workflowData)
+      setSaveModalOpen(false)
+      alert(`Workflow "${name}" saved successfully!`)
+    } catch (error) {
+      alert('Failed to save workflow')
+    }
   }, [nodes, edges])
 
   const handleClear = useCallback(() => {
     if (confirm('Are you sure you want to clear all nodes and connections?')) {
       setNodes([])
       setEdges([])
+      storage.clearDraft()
     }
   }, [setNodes, setEdges])
 
@@ -221,6 +243,12 @@ function FlowCanvas() {
           requirementValues: selectedNode.data.requirementValues
         } : null}
         onSave={handleSaveNodeConfig}
+      />
+
+      <SaveWorkflowModal
+        open={saveModalOpen}
+        onOpenChange={setSaveModalOpen}
+        onSave={handleSaveWorkflow}
       />
     </>
   )
