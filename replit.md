@@ -98,6 +98,29 @@ Các thư viện kéo thả canvas:
 
 ---
 
+## Canvas & Diagram System ✅
+
+### React Flow Integration
+- ✅ **React Flow (reactflow)** - Node-based diagram library
+- ✅ **Custom Nodes** - Hình dạng theo config (square/rectangle/circle)
+- ✅ **Handles System**:
+  - Input handles (left side) - màu theo theme_color
+  - Requirement handles (bottom) - màu theo theme_color  
+  - Output handles (right side) - màu theo theme_color
+  - Labels kế bên handles
+- ✅ **Connections**:
+  - Smooth step curves (mềm mại, không cứng)
+  - Animated dashed lines
+  - Arrow markers ở cuối
+  - Màu sắc tùy chỉnh
+- ✅ **Canvas Features**:
+  - Drag & drop nodes từ sidebar
+  - Zoom in/out, fit view, lock
+  - Background dots pattern theo theme
+  - Theme-aware styling
+
+---
+
 ## Công nghệ đã cài đặt (Installed Technologies)
 
 ### ✅ Core Stack
@@ -117,6 +140,9 @@ Các thư viện kéo thả canvas:
 ### ✅ Internationalization
 - **next-i18next** - i18n for Next.js
 - **react-i18next + i18next** - Translation framework
+
+### ✅ Canvas & Diagrams
+- **React Flow (reactflow)** - Node-based diagram library với drag & drop
 
 ---
 
@@ -143,13 +169,16 @@ Các thư viện kéo thả canvas:
 - ✅ Canvas area placeholder
 - ✅ Drag & drop preparation (node data structure)
 
-### Phase 4: Canvas Implementation (Next)
-- [ ] Chọn và integrate canvas library
-- [ ] Drag & drop functionality
-- [ ] Element selection & manipulation
-- [ ] Canvas toolbar
+### Phase 4: Canvas Implementation ✅ COMPLETED
+- ✅ Chọn React Flow library - powerful node-based diagrams
+- ✅ Drag & drop functionality từ sidebar vào canvas
+- ✅ Custom Node component với shapes theo config
+- ✅ Handles system (input/requirement/output) với labels
+- ✅ Smooth connections với animated bezier curves
+- ✅ Canvas controls (zoom, fit view, lock)
+- ✅ Theme-aware styling (dark/light mode)
 
-### Phase 4: Diagram Features
+### Phase 5: Diagram Features (Next)
 - [ ] Chart/diagram types
 - [ ] Properties panel
 - [ ] Export functionality

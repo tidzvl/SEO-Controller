@@ -1,4 +1,6 @@
 import '../styles/globals.css'
+import 'reactflow/dist/style.css'
+import '../styles/reactflow-custom.css'
 import type { AppProps } from 'next/app'
 import { appWithTranslation } from 'next-i18next'
 import { ThemeProvider } from '@/components/ThemeProvider'

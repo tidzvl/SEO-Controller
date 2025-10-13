@@ -4,6 +4,7 @@ import { useTranslation } from 'next-i18next'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import NodesSidebar from '@/components/NodesSidebar'
+import FlowCanvas from '@/components/FlowCanvas'
 
 const Overview: NextPage = () => {
   const { t } = useTranslation('common')
@@ -13,17 +14,8 @@ const Overview: NextPage = () => {
       <Navbar />
       <div className="flex flex-1 overflow-hidden">
         <NodesSidebar />
-        <main className="flex-1 overflow-auto bg-background">
-          <div className="h-full p-6">
-            <div className="flex items-center justify-center h-full border-2 border-dashed border-border/50 rounded-lg bg-muted/10">
-              <div className="text-center">
-                <h2 className="text-2xl font-semibold mb-2">Canvas Area</h2>
-                <p className="text-muted-foreground">
-                  Drag and drop nodes from the sidebar to start building your workflow
-                </p>
-              </div>
-            </div>
-          </div>
+        <main className="flex-1 overflow-hidden bg-background">
+          <FlowCanvas />
         </main>
       </div>
       <Footer />
