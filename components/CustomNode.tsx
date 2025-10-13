@@ -4,6 +4,9 @@ import { NodeConfig } from '@/config/nodes.config'
 
 interface CustomNodeData {
   config: NodeConfig
+  displayName?: string
+  inputValues?: Record<string, string>
+  requirementValues?: Record<string, string>
 }
 
 function CustomNode({ data }: NodeProps<CustomNodeData>) {
@@ -48,11 +51,11 @@ function CustomNode({ data }: NodeProps<CustomNodeData>) {
   return (
     <div className="relative">
       <div
-        className={`${getNodeSize()} ${getShapeClass()} bg-card border-2 shadow-lg flex flex-col items-center justify-center p-2 transition-all hover:shadow-xl`}
+        className={`${getNodeSize()} ${getShapeClass()} bg-card border-2 shadow-lg flex flex-col items-center justify-center p-2 transition-all hover:shadow-xl cursor-pointer`}
         style={{ borderColor: config.theme_color }}
       >
         <Icon className="text-2xl mb-1" style={{ color: config.theme_color }} />
-        <p className="text-[10px] font-semibold text-center">{config.name}</p>
+        <p className="text-[10px] font-semibold text-center">{data.displayName || config.name}</p>
       </div>
 
       {inputHandles.map((handle, index) => {
