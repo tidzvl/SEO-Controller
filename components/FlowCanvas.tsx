@@ -1,4 +1,5 @@
 import { useCallback, useRef, useState, DragEvent, useMemo, useEffect } from 'react'
+import { useRouter } from 'next/router'
 import ReactFlow, {
   ReactFlowProvider,
   addEdge,
@@ -28,6 +29,7 @@ const getId = () => `node_${id++}`
 function FlowCanvas() {
   const nodeTypes: NodeTypes = useMemo(() => ({ custom: CustomNode }), [])
   const reactFlowWrapper = useRef<HTMLDivElement>(null)
+  const router = useRouter()
   
   const [nodes, setNodes, onNodesChange] = useNodesState([])
   const [edges, setEdges, onEdgesChange] = useEdgesState([])
@@ -38,18 +40,36 @@ function FlowCanvas() {
   const { theme } = useTheme()
 
   useEffect(() => {
-    const draft = storage.loadDraft()
-    if (draft && draft.nodes.length > 0) {
-      setNodes(draft.nodes)
-      setEdges(draft.edges)
-      
-      const maxId = draft.nodes.reduce((max, node) => {
-        const nodeId = parseInt(node.id.split('_')[1] || '0')
-        return Math.max(max, nodeId)
-      }, 0)
-      id = maxId + 1
+    const loadDraftFromStorage = () => {
+      const draft = storage.loadDraft()
+      if (draft) {
+        setNodes(draft.nodes)
+        setEdges(draft.edges)
+        
+        if (draft.nodes.length > 0) {
+          const maxId = draft.nodes.reduce((max, node) => {
+            const nodeId = parseInt(node.id.split('_')[1] || '0')
+            return Math.max(max, nodeId)
+          }, 0)
+          id = maxId + 1
+        }
+      }
     }
-  }, [setNodes, setEdges])
+
+    loadDraftFromStorage()
+
+    const handleRouteChange = (url: string) => {
+      if (url.includes('/overview')) {
+        loadDraftFromStorage()
+      }
+    }
+
+    router.events?.on('routeChangeComplete', handleRouteChange)
+
+    return () => {
+      router.events?.off('routeChangeComplete', handleRouteChange)
+    }
+  }, [router.events, setNodes, setEdges])
 
   useEffect(() => {
     const timer = setTimeout(() => {
