@@ -155,19 +155,13 @@ export class WorkflowExecutionEngine {
       const config = node.data.config
       const isBasicNode = config.group === 'Basic'
 
-      console.log(`[DEBUG] Executing node: ${config.name} (${nodeId})`)
-
       if (isBasicNode) {
         const outputValues = node.data.outputValues || {}
         const outputHandles = config.links.filter((link: any) => link.type === 'output')
         
-        console.log(`[DEBUG] Basic node outputValues:`, outputValues)
-        
         outputHandles.forEach((handle: any, index: number) => {
           const handleKey = `output-${index}`
           const value = outputValues[handleKey]
-          
-          console.log(`[DEBUG] Processing handle ${handleKey}:`, value)
           
           if (value && value.trim() !== '') {
             try {
@@ -177,22 +171,15 @@ export class WorkflowExecutionEngine {
             }
           }
         })
-        
-        console.log(`[DEBUG] Basic node final output:`, nodeState.output)
 
         nodeState.status = 'success'
       } else {
         const inputData = this.getNodeInputData(nodeId)
         const inputHandles = config.links.filter((link: any) => link.type === 'input')
         
-        console.log(`[DEBUG] Processing node inputData:`, Array.from(inputData.entries()))
-        console.log(`[DEBUG] Input handles:`, inputHandles.map((h: any) => h.label))
-        
         for (const [index, handle] of inputHandles.entries()) {
           const handleKey = `input-${index}`
           const value = inputData.get(handleKey)
-          
-          console.log(`[DEBUG] Checking ${handleKey} (${handle.label}):`, value)
           
           if (value === undefined) {
             throw new Error(`Missing input data for ${handle.label}`)
@@ -216,8 +203,6 @@ export class WorkflowExecutionEngine {
             const requirementValues = node.data.requirementValues || {}
             value = requirementValues[handleKey]
           }
-          
-          console.log(`[DEBUG] Checking requirement ${handleKey} (${handle.label}):`, value)
           
           if (!value || (typeof value === 'string' && value.trim() === '')) {
             throw new Error(`Missing requirement: ${handle.label}`)
@@ -272,17 +257,6 @@ export class WorkflowExecutionEngine {
   async execute(onUpdate: (context: ExecutionContext) => void): Promise<void> {
     try {
       const executionOrder = this.topologicalSort()
-      
-      console.log('[DEBUG] ======================')
-      console.log('[DEBUG] Execution Order:', executionOrder)
-      console.log('[DEBUG] Total nodes:', this.context.nodes.length)
-      console.log('[DEBUG] Node details:', this.context.nodes.map(n => ({
-        id: n.id,
-        name: n.data.config.name,
-        group: n.data.config.group,
-        hasOutputValues: !!n.data.outputValues
-      })))
-      console.log('[DEBUG] ======================')
 
       for (const nodeId of executionOrder) {
         const outgoingEdges = this.context.edges.filter(edge => edge.source === nodeId)
