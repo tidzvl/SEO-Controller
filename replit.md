@@ -51,7 +51,19 @@ The project prioritizes a component-based architecture for maintainability and s
 
 ## Recent Changes
 
-### Latest Update (13/10/2025)
+### Latest Update (13/10/2025) - Part 2
+- ✅ **Workflow Execution Engine (Phase 1)**: Fully functional execution system
+  - **Topological Sort**: Automatically determines correct node execution order, detects cycles
+  - **Data Validation**: Validates input data types against node config before execution
+  - **Real-time Visual Feedback**: Edge colors change during execution
+    - Blue (#3b82f6): Currently running with animation
+    - Green (#10b981): Successfully completed
+    - Red (#ef4444): Error occurred
+  - **Data Flow**: Passes data between nodes through connections
+  - **Error Handling**: Comprehensive error messages for validation failures, missing inputs
+  - **Run Button**: Executes entire workflow with visual progress
+
+### Latest Update (13/10/2025) - Part 1
 - ✅ **Enhanced Node Configuration Modal**: Major upgrade for data analyst workflows
   - **Output Data Display**: All nodes with output handles now show output data in config modal
   - **Basic Nodes Input**: Basic nodes (Text, Integer, JSON, CSV, etc.) have "Input Data" section to enter data directly
