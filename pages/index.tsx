@@ -1,12 +1,13 @@
 import type { NextPage } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Navbar from '@/components/Navbar'
+import Footer from '@/components/Footer'
 
 const Home: NextPage = () => {
   return (
-    <div className="min-h-screen">
+    <div className="flex flex-col min-h-screen">
       <Navbar />
-      <main className="container py-8">
+      <main className="flex-1 container py-8">
         <div className="flex flex-col items-center justify-center min-h-[80vh] text-center">
           <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">
             Welcome to INT SOLUTION
@@ -16,6 +17,7 @@ const Home: NextPage = () => {
           </p>
         </div>
       </main>
+      <Footer />
     </div>
   )
 }
