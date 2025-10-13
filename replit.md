@@ -66,13 +66,18 @@ Các thư viện kéo thả canvas:
 /
 ├── components/
 │   ├── Navbar.tsx          # Navbar component
+│   ├── Footer.tsx          # Footer component
+│   ├── NodesSidebar.tsx    # Collapsible sidebar cho nodes
+│   ├── NodeItem.tsx        # Node item với tooltip
 │   └── ThemeProvider.tsx   # Theme provider wrapper
+├── config/
+│   └── nodes.config.ts     # Node configurations
 ├── lib/
 │   └── utils.ts            # Utility functions (cn)
 ├── pages/
 │   ├── _app.tsx           # App wrapper với providers
 │   ├── index.tsx          # Home page
-│   ├── overview.tsx       # Overview page
+│   ├── overview.tsx       # Overview page với canvas
 │   ├── data-center.tsx    # Data Center page
 │   ├── workflow.tsx       # Workflow page
 │   └── analyst.tsx        # Analyst page
@@ -103,8 +108,10 @@ Các thư viện kéo thả canvas:
 
 ### ✅ UI & Styling
 - **Lucide React** - Icon system
+- **React Icons** - Additional icon library (FaTiktok, etc.)
 - **Framer Motion** - Smooth animations
 - **next-themes** - Theme switching (dark/light)
+- **Radix UI** - Tooltip, Collapsible components
 - **clsx + tailwind-merge** - Class name utilities
 
 ### ✅ Internationalization
@@ -123,12 +130,20 @@ Các thư viện kéo thả canvas:
 
 ### Phase 2: Core UI Components ✅ COMPLETED
 - ✅ Navbar component (modern, minimalist, balanced)
+- ✅ Footer component (simple, professional)
 - ✅ Theme switcher (sun/moon toggle)
 - ✅ Language switcher (EN/VI dropdown)
 - ✅ Icon system (Lucide React)
 - ✅ Layout với ThemeProvider và i18n
 
-### Phase 3: Canvas Implementation
+### Phase 3: Overview Page & Nodes ✅ COMPLETED
+- ✅ Collapsible Sidebar - responsive, thu gọn được
+- ✅ Nodes config system (id, name, icon, theme_color, shape, links)
+- ✅ NodeItem component - icon hình vuông với tooltip
+- ✅ Canvas area placeholder
+- ✅ Drag & drop preparation (node data structure)
+
+### Phase 4: Canvas Implementation (Next)
 - [ ] Chọn và integrate canvas library
 - [ ] Drag & drop functionality
 - [ ] Element selection & manipulation
@@ -178,6 +193,51 @@ Các thư viện kéo thả canvas:
 - Hover effects tinh tế
 - Active page indicator với spring animation
 - Language dropdown với fade animation
+
+#### 2. Footer ✅ COMPLETED
+**Vị trí**: Bottom, border-top với backdrop blur
+
+**Nội dung**:
+- ✅ Copyright text (© 2025 INT SOLUTION. All rights reserved.)
+- ✅ Footer links (Privacy, Terms, Contact)
+- ✅ Styling: Minimalist, consistent với theme system
+
+#### 3. Overview Page - Nodes Sidebar ✅ COMPLETED
+**Layout**: Full height flex layout với Navbar, Sidebar, Canvas, Footer
+
+**Nodes Sidebar**:
+- ✅ Collapsible/Expandable (ChevronLeft/Right icons)
+- ✅ Responsive width (280px expanded, 48px collapsed)
+- ✅ Smooth animation với Framer Motion
+- ✅ Grid layout 4 columns cho nodes
+
+**Node Items**:
+- ✅ Square icon cards (12x12 với 6x6 icon)
+- ✅ Tooltip hiển thị tên node (Radix UI Tooltip)
+- ✅ Draggable với node data
+- ✅ Hover effects với theme_color
+- ✅ Border color theo theme_color của node
+
+**Nodes Config Structure**:
+```typescript
+{
+  id: string
+  name: string
+  icon: IconType
+  theme_color: string
+  shape: 0 | 1 | 2  // 0=square, 1=rectangle, 2=circle
+  links: [
+    {
+      type: 'input' | 'requirement' | 'output'
+      label: string
+      max_connect: number
+      data_type: string[]
+    }
+  ]
+}
+```
+
+**Sample Nodes**: TikTok, YouTube, Facebook, Instagram, Twitter, OpenAI, Data Processor, Storage
 
 ---
 
