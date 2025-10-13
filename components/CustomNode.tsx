@@ -31,13 +31,13 @@ function CustomNode({ data }: NodeProps<CustomNodeData>) {
   const getNodeSize = () => {
     switch (config.shape) {
       case 0:
-        return 'w-28 h-28'
+        return 'w-24 h-24'
       case 1:
-        return 'w-36 h-24'
+        return 'w-32 h-20'
       case 2:
-        return 'w-28 h-28'
+        return 'w-24 h-24'
       default:
-        return 'w-28 h-28'
+        return 'w-24 h-24'
     }
   }
 
@@ -67,7 +67,7 @@ function CustomNode({ data }: NodeProps<CustomNodeData>) {
             className="absolute flex items-center"
             style={{ left: 0, top: `${offset}%`, transform: 'translateY(-50%)' }}
           >
-            <span className="text-[10px] font-medium text-muted-foreground mr-1 whitespace-nowrap bg-background/80 px-1.5 py-0.5 rounded -translate-x-full">
+            <span className="text-[10px] font-medium text-muted-foreground mr-1 whitespace-nowrap -translate-x-full">
               {handle.label}
             </span>
             <Handle
@@ -115,7 +115,7 @@ function CustomNode({ data }: NodeProps<CustomNodeData>) {
                 borderRadius: '2px'
               }}
             />
-            <span className="text-[10px] font-medium text-muted-foreground whitespace-nowrap bg-background/80 px-1.5 py-0.5 rounded translate-y-full mt-2">
+            <span className="text-[10px] font-medium text-muted-foreground whitespace-nowrap translate-y-full mt-2">
               {handle.label}
             </span>
           </div>
@@ -148,7 +148,7 @@ function CustomNode({ data }: NodeProps<CustomNodeData>) {
                 transform: 'translate(50%, -50%)'
               }}
             />
-            <span className="text-[10px] font-medium text-muted-foreground ml-1 whitespace-nowrap bg-background/80 px-1.5 py-0.5 rounded translate-x-full">
+            <span className="text-[10px] font-medium text-muted-foreground ml-1 whitespace-nowrap translate-x-full">
               {handle.label}
             </span>
           </div>
