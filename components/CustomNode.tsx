@@ -120,7 +120,7 @@ function CustomNode({ data }: NodeProps<CustomNodeData>) {
                 zIndex: 10
               }}
             />
-            <span className="text-[10px] font-medium text-muted-foreground whitespace-nowrap translate-y-full mt-3 pointer-events-none">
+            <span className="text-[10px] font-medium text-muted-foreground whitespace-nowrap translate-y-[150%] mt-4 pointer-events-none">
               {handle.label}
             </span>
           </div>
