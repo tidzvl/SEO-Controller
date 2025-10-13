@@ -8,6 +8,11 @@ interface CustomNodeData {
 
 function CustomNode({ data }: NodeProps<CustomNodeData>) {
   const { config } = data
+  
+  if (!config || !config.icon) {
+    return null
+  }
+  
   const Icon = config.icon
 
   const getShapeClass = () => {

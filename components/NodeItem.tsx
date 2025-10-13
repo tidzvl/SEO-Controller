@@ -10,7 +10,7 @@ export default function NodeItem({ node, onDragStart }: NodeItemProps) {
   const Icon = node.icon
 
   const handleDragStart = (e: React.DragEvent) => {
-    e.dataTransfer.setData('application/reactflow', JSON.stringify(node))
+    e.dataTransfer.setData('application/reactflow', node.id)
     e.dataTransfer.effectAllowed = 'move'
     onDragStart?.(node)
   }

@@ -62,11 +62,12 @@ function FlowCanvas() {
       if (!reactFlowWrapper.current || !reactFlowInstance) return
 
       const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect()
-      const nodeDataStr = event.dataTransfer.getData('application/reactflow')
+      const nodeId = event.dataTransfer.getData('application/reactflow')
 
-      if (!nodeDataStr) return
+      if (!nodeId) return
 
-      const nodeData: NodeConfig = JSON.parse(nodeDataStr)
+      const nodeConfig = nodesConfig.find(n => n.id === nodeId)
+      if (!nodeConfig) return
 
       const position = reactFlowInstance.project({
         x: event.clientX - reactFlowBounds.left,
@@ -77,7 +78,7 @@ function FlowCanvas() {
         id: getId(),
         type: 'custom',
         position,
-        data: { config: nodeData },
+        data: { config: nodeConfig },
       }
 
       setNodes((nds) => nds.concat(newNode))
