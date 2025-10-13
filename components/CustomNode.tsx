@@ -34,13 +34,13 @@ function CustomNode({ data }: NodeProps<CustomNodeData>) {
   const getNodeSize = () => {
     switch (config.shape) {
       case 0:
-        return 'w-24 h-24'
+        return 'w-20 h-20'
       case 1:
-        return 'w-32 h-20'
+        return 'w-28 h-16'
       case 2:
-        return 'w-24 h-24'
+        return 'w-20 h-20'
       default:
-        return 'w-24 h-24'
+        return 'w-20 h-20'
     }
   }
 
@@ -70,14 +70,14 @@ function CustomNode({ data }: NodeProps<CustomNodeData>) {
             className="absolute flex items-center"
             style={{ left: 0, top: `${offset}%`, transform: 'translateY(-50%)' }}
           >
-            <span className="text-[10px] font-medium text-muted-foreground mr-1 whitespace-nowrap -translate-x-full">
+            <span className="text-[10px] font-medium text-muted-foreground mr-2 whitespace-nowrap -translate-x-full">
               {handle.label}
             </span>
             <Handle
               type="target"
               position={Position.Left}
               id={`input-${index}`}
-              className="!w-3 !h-3 !border-2 !rounded-[2px]"
+              className="!w-2.5 !h-2.5 !border-2 !rounded-[2px]"
               style={{ 
                 background: config.theme_color,
                 borderColor: config.theme_color,
@@ -107,7 +107,7 @@ function CustomNode({ data }: NodeProps<CustomNodeData>) {
               type="target"
               position={Position.Bottom}
               id={`requirement-${index}`}
-              className="!w-3 !h-3 !border-2"
+              className="!w-2.5 !h-2.5 !border-2"
               style={{ 
                 background: config.theme_color,
                 borderColor: config.theme_color,
@@ -118,7 +118,7 @@ function CustomNode({ data }: NodeProps<CustomNodeData>) {
                 borderRadius: '2px'
               }}
             />
-            <span className="text-[10px] font-medium text-muted-foreground whitespace-nowrap translate-y-full mt-2">
+            <span className="text-[10px] font-medium text-muted-foreground whitespace-nowrap translate-y-full mt-3">
               {handle.label}
             </span>
           </div>
@@ -141,7 +141,7 @@ function CustomNode({ data }: NodeProps<CustomNodeData>) {
               type="source"
               position={Position.Right}
               id={`output-${index}`}
-              className="!w-4 !h-2 !border-2 !rounded-sm"
+              className="!w-3.5 !h-1.5 !border-2 !rounded-sm"
               style={{ 
                 background: config.theme_color,
                 borderColor: config.theme_color,
@@ -151,7 +151,7 @@ function CustomNode({ data }: NodeProps<CustomNodeData>) {
                 transform: 'translate(50%, -50%)'
               }}
             />
-            <span className="text-[10px] font-medium text-muted-foreground ml-1 whitespace-nowrap translate-x-full">
+            <span className="text-[10px] font-medium text-muted-foreground ml-2 whitespace-nowrap translate-x-full">
               {handle.label}
             </span>
           </div>
