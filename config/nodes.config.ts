@@ -1,5 +1,5 @@
 import { IconType } from 'react-icons'
-import { FaTiktok, FaYoutube, FaFacebook, FaInstagram, FaTwitter, FaLink, FaTag, FaFileCsv, FaChartBar, FaChartLine, FaChartPie, FaChartArea, FaDotCircle, FaExclamationTriangle, FaDatabase, FaRandom, FaCodeBranch, FaFilter } from 'react-icons/fa'
+import { FaTiktok, FaYoutube, FaFacebook, FaInstagram, FaTwitter, FaLink, FaTag, FaFileCsv, FaChartBar, FaChartLine, FaChartPie, FaChartArea, FaDotCircle, FaExclamationTriangle, FaDatabase, FaRandom, FaCodeBranch, FaFilter, FaCalendarAlt } from 'react-icons/fa'
 import { SiOpenai } from 'react-icons/si'
 import { BiData } from 'react-icons/bi'
 import { MdStorage, MdTextFields, MdNumbers, MdViewList, MdDataObject, MdSubject, MdFileUpload, MdPictureAsPdf, MdTrendingUp } from 'react-icons/md'
@@ -367,6 +367,28 @@ export const nodesConfig: NodeConfig[] = [
         label: 'Data',
         max_connect: 999,
         data_type: ['array', 'csv']
+      }
+    ]
+  },
+  {
+    id: 'time-range',
+    name: 'Time Range',
+    group: 'Basic',
+    icon: FaCalendarAlt,
+    theme_color: '#F59E0B',
+    shape: 1,
+    links: [
+      {
+        type: 'output',
+        label: 'From',
+        max_connect: 999,
+        data_type: ['date', 'string']
+      },
+      {
+        type: 'output',
+        label: 'To',
+        max_connect: 999,
+        data_type: ['date', 'string']
       }
     ]
   },
