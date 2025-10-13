@@ -51,6 +51,15 @@ The project prioritizes a component-based architecture for maintainability and s
 
 ## Recent Changes
 
+### Latest Update (13/10/2025) - Part 3
+- ✅ **Auto-Populate Config Modal**: Config fields automatically show connected node data
+  - **Smart Detection**: Modal detects connected edges and displays source node data
+  - **Input/Requirement Auto-Fill**: Fields auto-populate with data from connected nodes
+  - **Visual Indicators**: Shows "(from [NodeName])" label for connected data
+  - **Readonly Connected Fields**: Connected data displayed as readonly with distinct styling
+  - **Editable Manual Fields**: Unconnected fields remain editable for manual input
+  - **Real-time Updates**: Data refreshes when connections change
+
 ### Latest Update (13/10/2025) - Part 2
 - ✅ **Workflow Execution Engine (Phase 1)**: Fully functional execution system
   - **Topological Sort**: Automatically determines correct node execution order, detects cycles
