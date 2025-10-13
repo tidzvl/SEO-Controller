@@ -134,21 +134,36 @@ Các thư viện kéo thả canvas:
   - Save (xanh dương) - Download JSON
   - Clear (đỏ) - Xóa tất cả nodes
 
-### Node Types (13 nodes)
-**Social Media & APIs:**
-- TikTok, YouTube, Facebook, Instagram, Twitter (đen/đỏ/xanh/hồng/xanh nhạt)
-- OpenAI (tím đậm)
+### Node Types (31 nodes, organized by groups)
 
-**Data Processing:**
-- Data Processor (xanh lá) - Transform data
-- Storage (vàng cam) - Lưu trữ
+**Social Media (5 nodes):**
+- TikTok, YouTube, Facebook, Instagram, Twitter
 
-**Input Nodes (5 types):**
-- String (tím) - Text input
-- Integer (cyan) - Number input
-- Array (hồng) - List items
-- JSON (teal) - Object data
-- Text Area (cam) - Multi-line text
+**AI (1 node):**
+- OpenAI - AI text generation
+
+**Processing (2 nodes):**
+- Data Processor - Transform data
+- Storage - Lưu trữ dữ liệu
+
+**Basic (8 nodes - input only, no input handles):**
+- String, Integer, Array, JSON, Text Area
+- URL, Category, CSV
+
+**Output (2 nodes):**
+- Extract CSV - Export to CSV file
+- Extract PDF - Export to PDF file
+
+**Charts (6 nodes):**
+- Bar Chart, Line Chart, Doughnut, Pie Chart, Area Chart, Scatter Plot
+
+**Action (6 nodes):**
+- Comparer - So sánh 2 giá trị
+- Alert - Gửi cảnh báo
+- Save To DB - Lưu vào database
+- Trending Tracker - Theo dõi xu hướng
+- Condition - Điều kiện if/else (2 outputs: True/False)
+- Filter - Lọc dữ liệu theo điều kiện
 
 ---
 
@@ -161,8 +176,11 @@ Các thư viện kéo thả canvas:
 - **PostCSS + Autoprefixer** - CSS processing
 
 ### ✅ UI & Styling
-- **Lucide React** - Icon system
-- **React Icons** - Additional icon library (FaTiktok, MdTextFields, etc.)
+- **Lucide React** - Icon system (ChevronLeft, ChevronRight, ChevronDown)
+- **React Icons** - Additional icon library:
+  - Font Awesome: FaTiktok, FaChartBar, FaFilter, etc.
+  - Material Design: MdTextFields, MdTrendingUp, etc.
+  - Tabler Icons: TbChartDonut
 - **Framer Motion** - Smooth animations
 - **next-themes** - Theme switching (dark/light)
 - **Radix UI** - Tooltip, Collapsible, Dialog components
@@ -235,6 +253,20 @@ Các thư viện kéo thả canvas:
 - ✅ UI refinements:
   - Spacing giữa label và handle (8px input/output, 12px requirement)
   - Handle icons nhỏ hơn (10x10px square/diamond, 14x6px rectangle)
+
+### Phase 4.3: Node System Expansion ✅ COMPLETED (13/10/2025)
+- ✅ **Critical bug fix**: Label không đè lên handle (zIndex + pointer-events-none)
+- ✅ **Node grouping system**: Thêm field 'group' vào NodeConfig
+- ✅ **Tổ chức nodes theo nhóm** (31 nodes total):
+  - Social Media: 5 nodes
+  - AI: 1 node  
+  - Processing: 2 nodes
+  - Basic: 8 nodes (input only, không có input handles)
+  - Output: 2 nodes (Extract CSV, Extract PDF)
+  - Charts: 6 nodes (Bar, Line, Doughnut, Pie, Area, Scatter)
+  - Action: 6 nodes (Comparer, Alert, Save To DB, Trending Tracker, Condition, Filter)
+- ✅ **Collapsible sidebar groups**: Mỗi nhóm có thể expand/collapse độc lập
+- ✅ **18 nodes mới** cho data analyst workflow
 
 ### Phase 5: Diagram Features (Next)
 - [ ] Workflow execution engine
@@ -311,6 +343,7 @@ Các thư viện kéo thả canvas:
 {
   id: string
   name: string
+  group: string  // NEW: 'Social Media' | 'AI' | 'Processing' | 'Basic' | 'Output' | 'Charts' | 'Action'
   icon: IconType
   theme_color: string
   shape: 0 | 1 | 2  // 0=square, 1=rectangle, 2=circle
@@ -325,7 +358,14 @@ Các thư viện kéo thả canvas:
 }
 ```
 
-**Sample Nodes**: TikTok, YouTube, Facebook, Instagram, Twitter, OpenAI, Data Processor, Storage
+**31 Nodes organized in 7 groups**:
+- Social Media: TikTok, YouTube, Facebook, Instagram, Twitter
+- AI: OpenAI
+- Processing: Data Processor, Storage
+- Basic: String, Integer, Array, JSON, Text Area, URL, Category, CSV
+- Output: Extract CSV, Extract PDF
+- Charts: Bar, Line, Doughnut, Pie, Area, Scatter
+- Action: Comparer, Alert, Save To DB, Trending Tracker, Condition, Filter
 
 ---
 
