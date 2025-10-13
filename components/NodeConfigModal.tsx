@@ -95,6 +95,27 @@ export default function NodeConfigModal({ open, onOpenChange, nodeData, edges, n
   const currentFunction = selectedFunction ? getFunctionById(nodeData.config.name, selectedFunction) : null
 
   const handleSave = () => {
+    // Validate Social Media nodes
+    if (isSocialMediaNode) {
+      if (!selectedFunction) {
+        alert('Please select a function for this Social Media node')
+        return
+      }
+      
+      // Validate required fields
+      if (currentFunction) {
+        for (const field of currentFunction.fields) {
+          if (field.required) {
+            const value = functionFields[field.name]
+            if (!value || (typeof value === 'string' && value.trim() === '')) {
+              alert(`Please fill in required field: ${field.label}`)
+              return
+            }
+          }
+        }
+      }
+    }
+
     onSave({
       displayName,
       inputValues,
