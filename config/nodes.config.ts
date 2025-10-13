@@ -2,7 +2,7 @@ import { IconType } from 'react-icons'
 import { FaTiktok, FaYoutube, FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa'
 import { SiOpenai } from 'react-icons/si'
 import { BiData } from 'react-icons/bi'
-import { MdStorage } from 'react-icons/md'
+import { MdStorage, MdTextFields, MdNumbers, MdViewList, MdDataObject, MdSubject } from 'react-icons/md'
 
 export interface NodeLink {
   type: 'input' | 'requirement' | 'output'
@@ -228,6 +228,81 @@ export const nodesConfig: NodeConfig[] = [
         label: 'Status',
         max_connect: 1,
         data_type: ['string']
+      }
+    ]
+  },
+  {
+    id: 'input-string',
+    name: 'String',
+    icon: MdTextFields,
+    theme_color: '#8B5CF6',
+    shape: 0,
+    links: [
+      {
+        type: 'output',
+        label: 'Value',
+        max_connect: 999,
+        data_type: ['string']
+      }
+    ]
+  },
+  {
+    id: 'input-int',
+    name: 'Integer',
+    icon: MdNumbers,
+    theme_color: '#06B6D4',
+    shape: 0,
+    links: [
+      {
+        type: 'output',
+        label: 'Value',
+        max_connect: 999,
+        data_type: ['number', 'int']
+      }
+    ]
+  },
+  {
+    id: 'input-array',
+    name: 'Array',
+    icon: MdViewList,
+    theme_color: '#EC4899',
+    shape: 0,
+    links: [
+      {
+        type: 'output',
+        label: 'Items',
+        max_connect: 999,
+        data_type: ['array']
+      }
+    ]
+  },
+  {
+    id: 'input-json',
+    name: 'JSON',
+    icon: MdDataObject,
+    theme_color: '#14B8A6',
+    shape: 0,
+    links: [
+      {
+        type: 'output',
+        label: 'Data',
+        max_connect: 999,
+        data_type: ['object', 'json']
+      }
+    ]
+  },
+  {
+    id: 'input-textarea',
+    name: 'Text Area',
+    icon: MdSubject,
+    theme_color: '#F97316',
+    shape: 1,
+    links: [
+      {
+        type: 'output',
+        label: 'Text',
+        max_connect: 999,
+        data_type: ['string', 'text']
       }
     ]
   }
