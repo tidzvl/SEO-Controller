@@ -154,6 +154,12 @@ export class WorkflowExecutionEngine {
     try {
       const config = node.data.config
       const isBasicNode = config.group === 'Basic'
+      const isSocialMediaNode = config.group === 'Social Media'
+
+      // Validate Social Media nodes have selectedFunction
+      if (isSocialMediaNode && !node.data.selectedFunction) {
+        throw new Error(`Social Media node "${config.name}" must have a function selected. Please configure the node.`)
+      }
 
       if (isBasicNode) {
         const outputValues = node.data.outputValues || {}

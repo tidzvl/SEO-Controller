@@ -44,7 +44,23 @@ function FlowCanvas() {
     const loadDraftFromStorage = () => {
       const draft = storage.loadDraft()
       if (draft) {
-        setNodes(draft.nodes)
+        // Migrate legacy nodes: ensure Social Media nodes have selectedFunction/functionFields
+        const migratedNodes = draft.nodes.map(node => {
+          const isSocialMediaNode = node.data?.config?.group === 'Social Media'
+          if (isSocialMediaNode && !node.data.selectedFunction) {
+            return {
+              ...node,
+              data: {
+                ...node.data,
+                selectedFunction: '',
+                functionFields: {}
+              }
+            }
+          }
+          return node
+        })
+        
+        setNodes(migratedNodes)
         setEdges(draft.edges)
         
         if (draft.nodes.length > 0) {
