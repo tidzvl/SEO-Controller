@@ -69,6 +69,8 @@ Các thư viện kéo thả canvas:
 │   ├── Footer.tsx          # Footer component
 │   ├── NodesSidebar.tsx    # Collapsible sidebar cho nodes
 │   ├── NodeItem.tsx        # Node item với tooltip
+│   ├── CustomNode.tsx      # React Flow custom node với handles
+│   ├── FlowCanvas.tsx      # React Flow canvas wrapper
 │   └── ThemeProvider.tsx   # Theme provider wrapper
 ├── config/
 │   └── nodes.config.ts     # Node configurations
@@ -88,7 +90,8 @@ Các thư viện kéo thả canvas:
 │       └── vi/
 │           └── common.json
 ├── styles/
-│   └── globals.css        # Global styles + Tailwind
+│   ├── globals.css        # Global styles + Tailwind
+│   └── reactflow-custom.css # Custom React Flow styling
 ├── next.config.ts         # Next.js config + i18n
 ├── next-i18next.config.js # i18n configuration
 ├── tailwind.config.js     # Tailwind v3 config
@@ -103,13 +106,16 @@ Các thư viện kéo thả canvas:
 ### React Flow Integration
 - ✅ **React Flow (reactflow)** - Node-based diagram library
 - ✅ **Custom Nodes** - Hình dạng theo config (square/rectangle/circle)
+  - Compact sizing: w-28/h-28 (square), w-36/h-24 (rectangle), w-28/h-28 (circle)
+  - Reduced padding (p-2) cho giao diện gọn gàng
 - ✅ **Handles System**:
-  - Input handles (left side) - màu theo theme_color
-  - Requirement handles (bottom) - màu theo theme_color  
-  - Output handles (right side) - màu theo theme_color
-  - Labels kế bên handles
+  - Positioned EXACTLY on node borders (không nằm bên trong)
+  - Input handles (left) - hình VUÔNG, màu theo theme_color
+  - Requirement handles (bottom) - hình THOI (rotated 45°), màu theo theme_color
+  - Output handles (right) - hình CHỮ NHẬT (dài hơn), màu theo theme_color
+  - Labels nằm BÊN NGOÀI node (translate-x-full/translate-y-full)
 - ✅ **Connections**:
-  - Smooth step curves (mềm mại, không cứng)
+  - Bezier curves (mềm mại, tự nhiên)
   - Animated dashed lines
   - Arrow markers ở cuối
   - Màu sắc tùy chỉnh
@@ -177,6 +183,15 @@ Các thư viện kéo thả canvas:
 - ✅ Smooth connections với animated bezier curves
 - ✅ Canvas controls (zoom, fit view, lock)
 - ✅ Theme-aware styling (dark/light mode)
+
+### Phase 4.1: Canvas Visual Refinements ✅ COMPLETED (13/10/2025)
+- ✅ Thu nhỏ node borders - giảm padding xuống p-2
+- ✅ Đặt handles CHÍNH XÁC trên viền node (absolute positioning)
+- ✅ Custom handle shapes:
+  - Input: hình VUÔNG (12x12px)
+  - Output: hình CHỮ NHẬT (16x8px - dài hơn)
+  - Requirement: hình THOI (12x12px rotated 45°)
+- ✅ Thay đổi connection lines thành Bezier curves (mềm mại hơn)
 
 ### Phase 5: Diagram Features (Next)
 - [ ] Chart/diagram types
