@@ -17,9 +17,10 @@ import SentimentChart from './charts/SentimentChart'
 import CompetitorChart from './charts/CompetitorChart'
 import TopicCloud from './charts/TopicCloud'
 import DataTable from './DataTable'
+import TopicDetailModal from './TopicDetailModal'
 
 export default function MobileDashboard() {
-  const { state, filteredData, isLoading, toggleSidebar, setFilters } = useDashboard()
+  const { state, filteredData, isLoading, toggleSidebar, setFilters, setSelectedTopic } = useDashboard()
   const [activeTab, setActiveTab] = useState<'overview' | 'trends' | 'competitors' | 'content'>('overview')
   const [showFilters, setShowFilters] = useState(false)
 
@@ -172,6 +173,7 @@ export default function MobileDashboard() {
                 data={data.topics}
                 animation="word-cloud"
                 interaction="click-filter"
+                onTopicClick={setSelectedTopic}
               />
             </motion.div>
           </div>
@@ -390,6 +392,13 @@ export default function MobileDashboard() {
       >
         <Share2 className="h-6 w-6" />
       </motion.button>
+
+      {/* Topic Detail Modal */}
+      <TopicDetailModal
+        topic={state.selectedTopic}
+        isOpen={!!state.selectedTopic}
+        onClose={() => setSelectedTopic(null)}
+      />
     </div>
   )
 }

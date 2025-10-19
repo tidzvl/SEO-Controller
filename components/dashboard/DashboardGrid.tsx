@@ -6,11 +6,12 @@ import SentimentChart from './charts/SentimentChart'
 import CompetitorChart from './charts/CompetitorChart'
 import TopicCloud from './charts/TopicCloud'
 import DataTable from './DataTable'
+import TopicDetailModal from './TopicDetailModal'
 import { useDashboard } from '../../contexts/DashboardContext'
 import { useTranslation } from 'next-i18next'
 
 export default function DashboardGrid() {
-  const { filteredData, isLoading } = useDashboard()
+  const { filteredData, isLoading, state, setSelectedTopic } = useDashboard()
   const { i18n } = useTranslation()
 
   // Get tooltip text based on language
@@ -221,6 +222,7 @@ export default function DashboardGrid() {
     )
   }
   return (
+    <>
     <div className="p-6 space-y-6">
       {/* Row 1: Key Metrics */}
       <motion.div
@@ -307,6 +309,7 @@ export default function DashboardGrid() {
             data={data.topics}
             animation="word-cloud"
             interaction="click-filter"
+            onTopicClick={setSelectedTopic}
           />
         </motion.div>
       </div>
@@ -325,5 +328,13 @@ export default function DashboardGrid() {
         />
       </motion.div>
     </div>
+
+    {/* Topic Detail Modal */}
+    <TopicDetailModal
+      topic={state.selectedTopic}
+      isOpen={!!state.selectedTopic}
+      onClose={() => setSelectedTopic(null)}
+    />
+  </>
   )
 }

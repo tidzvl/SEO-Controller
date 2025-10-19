@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { 
   Download, 
@@ -46,16 +46,21 @@ interface TopicCloudProps {
   data: TopicData[]
   animation?: 'word-cloud' | 'fade-in'
   interaction?: 'click-filter' | 'hover-only'
+  onTopicClick?: (topic: TopicData) => void
 }
 
 export default function TopicCloud({ 
   title, 
   data, 
   animation = 'word-cloud',
-  interaction = 'click-filter'
+  interaction = 'click-filter',
+  onTopicClick
 }: TopicCloudProps) {
   const chartRef = useRef<ChartJS<'wordCloud', any, string> | null>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const [canvasKey, setCanvasKey] = useState(0)
+  const [renderFallback, setRenderFallback] = useState(false)
 
   // Get color based on sentiment and trend
   const getColor = (sentiment: number = 0, trend: string = 'stable') => {
@@ -68,7 +73,19 @@ export default function TopicCloud({
   }
 
   useEffect(() => {
-    if (!canvasRef.current || !data.length) return
+    if (!data.length) return
+
+    // Reset fallback state when data changes
+    setRenderFallback(false)
+    // Force re-mount canvas by changing key
+    setCanvasKey(prev => prev + 1)
+  }, [data])
+
+  useEffect(() => {
+    if (!canvasRef.current || !data.length) {
+      setRenderFallback(true)
+      return
+    }
 
     // Destroy existing chart
     if (chartRef.current) {
@@ -76,15 +93,22 @@ export default function TopicCloud({
       chartRef.current = null
     }
 
-    // Limit to top 12 words to avoid performance issues
+    // Limit to top 5 words to avoid fitting issues and ensure better rendering
     const sortedData = [...data]
+      .filter(item => item.text && item.text.trim().length > 0) // Filter out empty text
       .sort((a, b) => b.value - a.value)
-      .slice(0, 12)
+      .slice(0, 50)
 
-    // Prepare data for Chart.js
+    // If no valid data, show fallback
+    if (sortedData.length === 0) {
+      setRenderFallback(true)
+      return
+    }
+
+    // Prepare data for Chart.js - map to the correct structure
     const words = sortedData.map(item => ({
-      text: item.text,
-      weight: item.value,
+      text: item.text.trim(),
+      weight: Math.max(1, Math.min(item.value, 50)), // Normalize weight between 1-20
       sentiment: item.sentiment || 0,
       trend: item.trend || 'stable',
       mentions: item.mentions || 0,
@@ -92,76 +116,105 @@ export default function TopicCloud({
       color: getColor(item.sentiment, item.trend)
     }))
 
-    // Create chart
-    chartRef.current = new ChartJS(canvasRef.current, {
-      type: 'wordCloud',
-      data: {
-        labels: words.map(d => d.text),
-        datasets: [
-          {
-            label: '',
-            data: words.map(d => ({
-              text: d.text,
-              weight: d.weight,
-              sentiment: d.sentiment,
-              trend: d.trend,
-              mentions: d.mentions,
-              engagement: d.engagement,
-              color: d.color
-            }))
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            display: false
-          },
-          tooltip: {
-            callbacks: {
-              title: (context) => {
-                const data = context[0].raw as any
-                return data.text
-              },
-              label: (context) => {
-                const data = context.raw as any
-                return [
-                  `Frequency: ${data.weight}`,
-                  `Mentions: ${data.mentions}`,
-                  `Engagement: ${data.engagement}`,
-                  `Trend: ${data.trend}`,
-                  `Sentiment: ${data.sentiment?.toFixed(2) || '0.00'}`
-                ]
+    // Clear any existing timeout
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current)
+    }
+
+    // Add small delay to ensure canvas is cleared
+    timeoutRef.current = setTimeout(() => {
+      try {
+        // Create chart with optimized options for better word placement
+        chartRef.current = new ChartJS(canvasRef.current, {
+        type: 'wordCloud',
+        data: {
+          labels: words.map(d => d.text),
+          datasets: [
+            {
+              label: '',
+              data: words.map(d => d.weight) // Use normalized weight directly
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          onClick: (event, elements) => {
+            if (elements.length > 0 && onTopicClick && interaction === 'click-filter') {
+              const elementIndex = elements[0].index
+              const clickedTopic = sortedData[elementIndex]
+              if (clickedTopic) {
+                onTopicClick(clickedTopic)
               }
             }
-          }
-        },
-        scales: {
-          x: {
-            display: false
           },
-          y: {
-            display: false
+          plugins: {
+            legend: {
+              display: false
+            },
+            tooltip: {
+              callbacks: {
+                title: (context) => {
+                  const index = context[0].dataIndex
+                  return words[index]?.text || ''
+                },
+                label: (context) => {
+                  const index = context.dataIndex
+                  const word = words[index]
+                  if (!word) return []
+                  return [
+                    `Frequency: ${word.weight}`,
+                    `Mentions: ${word.mentions}`,
+                    `Engagement: ${word.engagement}`,
+                    `Trend: ${word.trend}`,
+                    `Sentiment: ${word.sentiment?.toFixed(2) || '0.00'}`,
+                    interaction === 'click-filter' ? 'Click to view details' : ''
+                  ].filter(Boolean)
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              display: false
+            },
+            y: {
+              display: false
+            }
           }
         }
+      })
+      } catch (error) {
+        console.warn('WordCloud rendering failed:', error)
+        setRenderFallback(true)
       }
-    })
+    }, 50) // Small delay to ensure canvas is cleared
 
     // Cleanup function
     return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current)
+        timeoutRef.current = null
+      }
       if (chartRef.current) {
         chartRef.current.destroy()
         chartRef.current = null
       }
     }
-  }, [data])
+  }, [canvasKey, data])
 
   // Get top 5 trending topics for the list
   const topTrendingTopics = [...data]
+    .filter(item => item.text && item.text.trim().length > 0)
     .sort((a, b) => b.value - a.value)
     .slice(0, 5)
+
+  // Handle topic click
+  const handleTopicClick = (topic: TopicData) => {
+    if (onTopicClick && interaction === 'click-filter') {
+      onTopicClick(topic)
+    }
+  }
 
   return (
     <motion.div
@@ -216,10 +269,23 @@ export default function TopicCloud({
       
       {/* Word Cloud Canvas */}
       <div className="relative h-80 w-full mb-6 overflow-hidden rounded-lg bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
-        <canvas
-          ref={canvasRef}
-          className="w-full h-full"
-        />
+        {renderFallback ? (
+          <div className="flex items-center justify-center h-full">
+            <div className="text-center">
+              <div className="text-4xl font-bold text-muted-foreground mb-2">📊</div>
+              <div className="text-sm text-muted-foreground">Word cloud unavailable</div>
+              <div className="text-xs text-muted-foreground mt-1">Showing topic list below</div>
+            </div>
+          </div>
+        ) : (
+          <canvas
+            key={canvasKey}
+            ref={canvasRef}
+            className={`w-full h-full ${
+              interaction === 'click-filter' && onTopicClick ? 'cursor-pointer' : ''
+            }`}
+          />
+        )}
       </div>
       
       {/* Top Trending Topics */}
@@ -240,7 +306,10 @@ export default function TopicCloud({
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 1.1 + index * 0.1 }}
-            className="flex items-center justify-between p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors"
+            onClick={() => handleTopicClick(topic)}
+            className={`flex items-center justify-between p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors ${
+              interaction === 'click-filter' ? 'cursor-pointer hover:shadow-md' : ''
+            }`}
           >
             <div className="flex items-center gap-3">
               <div className="flex items-center justify-center w-6 h-6 rounded-full bg-muted text-xs font-bold">

@@ -40,6 +40,7 @@ export interface DashboardState {
   lastUpdate: Date | null
   error: string | null
   showEmptyState: boolean
+  selectedTopic: any | null
 }
 
 export type DashboardAction =
@@ -58,6 +59,7 @@ export type DashboardAction =
   | { type: 'SET_ERROR'; payload: string | null }
   | { type: 'RESET_FILTERS' }
   | { type: 'SET_SHOW_EMPTY_STATE'; payload: boolean }
+  | { type: 'SET_SELECTED_TOPIC'; payload: any | null }
 
 // Mock data for testing
 const mockProjects: Project[] = [
@@ -111,7 +113,8 @@ const initialState: DashboardState = {
   isRealTimeEnabled: true,
   lastUpdate: null,
   error: null,
-  showEmptyState: true // Always start with empty state
+  showEmptyState: true, // Always start with empty state
+  selectedTopic: null
 }
 
 // Reducer
@@ -188,6 +191,9 @@ function dashboardReducer(state: DashboardState, action: DashboardAction): Dashb
     case 'SET_SHOW_EMPTY_STATE':
       return { ...state, showEmptyState: action.payload }
     
+    case 'SET_SELECTED_TOPIC':
+      return { ...state, selectedTopic: action.payload }
+    
     default:
       return state
   }
@@ -211,6 +217,7 @@ interface DashboardContextType {
   toggleSidebar: () => void
   toggleRealTime: () => void
   resetFilters: () => void
+  setSelectedTopic: (topic: any | null) => void
 }
 
 const DashboardContext = createContext<DashboardContextType | undefined>(undefined)
@@ -328,6 +335,10 @@ export function DashboardProvider({ children }: DashboardProviderProps) {
     dispatch({ type: 'RESET_FILTERS' })
   }
 
+  const setSelectedTopic = (topic: any | null) => {
+    dispatch({ type: 'SET_SELECTED_TOPIC', payload: topic })
+  }
+
   const contextValue: DashboardContextType = {
     state,
     dispatch,
@@ -342,7 +353,8 @@ export function DashboardProvider({ children }: DashboardProviderProps) {
     setFilters,
     toggleSidebar,
     toggleRealTime,
-    resetFilters
+    resetFilters,
+    setSelectedTopic
   }
 
   return (
