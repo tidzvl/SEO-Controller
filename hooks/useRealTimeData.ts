@@ -26,6 +26,11 @@ export interface RealTimeData {
   topics: {
     text: string
     value: number
+    sentiment?: number
+    confidence?: number
+    trend?: 'rising' | 'falling' | 'stable'
+    mentions?: number
+    engagement?: number
   }[]
   content: {
     id: number
@@ -90,11 +95,26 @@ const generateMockData = (): RealTimeData => {
       { brand: 'Others', sov: 15.3 + (Math.random() - 0.5) * 2, color: '#8b5cf6' }
     ],
     topics: [
-      { text: 'coffee', value: 100 + Math.floor((Math.random() - 0.5) * 20) },
-      { text: 'quality', value: 80 + Math.floor((Math.random() - 0.5) * 20) },
-      { text: 'service', value: 70 + Math.floor((Math.random() - 0.5) * 20) },
-      { text: 'price', value: 60 + Math.floor((Math.random() - 0.5) * 20) },
-      { text: 'atmosphere', value: 50 + Math.floor((Math.random() - 0.5) * 20) }
+      { text: 'coffee', value: 100 + Math.floor((Math.random() - 0.5) * 20), sentiment: 0.7, trend: 'rising', mentions: 1250, engagement: 4.8 },
+      { text: 'quality', value: 80 + Math.floor((Math.random() - 0.5) * 20), sentiment: 0.6, trend: 'stable', mentions: 980, engagement: 4.2 },
+      { text: 'service', value: 70 + Math.floor((Math.random() - 0.5) * 20), sentiment: 0.5, trend: 'rising', mentions: 850, engagement: 3.9 },
+      { text: 'price', value: 60 + Math.floor((Math.random() - 0.5) * 20), sentiment: -0.2, trend: 'falling', mentions: 720, engagement: 3.1 },
+      { text: 'atmosphere', value: 50 + Math.floor((Math.random() - 0.5) * 20), sentiment: 0.8, trend: 'stable', mentions: 650, engagement: 4.5 },
+      { text: 'taste', value: 45 + Math.floor((Math.random() - 0.5) * 15), sentiment: 0.9, trend: 'rising', mentions: 580, engagement: 4.7 },
+      { text: 'experience', value: 40 + Math.floor((Math.random() - 0.5) * 15), sentiment: 0.7, trend: 'stable', mentions: 520, engagement: 4.3 },
+      { text: 'location', value: 35 + Math.floor((Math.random() - 0.5) * 15), sentiment: 0.4, trend: 'stable', mentions: 480, engagement: 3.8 },
+      { text: 'staff', value: 30 + Math.floor((Math.random() - 0.5) * 15), sentiment: 0.6, trend: 'rising', mentions: 420, engagement: 4.1 },
+      { text: 'ambiance', value: 28 + Math.floor((Math.random() - 0.5) * 12), sentiment: 0.8, trend: 'stable', mentions: 380, engagement: 4.4 },
+      { text: 'menu', value: 25 + Math.floor((Math.random() - 0.5) * 12), sentiment: 0.5, trend: 'stable', mentions: 350, engagement: 3.7 },
+      { text: 'fresh', value: 22 + Math.floor((Math.random() - 0.5) * 12), sentiment: 0.9, trend: 'rising', mentions: 320, engagement: 4.6 },
+      { text: 'delicious', value: 20 + Math.floor((Math.random() - 0.5) * 10), sentiment: 0.9, trend: 'stable', mentions: 290, engagement: 4.8 },
+      { text: 'friendly', value: 18 + Math.floor((Math.random() - 0.5) * 10), sentiment: 0.7, trend: 'rising', mentions: 260, engagement: 4.2 },
+      { text: 'comfortable', value: 16 + Math.floor((Math.random() - 0.5) * 10), sentiment: 0.6, trend: 'stable', mentions: 240, engagement: 3.9 },
+      { text: 'aroma', value: 15 + Math.floor((Math.random() - 0.5) * 8), sentiment: 0.8, trend: 'stable', mentions: 220, engagement: 4.3 },
+      { text: 'brew', value: 14 + Math.floor((Math.random() - 0.5) * 8), sentiment: 0.7, trend: 'rising', mentions: 200, engagement: 4.1 },
+      { text: 'beans', value: 13 + Math.floor((Math.random() - 0.5) * 8), sentiment: 0.6, trend: 'stable', mentions: 180, engagement: 3.8 },
+      { text: 'roast', value: 12 + Math.floor((Math.random() - 0.5) * 8), sentiment: 0.7, trend: 'stable', mentions: 160, engagement: 4.0 },
+      { text: 'espresso', value: 11 + Math.floor((Math.random() - 0.5) * 6), sentiment: 0.8, trend: 'rising', mentions: 140, engagement: 4.4 }
     ],
     content: [
       { id: 1, title: 'New Coffee Blend Launch', platform: 'Facebook', engagement: 1250 + Math.floor((Math.random() - 0.5) * 200), reach: 15000 + Math.floor((Math.random() - 0.5) * 2000) },

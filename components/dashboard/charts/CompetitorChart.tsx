@@ -1,15 +1,16 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { 
-  BarChart, 
-  Bar, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  ResponsiveContainer,
-  Cell
-} from 'recharts'
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip as ChartTooltip,
+  Legend,
+  ChartOptions
+} from 'chart.js'
+import { Bar } from 'react-chartjs-2'
 import { 
   MoreHorizontal, 
   Download, 
@@ -18,6 +19,16 @@ import {
   TrendingDown,
   Target
 } from 'lucide-react'
+
+// Register Chart.js components
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  ChartTooltip,
+  Legend
+)
 
 interface CompetitorData {
   brand: string
@@ -32,33 +43,37 @@ interface CompetitorChartProps {
   interaction?: 'drill-down' | 'hover-only'
 }
 
-const CustomTooltip = ({ active, payload, label }: any) => {
-  if (active && payload && payload.length) {
-    const data = payload[0].payload
-    return (
-      <motion.div
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className="bg-card border border-border rounded-lg p-3 shadow-lg"
-      >
-        <p className="text-sm font-medium mb-2">{label}</p>
-        <div className="space-y-1">
-          <div className="flex items-center gap-2 text-sm">
-            <div 
-              className="w-3 h-3 rounded-full" 
-              style={{ backgroundColor: data.color }}
-            />
-            <span className="text-muted-foreground">Share of Voice:</span>
-            <span className="font-medium">{data.sov}%</span>
-          </div>
-          <div className="text-xs text-muted-foreground">
-            Rank: #{data.rank || 'N/A'}
-          </div>
-        </div>
-      </motion.div>
-    )
+// Chart.js tooltip configuration
+const customTooltip = {
+  backgroundColor: 'rgba(255, 255, 255, 0.95)',
+  titleColor: '#374151',
+  bodyColor: '#6b7280',
+  borderColor: '#e5e7eb',
+  borderWidth: 1,
+  cornerRadius: 8,
+  displayColors: false,
+  titleFont: {
+    size: 14,
+    weight: 'bold' as const
+  },
+  bodyFont: {
+    size: 12
+  },
+  padding: 12,
+  callbacks: {
+    title: (context: any) => {
+      return context[0]?.label || ''
+    },
+    label: (context: any) => {
+      const dataIndex = context.dataIndex
+      const data = context.dataset.data[dataIndex]
+      const brandData = context.chart.data.datasets[0].brandData[dataIndex]
+      return [
+        `Share of Voice: ${data.toFixed(2)}%`,
+        `Rank: #${brandData.rank}`
+      ]
+    }
   }
-  return null
 }
 
 export default function CompetitorChart({ 
@@ -69,6 +84,26 @@ export default function CompetitorChart({
 }: CompetitorChartProps) {
   const [selectedBrand, setSelectedBrand] = useState<string | null>(null)
   const [sortBy, setSortBy] = useState<'sov' | 'alphabetical'>('sov')
+  const chartRef = useRef<ChartJS<'bar'>>(null)
+
+  // Check if data exists and is valid
+  if (!data || !Array.isArray(data) || data.length === 0) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.6, delay: 0.4 }}
+        className="bg-card border border-border rounded-lg p-6"
+      >
+        <div className="flex items-center justify-center h-80">
+          <div className="text-center">
+            <div className="text-muted-foreground mb-2">No competitor data available</div>
+            <div className="text-sm text-muted-foreground">Please check your data source</div>
+          </div>
+        </div>
+      </motion.div>
+    )
+  }
 
   // Sort data based on selected criteria
   const sortedData = [...data].sort((a, b) => {
@@ -79,11 +114,82 @@ export default function CompetitorChart({
     }
   })
 
-  // Add rank to data
+  // Add rank to data and ensure SoV values are positive
   const rankedData = sortedData.map((item, index) => ({
     ...item,
-    rank: index + 1
+    rank: index + 1,
+    sov: Math.max(0, item.sov) // Ensure SoV is never negative
   }))
+
+  // Prepare Chart.js data
+  const chartData = {
+    labels: rankedData.map(item => item.brand),
+    datasets: [
+      {
+        label: 'Share of Voice (%)',
+        data: rankedData.map(item => item.sov),
+        backgroundColor: rankedData.map(item => item.color),
+        borderColor: rankedData.map(item => item.color),
+        borderWidth: 0,
+        borderRadius: 6,
+        borderSkipped: false,
+        brandData: rankedData // Store additional data for tooltip
+      }
+    ]
+  }
+
+  // Chart.js options
+  const options: ChartOptions<'bar'> = {
+    indexAxis: 'y' as const,
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false
+      },
+      tooltip: customTooltip
+    },
+    scales: {
+      x: {
+        beginAtZero: true,
+        grid: {
+          color: '#e5e7eb'
+        },
+        ticks: {
+          color: '#6b7280',
+          font: {
+            size: 12
+          },
+          callback: function(value) {
+            return `${value}%`
+          }
+        }
+      },
+      y: {
+        grid: {
+          display: false
+        },
+        ticks: {
+          color: '#6b7280',
+          font: {
+            size: 12
+          }
+        }
+      }
+    },
+    onClick: (event, elements) => {
+      if (elements.length > 0 && interaction === 'drill-down') {
+        const elementIndex = elements[0].index
+        const brand = rankedData[elementIndex].brand
+        setSelectedBrand(selectedBrand === brand ? null : brand)
+      }
+    },
+    animation: {
+      duration: 2000,
+      easing: 'easeOutQuart'
+    }
+  }
+
 
   const getMarketLeader = () => {
     return rankedData[0]
@@ -97,11 +203,6 @@ export default function CompetitorChart({
   const marketLeader = getMarketLeader()
   const yourBrandPosition = getYourBrandPosition()
 
-  const handleBarClick = (data: any) => {
-    if (interaction === 'drill-down') {
-      setSelectedBrand(selectedBrand === data.brand ? null : data.brand)
-    }
-  }
 
   return (
     <motion.div
@@ -195,7 +296,7 @@ export default function CompetitorChart({
           <div className="flex items-center gap-2">
             <TrendingUp className="h-4 w-4 text-green-600" />
             <span className="text-sm font-medium">
-              Market Leader: {marketLeader.brand} with {marketLeader.sov}% Share of Voice
+              Market Leader: {marketLeader.brand} with {marketLeader.sov.toFixed(2)}% Share of Voice
             </span>
           </div>
         </motion.div>
@@ -203,50 +304,11 @@ export default function CompetitorChart({
       
       {/* Chart */}
       <div className="h-80 w-full">
-        <ResponsiveContainer width="100%" height="100%" minHeight={300}>
-          <BarChart 
-            data={rankedData} 
-            layout="horizontal"
-            margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-          >
-            <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-            <XAxis 
-              type="number" 
-              domain={[0, 100]} 
-              tick={{ fontSize: 12, fill: '#6b7280' }}
-              tickLine={{ stroke: '#e5e7eb' }}
-              tickFormatter={(value) => `${value}%`}
-            />
-            <YAxis 
-              dataKey="brand" 
-              type="category" 
-              width={100}
-              tick={{ fontSize: 12, fill: '#6b7280' }}
-              tickLine={{ stroke: '#e5e7eb' }}
-            />
-            <Tooltip content={<CustomTooltip />} />
-            
-            <Bar 
-              dataKey="sov" 
-              radius={[0, 4, 4, 0]}
-              animationDuration={2000}
-              animationEasing="ease-out"
-              onClick={handleBarClick}
-            >
-              {rankedData.map((entry, index) => (
-                <Cell 
-                  key={`cell-${index}`} 
-                  fill={entry.color}
-                  className={`hover:opacity-80 transition-opacity cursor-pointer ${
-                    selectedBrand === entry.brand ? 'opacity-80' : ''
-                  }`}
-                  stroke={selectedBrand === entry.brand ? '#000' : 'none'}
-                  strokeWidth={selectedBrand === entry.brand ? 2 : 0}
-                />
-              ))}
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
+        <Bar 
+          ref={chartRef}
+          data={chartData} 
+          options={options}
+        />
       </div>
       
       {/* Brand Rankings */}
@@ -282,7 +344,7 @@ export default function CompetitorChart({
               />
               <span className="font-medium">{item.brand}</span>
             </div>
-            <div className="text-sm font-bold">{item.sov}%</div>
+            <div className="text-sm font-bold">{item.sov.toFixed(2)}%</div>
           </motion.div>
         ))}
       </motion.div>
@@ -297,7 +359,7 @@ export default function CompetitorChart({
         >
           <h4 className="font-medium mb-2">Analysis for {selectedBrand}</h4>
           <div className="text-sm text-muted-foreground space-y-1">
-            <div>Share of Voice: {rankedData.find(d => d.brand === selectedBrand)?.sov}%</div>
+            <div>Share of Voice: {rankedData.find(d => d.brand === selectedBrand)?.sov.toFixed(2)}%</div>
             <div>Market Position: #{rankedData.find(d => d.brand === selectedBrand)?.rank}</div>
             {selectedBrand === 'Your Brand' && (
               <div className="text-blue-600 font-medium">

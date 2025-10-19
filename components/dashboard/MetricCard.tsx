@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react'
 import { useTranslation } from 'next-i18next'
+import * as Tooltip from '@radix-ui/react-tooltip'
 
 interface MetricCardProps {
   title: string
@@ -9,6 +10,7 @@ interface MetricCardProps {
   trend: 'up' | 'down' | 'neutral'
   animation: 'counter' | 'gauge' | 'progress'
   color: string
+  tooltip?: string
 }
 
 const TrendIcon = ({ trend }: { trend: 'up' | 'down' | 'neutral' }) => {
@@ -152,8 +154,10 @@ export default function MetricCard({
   delta, 
   trend, 
   animation, 
-  color 
+  color,
+  tooltip 
 }: MetricCardProps) {
+  const { i18n } = useTranslation()
   const renderValue = () => {
     switch (animation) {
       case 'counter':
@@ -187,7 +191,7 @@ export default function MetricCard({
     }
   }
 
-  return (
+  const cardContent = (
     <motion.div
       whileHover={{ 
         scale: 1.02,
@@ -231,4 +235,30 @@ export default function MetricCard({
       </motion.div>
     </motion.div>
   )
+
+  if (tooltip) {
+    return (
+      <Tooltip.Provider>
+        <Tooltip.Root>
+          <Tooltip.Trigger asChild>
+            {cardContent}
+          </Tooltip.Trigger>
+          <Tooltip.Portal>
+            <Tooltip.Content
+              className="bg-popover text-popover-foreground border border-border rounded-lg px-4 py-3 text-sm shadow-lg z-50 max-w-sm leading-relaxed"
+              sideOffset={8}
+              side="top"
+              align="center"
+            >
+              <div className="font-medium mb-1 text-foreground">{title}</div>
+              <div className="text-muted-foreground">{tooltip}</div>
+              <Tooltip.Arrow className="fill-popover" />
+            </Tooltip.Content>
+          </Tooltip.Portal>
+        </Tooltip.Root>
+      </Tooltip.Provider>
+    )
+  }
+
+  return cardContent
 }

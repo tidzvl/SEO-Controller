@@ -1,16 +1,44 @@
-import { useState, useEffect, useRef } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useEffect, useRef } from 'react'
+import { motion } from 'framer-motion'
 import { 
-  MoreHorizontal, 
   Download, 
   Maximize2,
   Hash,
   TrendingUp
 } from 'lucide-react'
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js'
+import { WordCloudController, WordElement } from 'chartjs-chart-wordcloud'
+
+// Register Chart.js components
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  WordCloudController,
+  WordElement
+)
 
 interface TopicData {
   text: string
   value: number
+  sentiment?: number
+  confidence?: number
+  trend?: 'rising' | 'falling' | 'stable'
+  mentions?: number
+  engagement?: number
 }
 
 interface TopicCloudProps {
@@ -20,124 +48,120 @@ interface TopicCloudProps {
   interaction?: 'click-filter' | 'hover-only'
 }
 
-interface WordPosition {
-  text: string
-  value: number
-  x: number
-  y: number
-  size: number
-  color: string
-}
-
 export default function TopicCloud({ 
   title, 
   data, 
   animation = 'word-cloud',
   interaction = 'click-filter'
 }: TopicCloudProps) {
-  const [selectedTopic, setSelectedTopic] = useState<string | null>(null)
-  const [wordPositions, setWordPositions] = useState<WordPosition[]>([])
-  const [isAnimating, setIsAnimating] = useState(true)
-  const containerRef = useRef<HTMLDivElement>(null)
+  const chartRef = useRef<ChartJS<'wordCloud', any, string> | null>(null)
+  const canvasRef = useRef<HTMLCanvasElement>(null)
 
-  const colors = [
-    '#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6',
-    '#06b6d4', '#84cc16', '#f97316', '#ec4899', '#6366f1'
-  ]
-
-  const maxValue = Math.max(...data.map(d => d.value))
-  const minValue = Math.min(...data.map(d => d.value))
-
-  const getFontSize = (value: number) => {
-    const minSize = 12
-    const maxSize = 32
-    return minSize + ((value - minValue) / (maxValue - minValue)) * (maxSize - minSize)
-  }
-
-  const getColor = (index: number) => {
-    return colors[index % colors.length]
-  }
-
-  const generateWordPositions = () => {
-    if (!containerRef.current) return []
-
-    const containerWidth = containerRef.current.clientWidth
-    const containerHeight = containerRef.current.clientHeight
-    const positions: WordPosition[] = []
-    const occupiedAreas: { x: number; y: number; width: number; height: number }[] = []
-
-    data.forEach((item, index) => {
-      const fontSize = getFontSize(item.value)
-      const color = getColor(index)
-      
-      // Estimate text width and height
-      const textWidth = item.text.length * (fontSize * 0.6)
-      const textHeight = fontSize * 1.2
-      
-      let attempts = 0
-      let position: { x: number; y: number } | null = null
-      
-      while (attempts < 50 && !position) {
-        const x = Math.random() * (containerWidth - textWidth)
-        const y = Math.random() * (containerHeight - textHeight)
-        
-        // Check for collisions
-        const hasCollision = occupiedAreas.some(area => 
-          x < area.x + area.width &&
-          x + textWidth > area.x &&
-          y < area.y + area.height &&
-          y + textHeight > area.y
-        )
-        
-        if (!hasCollision) {
-          position = { x, y }
-          occupiedAreas.push({ x, y, width: textWidth, height: textHeight })
-        }
-        
-        attempts++
-      }
-      
-      if (position) {
-        positions.push({
-          text: item.text,
-          value: item.value,
-          x: position.x,
-          y: position.y,
-          size: fontSize,
-          color
-        })
-      }
-    })
-
-    return positions
+  // Get color based on sentiment and trend
+  const getColor = (sentiment: number = 0, trend: string = 'stable') => {
+    if (trend === 'rising') {
+      return sentiment > 0 ? '#10b981' : sentiment < 0 ? '#ef4444' : '#6b7280'
+    } else if (trend === 'falling') {
+      return '#9ca3af'
+    }
+    return sentiment > 0 ? '#3b82f6' : sentiment < 0 ? '#f59e0b' : '#6b7280'
   }
 
   useEffect(() => {
-    const handleResize = () => {
-      setWordPositions(generateWordPositions())
+    if (!canvasRef.current || !data.length) return
+
+    // Destroy existing chart
+    if (chartRef.current) {
+      chartRef.current.destroy()
+      chartRef.current = null
     }
 
-    // Initial positioning
-    setTimeout(() => {
-      setWordPositions(generateWordPositions())
-      setIsAnimating(false)
-    }, 100)
+    // Limit to top 12 words to avoid performance issues
+    const sortedData = [...data]
+      .sort((a, b) => b.value - a.value)
+      .slice(0, 12)
 
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
+    // Prepare data for Chart.js
+    const words = sortedData.map(item => ({
+      text: item.text,
+      weight: item.value,
+      sentiment: item.sentiment || 0,
+      trend: item.trend || 'stable',
+      mentions: item.mentions || 0,
+      engagement: item.engagement || 0,
+      color: getColor(item.sentiment, item.trend)
+    }))
+
+    // Create chart
+    chartRef.current = new ChartJS(canvasRef.current, {
+      type: 'wordCloud',
+      data: {
+        labels: words.map(d => d.text),
+        datasets: [
+          {
+            label: '',
+            data: words.map(d => ({
+              text: d.text,
+              weight: d.weight,
+              sentiment: d.sentiment,
+              trend: d.trend,
+              mentions: d.mentions,
+              engagement: d.engagement,
+              color: d.color
+            }))
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+            callbacks: {
+              title: (context) => {
+                const data = context[0].raw as any
+                return data.text
+              },
+              label: (context) => {
+                const data = context.raw as any
+                return [
+                  `Frequency: ${data.weight}`,
+                  `Mentions: ${data.mentions}`,
+                  `Engagement: ${data.engagement}`,
+                  `Trend: ${data.trend}`,
+                  `Sentiment: ${data.sentiment?.toFixed(2) || '0.00'}`
+                ]
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            display: false
+          },
+          y: {
+            display: false
+          }
+        }
+      }
+    })
+
+    // Cleanup function
+    return () => {
+      if (chartRef.current) {
+        chartRef.current.destroy()
+        chartRef.current = null
+      }
+    }
   }, [data])
 
-  const handleTopicClick = (topic: string) => {
-    if (interaction === 'click-filter') {
-      setSelectedTopic(selectedTopic === topic ? null : topic)
-    }
-  }
-
-  const getTopTopics = () => {
-    return data
-      .sort((a, b) => b.value - a.value)
-      .slice(0, 5)
-  }
+  // Get top 5 trending topics for the list
+  const topTrendingTopics = [...data]
+    .sort((a, b) => b.value - a.value)
+    .slice(0, 5)
 
   return (
     <motion.div
@@ -164,9 +188,9 @@ export default function TopicCloud({
             transition={{ delay: 0.9 }}
             className="flex items-center gap-2"
           >
-            <TrendingUp className="h-4 w-4 text-green-600" />
-            <span className="text-sm font-medium text-green-600">
-              {data.length} topics trending
+            <Hash className="h-4 w-4 text-blue-600" />
+            <span className="text-sm font-medium text-blue-600">
+              {data.length} Topics
             </span>
           </motion.div>
         </div>
@@ -190,121 +214,48 @@ export default function TopicCloud({
         </div>
       </div>
       
-      {/* Word Cloud */}
-      <div 
-        ref={containerRef}
-        className="relative h-80 overflow-hidden rounded-lg bg-muted/20"
-      >
-        <AnimatePresence>
-          {wordPositions.map((word, index) => (
-            <motion.div
-              key={word.text}
-              initial={{ 
-                opacity: 0, 
-                scale: 0,
-                x: word.x + 50,
-                y: word.y + 50
-              }}
-              animate={{ 
-                opacity: 1, 
-                scale: 1,
-                x: word.x,
-                y: word.y
-              }}
-              exit={{ opacity: 0, scale: 0 }}
-              transition={{ 
-                delay: index * 0.1,
-                duration: 0.8,
-                ease: "easeOut"
-              }}
-              whileHover={{ 
-                scale: 1.1,
-                zIndex: 10
-              }}
-              whileTap={{ scale: 0.95 }}
-              className={`absolute cursor-pointer transition-all duration-200 ${
-                selectedTopic === word.text ? 'ring-2 ring-primary ring-offset-2' : ''
-              }`}
-              style={{
-                fontSize: word.size,
-                color: word.color,
-                fontWeight: 'bold',
-                textShadow: '0 1px 2px rgba(0,0,0,0.1)',
-                left: word.x,
-                top: word.y,
-              }}
-              onClick={() => handleTopicClick(word.text)}
-            >
-              {word.text}
-            </motion.div>
-          ))}
-        </AnimatePresence>
-        
-        {isAnimating && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute inset-0 flex items-center justify-center"
-          >
-            <div className="text-muted-foreground">Generating word cloud...</div>
-          </motion.div>
-        )}
+      {/* Word Cloud Canvas */}
+      <div className="relative h-80 w-full mb-6 overflow-hidden rounded-lg bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
+        <canvas
+          ref={canvasRef}
+          className="w-full h-full"
+        />
       </div>
       
-      {/* Top Topics List */}
+      {/* Top Trending Topics */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.0 }}
-        className="mt-6 space-y-2"
+        className="space-y-3"
       >
-        <h4 className="text-sm font-medium text-muted-foreground mb-3">Top Trending Topics</h4>
-        {getTopTopics().map((topic, index) => (
+        <div className="flex items-center gap-2 mb-3">
+          <TrendingUp className="h-4 w-4 text-green-600" />
+          <h4 className="text-sm font-medium text-muted-foreground">Top Trending Topics</h4>
+        </div>
+        
+        {topTrendingTopics.map((topic, index) => (
           <motion.div
             key={topic.text}
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 1.1 + index * 0.1 }}
-            className={`flex items-center justify-between p-3 rounded-lg transition-colors cursor-pointer ${
-              selectedTopic === topic.text 
-                ? 'bg-primary/10 border border-primary/20' 
-                : 'bg-muted/50 hover:bg-muted'
-            }`}
-            onClick={() => handleTopicClick(topic.text)}
+            className="flex items-center justify-between p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors"
           >
             <div className="flex items-center gap-3">
               <div className="flex items-center justify-center w-6 h-6 rounded-full bg-muted text-xs font-bold">
                 {index + 1}
               </div>
-              <Hash className="h-4 w-4 text-muted-foreground" />
+              <div 
+                className="w-3 h-3 rounded-full" 
+                style={{ backgroundColor: getColor(topic.sentiment, topic.trend) }}
+              />
               <span className="font-medium">{topic.text}</span>
             </div>
-            <div className="text-sm font-bold" style={{ color: getColor(index) }}>
-              {topic.value}
-            </div>
+            <div className="text-sm font-bold">{topic.value}</div>
           </motion.div>
         ))}
       </motion.div>
-      
-      {/* Selected Topic Details */}
-      {selectedTopic && (
-        <motion.div
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: 'auto' }}
-          exit={{ opacity: 0, height: 0 }}
-          className="mt-4 p-4 bg-muted/50 rounded-lg"
-        >
-          <h4 className="font-medium mb-2">Topic Analysis: {selectedTopic}</h4>
-          <div className="text-sm text-muted-foreground space-y-1">
-            <div>Mention Count: {data.find(d => d.text === selectedTopic)?.value}</div>
-            <div>Trend Score: {((data.find(d => d.text === selectedTopic)?.value || 0) / maxValue * 100).toFixed(1)}%</div>
-            <div className="text-blue-600 font-medium">
-              This topic is trending. Consider creating content around this theme.
-            </div>
-          </div>
-        </motion.div>
-      )}
     </motion.div>
   )
 }
