@@ -6,12 +6,15 @@ import { motion } from 'framer-motion'
 import { Moon, Sun, Globe, User } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
-const navItems = [
-  { key: 'overview', href: '/overview' },
-  { key: 'dataCenter', href: '/data-center' },
-  { key: 'workflow', href: '/workflow' },
-  { key: 'analyst', href: '/analyst' },
-]
+  const navItems = [
+    { key: 'overview', href: '/overview' },
+    { key: 'dashboard', href: '/dashboard' },
+    { key: 'trendAnalysis', href: '/trend-analysis' },
+    { key: 'dataCenter', href: '/data-center' },
+    { key: 'workflow', href: '/workflow' },
+    { key: 'analyst', href: '/analyst' },
+    { key: 'reportWizard', href: '/report-wizard' },
+  ]
 
 export default function Navbar() {
   const router = useRouter()
