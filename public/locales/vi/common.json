@@ -37,7 +37,20 @@
     "noData": "Không có dữ liệu",
     "loading": "Đang tải...",
     "error": "Lỗi tải dữ liệu",
-    "tryAgain": "Thử lại"
+    "tryAgain": "Thử lại",
+    "selectProject": "Chọn dự án",
+    "createNewProject": "Tạo dự án mới",
+    "noProjects": "Không có dự án nào",
+    "selectRange": "Chọn khoảng thời gian",
+    "offline": "Ngoại tuyến",
+    "enableRealTime": "Bật cập nhật thời gian thực",
+    "disableRealTime": "Tắt cập nhật thời gian thực",
+    "timeRanges": {
+      "last7Days": "7 ngày qua",
+      "last30Days": "30 ngày qua",
+      "last90Days": "90 ngày qua", 
+      "lastYear": "Năm ngoái"
+    }
   },
   "trendAnalysis": {
     "title": "Phân tích xu hướng",
@@ -216,5 +229,38 @@
     "templateDetails": "Chi tiết mẫu",
     "sectionsIncluded": "Phần được bao gồm",
     "reportFeatures": "Tính năng báo cáo"
+  },
+  "emptyState": {
+    "welcome": {
+      "title": "Chào mừng đến với SMAP Analytics",
+      "description": "Bắt đầu hành trình phân tích thương hiệu và đối thủ của bạn. Tạo project đầu tiên để khám phá những insights có giá trị."
+    },
+    "features": {
+      "trendAnalysis": {
+        "title": "Phân tích xu hướng",
+        "description": "Khám phá xu hướng nội dung theo thời gian thực"
+      },
+      "competitorTracking": {
+        "title": "Theo dõi đối thủ",
+        "description": "Theo dõi và so sánh với đối thủ cạnh tranh"
+      },
+      "shareOfVoice": {
+        "title": "Thị phần tiếng nói",
+        "description": "Đo lường tỷ lệ thị phần trong cuộc trò chuyện"
+      }
+    },
+    "quickActions": {
+      "createProject": {
+        "title": "Tạo Project Mới",
+        "description": "Bắt đầu theo dõi thương hiệu và đối thủ",
+        "buttonText": "Bắt đầu ngay"
+      },
+      "importCSV": {
+        "title": "Nhập từ CSV",
+        "description": "Import danh sách đối thủ hàng loạt",
+        "buttonText": "Tìm hiểu thêm"
+      }
+    },
+    "tip": "Mẹo: Bạn có thể tạo nhiều project để theo dõi các thương hiệu khác nhau"
   }
 }

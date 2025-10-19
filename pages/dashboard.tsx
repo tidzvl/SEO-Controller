@@ -5,8 +5,8 @@ import { useState } from 'react'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import DashboardHeader from '@/components/dashboard/DashboardHeader'
-import DashboardSidebar from '@/components/dashboard/DashboardSidebar'
-import DashboardGrid from '@/components/dashboard/DashboardGrid'
+import DashboardSidebar from '../components/dashboard/DashboardSidebar'
+import DashboardGrid from '../components/dashboard/DashboardGrid'
 import MobileDashboard from '@/components/dashboard/MobileDashboard'
 import EmptyState from '@/components/dashboard/EmptyState'
 import ProjectSetupWizard from '@/components/dashboard/ProjectSetupWizard'
@@ -44,8 +44,8 @@ const DashboardContent: React.FC = () => {
     setShowWizard(false)
   }
 
-  // Show empty state if no projects
-  if (state.showEmptyState || state.projects.length === 0) {
+  // Show empty state if no projects or no project selected
+  if (state.showEmptyState || state.projects.length === 0 || state.selectedProject === null) {
     return (
       <>
         <Navbar />
@@ -64,8 +64,11 @@ const DashboardContent: React.FC = () => {
     )
   }
 
+  // Get current project from selected project ID
+  const currentProject = state.projects.find(p => p.id === state.selectedProject)
+
   // Show processing state if current project is processing
-  if (state.currentProject?.status === 'processing') {
+  if (currentProject?.status === 'processing') {
     return (
       <>
         <Navbar />
@@ -76,8 +79,8 @@ const DashboardContent: React.FC = () => {
   }
 
   // Show success state if project was just created (simulate completion)
-  if (state.currentProject?.status === 'active' && state.currentProject.createdAt && 
-      (Date.now() - state.currentProject.createdAt.getTime()) < 10000) {
+  if (currentProject?.status === 'active' && currentProject.createdAt && 
+      (Date.now() - currentProject.createdAt.getTime()) < 10000) {
     return (
       <>
         <Navbar />

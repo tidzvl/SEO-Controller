@@ -59,10 +59,42 @@ export type DashboardAction =
   | { type: 'RESET_FILTERS' }
   | { type: 'SET_SHOW_EMPTY_STATE'; payload: boolean }
 
+// Mock data for testing
+const mockProjects: Project[] = [
+  {
+    id: 'project_1',
+    name: 'Tech Startup Analysis',
+    description: 'Analyzing tech startup trends and competitor landscape',
+    brands: [
+      { id: 'brand_1', name: 'Our Startup', type: 'own', keywords: ['tech', 'startup', 'innovation'], urls: ['https://ourstartup.com'] }
+    ],
+    competitors: [
+      { id: 'comp_1', name: 'Competitor A', type: 'competitor', keywords: ['tech', 'startup'], urls: ['https://competitor-a.com'] },
+      { id: 'comp_2', name: 'Competitor B', type: 'competitor', keywords: ['innovation', 'tech'], urls: ['https://competitor-b.com'] }
+    ],
+    createdAt: new Date('2024-01-15'),
+    status: 'active'
+  },
+  {
+    id: 'project_2', 
+    name: 'E-commerce Brand Tracking',
+    description: 'Monitoring e-commerce brand performance and market share',
+    brands: [
+      { id: 'brand_2', name: 'Our Store', type: 'own', keywords: ['ecommerce', 'shopping', 'retail'], urls: ['https://ourstore.com'] }
+    ],
+    competitors: [
+      { id: 'comp_3', name: 'Big Retailer', type: 'competitor', keywords: ['ecommerce', 'retail'], urls: ['https://bigretailer.com'] },
+      { id: 'comp_4', name: 'Online Market', type: 'competitor', keywords: ['shopping', 'online'], urls: ['https://onlinemarket.com'] }
+    ],
+    createdAt: new Date('2024-02-01'),
+    status: 'active'
+  }
+]
+
 // Initial state
 const initialState: DashboardState = {
-  projects: [],
-  selectedProject: null,
+  projects: mockProjects,
+  selectedProject: null, // Start with no project selected to show EmptyState
   timeRange: '7d',
   filters: {
     platform: [],
@@ -79,7 +111,7 @@ const initialState: DashboardState = {
   isRealTimeEnabled: true,
   lastUpdate: null,
   error: null,
-  showEmptyState: true
+  showEmptyState: true // Always start with empty state
 }
 
 // Reducer
@@ -89,7 +121,7 @@ function dashboardReducer(state: DashboardState, action: DashboardAction): Dashb
       return { 
         ...state, 
         selectedProject: action.payload,
-        showEmptyState: action.payload === null
+        showEmptyState: action.payload === null || state.projects.length === 0
       }
     
     case 'ADD_PROJECT':

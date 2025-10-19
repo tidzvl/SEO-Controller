@@ -1,6 +1,6 @@
 {
   "navbar": {
-    "brand": "INT SOLUTION",
+    "brand": "SMAP SOLUTION",
     "overview": "Overview",
     "dashboard": "Dashboard",
     "trendAnalysis": "Trend Analysis",
@@ -37,7 +37,20 @@
     "noData": "No data available",
     "loading": "Loading...",
     "error": "Error loading data",
-    "tryAgain": "Try Again"
+    "tryAgain": "Try Again",
+    "selectProject": "Select Project",
+    "createNewProject": "Create New Project",
+    "noProjects": "No projects available",
+    "selectRange": "Select Range",
+    "offline": "Offline",
+    "enableRealTime": "Enable real-time updates",
+    "disableRealTime": "Disable real-time updates",
+    "timeRanges": {
+      "last7Days": "Last 7 days",
+      "last30Days": "Last 30 days", 
+      "last90Days": "Last 90 days",
+      "lastYear": "Last year"
+    }
   },
   "trendAnalysis": {
     "title": "Trend Analysis",
@@ -216,5 +229,38 @@
     "templateDetails": "Template Details",
     "sectionsIncluded": "Sections Included",
     "reportFeatures": "Report Features"
+  },
+  "emptyState": {
+    "welcome": {
+      "title": "Welcome to SMAP Analytics",
+      "description": "Start your brand and competitor analysis journey. Create your first project to discover valuable insights."
+    },
+    "features": {
+      "trendAnalysis": {
+        "title": "Trend Analysis",
+        "description": "Discover trending content in real-time"
+      },
+      "competitorTracking": {
+        "title": "Competitor Tracking",
+        "description": "Track and compare with competitors"
+      },
+      "shareOfVoice": {
+        "title": "Share of Voice",
+        "description": "Measure market share in conversations"
+      }
+    },
+    "quickActions": {
+      "createProject": {
+        "title": "Create New Project",
+        "description": "Start tracking your brand and competitors",
+        "buttonText": "Get Started"
+      },
+      "importCSV": {
+        "title": "Import from CSV",
+        "description": "Import competitor lists in bulk",
+        "buttonText": "Learn More"
+      }
+    },
+    "tip": "Tip: You can create multiple projects to track different brands"
   }
 }

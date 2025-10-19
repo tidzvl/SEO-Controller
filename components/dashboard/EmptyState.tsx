@@ -1,5 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
+import { useTranslation } from 'next-i18next'
 import { 
   Plus, 
   TrendingUp, 
@@ -17,35 +18,37 @@ interface EmptyStateProps {
 }
 
 export default function EmptyState({ onCreateProject, onImportProject }: EmptyStateProps) {
+  const { t } = useTranslation('common')
+  
   const features = [
     {
       icon: <TrendingUp className="h-6 w-6" />,
-      title: "Trend Analysis",
-      description: "Khám phá xu hướng nội dung theo thời gian thực"
+      title: t('emptyState.features.trendAnalysis.title'),
+      description: t('emptyState.features.trendAnalysis.description')
     },
     {
       icon: <Users className="h-6 w-6" />,
-      title: "Competitor Tracking", 
-      description: "Theo dõi và so sánh với đối thủ cạnh tranh"
+      title: t('emptyState.features.competitorTracking.title'), 
+      description: t('emptyState.features.competitorTracking.description')
     },
     {
       icon: <BarChart3 className="h-6 w-6" />,
-      title: "Share of Voice",
-      description: "Đo lường tỷ lệ thị phần trong cuộc trò chuyện"
+      title: t('emptyState.features.shareOfVoice.title'),
+      description: t('emptyState.features.shareOfVoice.description')
     }
   ]
 
   const quickActions = [
     {
-      title: "Tạo Project Mới",
-      description: "Bắt đầu theo dõi thương hiệu và đối thủ",
+      title: t('emptyState.quickActions.createProject.title'),
+      description: t('emptyState.quickActions.createProject.description'),
       icon: <Plus className="h-5 w-5" />,
       action: onCreateProject,
       primary: true
     },
     {
-      title: "Nhập từ CSV",
-      description: "Import danh sách đối thủ hàng loạt",
+      title: t('emptyState.quickActions.importCSV.title'),
+      description: t('emptyState.quickActions.importCSV.description'),
       icon: <Target className="h-5 w-5" />,
       action: onImportProject,
       primary: false
@@ -72,12 +75,11 @@ export default function EmptyState({ onCreateProject, onImportProject }: EmptySt
           </motion.div>
           
           <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent mb-4">
-            Chào mừng đến với SMAP Analytics
+            {t('emptyState.welcome.title')}
           </h1>
           
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Bắt đầu hành trình phân tích thương hiệu và đối thủ của bạn. 
-            Tạo project đầu tiên để khám phá những insights có giá trị.
+            {t('emptyState.welcome.description')}
           </p>
         </motion.div>
 
@@ -147,7 +149,7 @@ export default function EmptyState({ onCreateProject, onImportProject }: EmptySt
                 </p>
                 
                 <div className="flex items-center gap-2 text-sm font-medium">
-                  <span>{action.primary ? 'Bắt đầu ngay' : 'Tìm hiểu thêm'}</span>
+                  <span>{action.primary ? t('emptyState.quickActions.createProject.buttonText') : t('emptyState.quickActions.importCSV.buttonText')}</span>
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </div>
               </div>
@@ -169,7 +171,7 @@ export default function EmptyState({ onCreateProject, onImportProject }: EmptySt
         >
           <div className="inline-flex items-center gap-2 text-sm text-muted-foreground bg-muted/50 rounded-full px-4 py-2">
             <Zap className="h-4 w-4" />
-            <span>Mẹo: Bạn có thể tạo nhiều project để theo dõi các thương hiệu khác nhau</span>
+            <span>{t('emptyState.tip')}</span>
           </div>
         </motion.div>
       </div>
