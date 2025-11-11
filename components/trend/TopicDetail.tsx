@@ -286,7 +286,7 @@ export default function TopicDetail({ topicId, onBack }: TopicDetailProps) {
             <div className="mb-6">
               <h3 className="text-lg font-semibold mb-2">Sample Posts</h3>
               <p className="text-muted-foreground">
-                Recent posts related to "{topic.name}" topic
+                Recent posts related to &quot;{topic.name}&quot; topic
               </p>
             </div>
 
@@ -348,7 +348,7 @@ export default function TopicDetail({ topicId, onBack }: TopicDetailProps) {
             <div className="mb-6">
               <h3 className="text-lg font-semibold mb-2">Analytics</h3>
               <p className="text-muted-foreground">
-                Detailed analytics and insights for "{topic.name}"
+                Detailed analytics and insights for &quot;{topic.name}&quot;
               </p>
             </div>
 
