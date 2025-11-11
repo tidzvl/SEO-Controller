@@ -1,9 +1,9 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { 
-  Heart, 
-  Share2, 
-  MessageCircle, 
+import {
+  Heart,
+  Share2,
+  MessageCircle,
   Eye,
   ExternalLink,
   Calendar,
@@ -49,7 +49,7 @@ export default function TrendPostCard({ post }: TrendPostCardProps) {
   const formatTimeAgo = (date: Date) => {
     const now = new Date()
     const diffInHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60))
-    
+
     if (diffInHours < 1) return 'Just now'
     if (diffInHours < 24) return `${diffInHours}h ago`
     const diffInDays = Math.floor(diffInHours / 24)
@@ -92,7 +92,7 @@ export default function TrendPostCard({ post }: TrendPostCardProps) {
 
   const handleShare = (e: React.MouseEvent) => {
     e.stopPropagation()
-    // TODO: Implement share functionality
+
     console.log('Share post:', post.title)
   }
 
@@ -101,7 +101,7 @@ export default function TrendPostCard({ post }: TrendPostCardProps) {
       whileHover={{ scale: 1.01, y: -2 }}
       className="bg-card border border-border rounded-lg p-6 hover:shadow-lg transition-all group"
     >
-      {/* Header */}
+      {}
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
@@ -115,7 +115,7 @@ export default function TrendPostCard({ post }: TrendPostCardProps) {
             </div>
           </div>
         </div>
-        
+
         <div className="flex items-center gap-2">
           <span className={`px-2 py-1 rounded-full text-xs font-medium ${getPlatformColor(post.platform)}`}>
             <span className="mr-1">{getPlatformIcon(post.platform)}</span>
@@ -151,7 +151,7 @@ export default function TrendPostCard({ post }: TrendPostCardProps) {
         </div>
       </div>
 
-      {/* Content */}
+      {}
       <div className="mb-4">
         <h3 className="font-semibold mb-2 group-hover:text-primary transition-colors">
           {post.title}
@@ -161,7 +161,7 @@ export default function TrendPostCard({ post }: TrendPostCardProps) {
         </p>
       </div>
 
-      {/* Sentiment & Engagement Rate */}
+      {}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           {getSentimentIcon(post.sentiment.label)}
@@ -169,7 +169,7 @@ export default function TrendPostCard({ post }: TrendPostCardProps) {
             {post.sentiment.label} ({(post.sentiment.score * 100).toFixed(0)}%)
           </span>
         </div>
-        
+
         <div className="flex items-center gap-2">
           <BarChart3 className="h-4 w-4 text-muted-foreground" />
           <span className="text-sm font-medium text-muted-foreground">
@@ -178,7 +178,7 @@ export default function TrendPostCard({ post }: TrendPostCardProps) {
         </div>
       </div>
 
-      {/* Metrics */}
+      {}
       <div className="grid grid-cols-4 gap-4 mb-4">
         <div className="flex items-center gap-2">
           <Heart className="h-4 w-4 text-red-500" />
@@ -187,7 +187,7 @@ export default function TrendPostCard({ post }: TrendPostCardProps) {
             <p className="text-xs text-muted-foreground">Likes</p>
           </div>
         </div>
-        
+
         <div className="flex items-center gap-2">
           <MessageCircle className="h-4 w-4 text-blue-500" />
           <div>
@@ -195,7 +195,7 @@ export default function TrendPostCard({ post }: TrendPostCardProps) {
             <p className="text-xs text-muted-foreground">Comments</p>
           </div>
         </div>
-        
+
         <div className="flex items-center gap-2">
           <Share2 className="h-4 w-4 text-green-500" />
           <div>
@@ -203,7 +203,7 @@ export default function TrendPostCard({ post }: TrendPostCardProps) {
             <p className="text-xs text-muted-foreground">Shares</p>
           </div>
         </div>
-        
+
         <div className="flex items-center gap-2">
           <Eye className="h-4 w-4 text-purple-500" />
           <div>
@@ -213,7 +213,7 @@ export default function TrendPostCard({ post }: TrendPostCardProps) {
         </div>
       </div>
 
-      {/* Performance Indicators */}
+      {}
       <div className="mb-4 p-3 bg-muted/50 rounded-lg">
         <div className="flex items-center justify-between text-sm">
           <span className="text-muted-foreground">Performance</span>
@@ -230,12 +230,12 @@ export default function TrendPostCard({ post }: TrendPostCardProps) {
         </div>
       </div>
 
-      {/* Actions */}
+      {}
       <div className="flex items-center justify-between pt-4 border-t border-border">
         <button className="text-sm text-primary hover:text-primary/80 transition-colors">
           View full post →
         </button>
-        
+
         <div className="flex items-center gap-2">
           <button className="px-3 py-1 text-xs bg-muted hover:bg-muted/80 rounded-md transition-colors">
             Copy Link

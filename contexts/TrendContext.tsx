@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useReducer, useEffect, ReactNode } from 'react'
 
-// Types
 export interface TrendTopic {
   id: string
   name: string
@@ -48,13 +47,13 @@ export interface TrendHashtag {
 }
 
 export interface TrendFilters {
-  timeRange: string // '1h', '24h', '7d', '30d', 'custom'
-  platforms: string[] // 'facebook', 'tiktok', 'twitter', 'instagram'
-  industries: string[] // predefined industries
+  timeRange: string
+  platforms: string[]
+  industries: string[]
   keywords: string[]
   minVolume: number
   minConfidence: number
-  sentiment: string[] // 'positive', 'neutral', 'negative'
+  sentiment: string[]
   customDateRange?: {
     start: Date
     end: Date
@@ -96,7 +95,6 @@ export type TrendAction =
   | { type: 'RESET_FILTERS' }
   | { type: 'TOGGLE_SAVED_ITEM'; payload: { type: 'topics' | 'hashtags' | 'posts'; id: string } }
 
-// Initial state
 const initialState: TrendState = {
   topics: [],
   hashtags: [],
@@ -125,84 +123,82 @@ const initialState: TrendState = {
   }
 }
 
-// Reducer
 function trendReducer(state: TrendState, action: TrendAction): TrendState {
   switch (action.type) {
     case 'SET_TOPICS':
       return { ...state, topics: action.payload }
-    
+
     case 'SET_HASHTAGS':
       return { ...state, hashtags: action.payload }
-    
+
     case 'SET_SAMPLE_POSTS':
       return { ...state, samplePosts: action.payload }
-    
+
     case 'SET_FILTERS':
       return {
         ...state,
         filters: { ...state.filters, ...action.payload }
       }
-    
+
     case 'SET_LOADING':
       return { ...state, isLoading: action.payload }
-    
+
     case 'SET_ERROR':
       return { ...state, error: action.payload }
-    
+
     case 'SET_LAST_UPDATE':
       return { ...state, lastUpdate: action.payload }
-    
+
     case 'SET_SELECTED_TOPIC':
       return { ...state, selectedTopic: action.payload }
-    
+
     case 'SET_SEARCH_QUERY':
       return { ...state, searchQuery: action.payload }
-    
+
     case 'SET_VIEW_MODE':
       return { ...state, viewMode: action.payload }
-    
+
     case 'SET_SORT':
       return {
         ...state,
         sortBy: action.payload.by,
         sortOrder: action.payload.order
       }
-    
+
     case 'RESET_FILTERS':
       return {
         ...state,
         filters: initialState.filters
       }
-    
+
     case 'TOGGLE_SAVED_ITEM':
       const { type, id } = action.payload
       const currentSaved = state.savedItems[type]
       const isSaved = currentSaved.includes(id)
-      
+
       return {
         ...state,
         savedItems: {
           ...state.savedItems,
-          [type]: isSaved 
+          [type]: isSaved
             ? currentSaved.filter(itemId => itemId !== id)
             : [...currentSaved, id]
         }
       }
-    
+
     default:
       return state
   }
 }
 
-// Context
 interface TrendContextType {
   state: TrendState
   dispatch: React.Dispatch<TrendAction>
-  // Computed values
+
   filteredTopics: TrendTopic[]
   filteredHashtags: TrendHashtag[]
   filteredPosts: TrendPost[]
-  // Actions
+
   setFilters: (filters: Partial<TrendFilters>) => void
   setSelectedTopic: (topicId: string | null) => void
   setSearchQuery: (query: string) => void
@@ -216,7 +212,6 @@ interface TrendContextType {
 
 const TrendContext = createContext<TrendContextType | undefined>(undefined)
 
-// Provider component
 interface TrendProviderProps {
   children: ReactNode
 }
@@ -224,7 +219,6 @@ interface TrendProviderProps {
 export function TrendProvider({ children }: TrendProviderProps) {
   const [state, dispatch] = useReducer(trendReducer, initialState)
 
-  // Mock data generation
   const generateMockData = () => {
     const mockTopics: TrendTopic[] = [
       {
@@ -324,7 +318,7 @@ export function TrendProvider({ children }: TrendProviderProps) {
         canonicalUrl: 'https://instagram.com/p/example1',
         platform: 'instagram',
         author: '@coffeelover',
-        publishedAt: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 hours ago
+        publishedAt: new Date(Date.now() - 2 * 60 * 60 * 1000),
         metrics: { likes: 1250, shares: 45, comments: 89, views: 5600 },
         sentiment: { label: 'positive', score: 0.8 }
       },
@@ -335,7 +329,7 @@ export function TrendProvider({ children }: TrendProviderProps) {
         canonicalUrl: 'https://instagram.com/p/example2',
         platform: 'instagram',
         author: '@ecofashionista',
-        publishedAt: new Date(Date.now() - 4 * 60 * 60 * 1000), // 4 hours ago
+        publishedAt: new Date(Date.now() - 4 * 60 * 60 * 1000),
         metrics: { likes: 890, shares: 120, comments: 45, views: 3200 },
         sentiment: { label: 'positive', score: 0.9 }
       },
@@ -346,7 +340,7 @@ export function TrendProvider({ children }: TrendProviderProps) {
         canonicalUrl: 'https://linkedin.com/posts/example3',
         platform: 'linkedin',
         author: '@remoteworker',
-        publishedAt: new Date(Date.now() - 6 * 60 * 60 * 1000), // 6 hours ago
+        publishedAt: new Date(Date.now() - 6 * 60 * 60 * 1000),
         metrics: { likes: 2100, shares: 340, comments: 156, views: 8900 },
         sentiment: { label: 'positive', score: 0.7 }
       },
@@ -357,7 +351,7 @@ export function TrendProvider({ children }: TrendProviderProps) {
         canonicalUrl: 'https://instagram.com/p/example4',
         platform: 'instagram',
         author: '@nomadlife',
-        publishedAt: new Date(Date.now() - 8 * 60 * 60 * 1000), // 8 hours ago
+        publishedAt: new Date(Date.now() - 8 * 60 * 60 * 1000),
         metrics: { likes: 3200, shares: 89, comments: 234, views: 12000 },
         sentiment: { label: 'positive', score: 0.85 }
       },
@@ -368,7 +362,7 @@ export function TrendProvider({ children }: TrendProviderProps) {
         canonicalUrl: 'https://tiktok.com/@example5',
         platform: 'tiktok',
         author: '@wfhsetup',
-        publishedAt: new Date(Date.now() - 12 * 60 * 60 * 1000), // 12 hours ago
+        publishedAt: new Date(Date.now() - 12 * 60 * 60 * 1000),
         metrics: { likes: 4500, shares: 567, comments: 89, views: 25000 },
         sentiment: { label: 'positive', score: 0.75 }
       },
@@ -379,7 +373,7 @@ export function TrendProvider({ children }: TrendProviderProps) {
         canonicalUrl: 'https://twitter.com/example6',
         platform: 'twitter',
         author: '@nyccoffee',
-        publishedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000), // 1 day ago
+        publishedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
         metrics: { likes: 780, shares: 123, comments: 67, views: 4200 },
         sentiment: { label: 'positive', score: 0.8 }
       }
@@ -391,50 +385,42 @@ export function TrendProvider({ children }: TrendProviderProps) {
     dispatch({ type: 'SET_LAST_UPDATE', payload: new Date() })
   }
 
-  // Load initial data
   useEffect(() => {
     dispatch({ type: 'SET_LOADING', payload: true })
-    
-    // Simulate API call
+
     setTimeout(() => {
       generateMockData()
       dispatch({ type: 'SET_LOADING', payload: false })
     }, 1000)
   }, [])
 
-  // Filter data based on current filters and search
   const filteredTopics = React.useMemo(() => {
     let filtered = state.topics
 
-    // Apply search query
     if (state.searchQuery) {
       filtered = filtered.filter(topic =>
         topic.name.toLowerCase().includes(state.searchQuery.toLowerCase()) ||
-        topic.keywords.some(keyword => 
+        topic.keywords.some(keyword =>
           keyword.toLowerCase().includes(state.searchQuery.toLowerCase())
         )
       )
     }
 
-    // Apply platform filter
     if (state.filters.platforms.length > 0) {
       filtered = filtered.filter(topic =>
-        state.filters.platforms.some(platform => 
+        state.filters.platforms.some(platform =>
           topic.platforms.includes(platform)
         )
       )
     }
 
-    // Apply volume filter
     filtered = filtered.filter(topic => topic.volume >= state.filters.minVolume)
 
-    // Apply confidence filter
     filtered = filtered.filter(topic => topic.confidence >= state.filters.minConfidence)
 
-    // Sort
     filtered.sort((a, b) => {
       let aValue: number, bValue: number
-      
+
       switch (state.sortBy) {
         case 'volume':
           aValue = a.volume
@@ -488,7 +474,6 @@ export function TrendProvider({ children }: TrendProviderProps) {
     return filtered
   }, [state.samplePosts, state.searchQuery])
 
-  // Action creators
   const setFilters = (filters: Partial<TrendFilters>) => {
     dispatch({ type: 'SET_FILTERS', payload: filters })
   }
@@ -553,7 +538,6 @@ export function TrendProvider({ children }: TrendProviderProps) {
   )
 }
 
-// Custom hook
 export const useTrend = () => {
   const context = useContext(TrendContext)
   if (context === undefined) {

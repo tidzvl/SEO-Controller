@@ -21,7 +21,7 @@ export default function TimeRangeSelector() {
 
   const handlePresetSelect = (preset: any) => {
     setSelectedPreset(preset.id)
-    
+
     const now = new Date()
     let start: Date, end: Date
 
@@ -109,13 +109,13 @@ export default function TimeRangeSelector() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Preset Options */}
+        {}
         <div>
           <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
             <Clock className="h-5 w-5" />
             Quick Presets
           </h3>
-          
+
           <div className="grid grid-cols-1 gap-3">
             {presets.map((preset, index) => (
               <motion.button
@@ -148,13 +148,13 @@ export default function TimeRangeSelector() {
           </div>
         </div>
 
-        {/* Custom Date Range */}
+        {}
         <div>
           <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
             <Calendar className="h-5 w-5" />
             Custom Range
           </h3>
-          
+
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium mb-2">Start Date</label>
@@ -165,7 +165,7 @@ export default function TimeRangeSelector() {
                 className="w-full p-3 border border-border rounded-lg bg-background focus:ring-2 focus:ring-primary focus:border-transparent"
               />
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium mb-2">End Date</label>
               <input
@@ -177,7 +177,7 @@ export default function TimeRangeSelector() {
             </div>
           </div>
 
-          {/* Date Range Summary */}
+          {}
           {state.config?.timeRange && (
             <motion.div
               initial={{ opacity: 0, y: 10 }}
@@ -201,7 +201,7 @@ export default function TimeRangeSelector() {
         </div>
       </div>
 
-      {/* Data Availability Warning */}
+      {}
       {state.config?.timeRange && getDaysDifference() > 365 && (
         <motion.div
           initial={{ opacity: 0, y: 10 }}

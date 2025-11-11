@@ -1,13 +1,12 @@
 import React, { createContext, useContext, useReducer, useEffect, ReactNode } from 'react'
 
-// Types
 export interface ReportTemplate {
   id: string
   name: string
   description: string
   category: 'performance' | 'trend' | 'competitor' | 'custom'
   sections: ReportSection[]
-  estimatedTime: number // in minutes
+  estimatedTime: number
   icon: string
   color: string
 }
@@ -81,7 +80,6 @@ export type ReportAction =
   | { type: 'UPDATE_REPORT_STATUS'; payload: { id: string; status: string; progress?: number; downloadUrl?: string; error?: string } }
   | { type: 'RESET_WIZARD' }
 
-// Initial state
 const initialState: ReportState = {
   templates: [],
   selectedTemplate: null,
@@ -93,46 +91,45 @@ const initialState: ReportState = {
   totalSteps: 4
 }
 
-// Reducer
 function reportReducer(state: ReportState, action: ReportAction): ReportState {
   switch (action.type) {
     case 'SET_TEMPLATES':
       return { ...state, templates: action.payload }
-    
+
     case 'SET_SELECTED_TEMPLATE':
       return { ...state, selectedTemplate: action.payload }
-    
+
     case 'SET_CONFIG':
       return { ...state, config: action.payload }
-    
+
     case 'UPDATE_CONFIG':
-      return { 
-        ...state, 
-        config: state.config ? { ...state.config, ...action.payload } : null 
+      return {
+        ...state,
+        config: state.config ? { ...state.config, ...action.payload } : null
       }
-    
+
     case 'SET_LOADING':
       return { ...state, isLoading: action.payload }
-    
+
     case 'SET_ERROR':
       return { ...state, error: action.payload }
-    
+
     case 'SET_STEP':
       return { ...state, currentStep: action.payload }
-    
+
     case 'ADD_GENERATED_REPORT':
-      return { 
-        ...state, 
-        generatedReports: [action.payload, ...state.generatedReports] 
+      return {
+        ...state,
+        generatedReports: [action.payload, ...state.generatedReports]
       }
-    
+
     case 'UPDATE_REPORT_STATUS':
       return {
         ...state,
         generatedReports: state.generatedReports.map(report =>
           report.id === action.payload.id
-            ? { 
-                ...report, 
+            ? {
+                ...report,
                 status: action.payload.status as any,
                 progress: action.payload.progress ?? report.progress,
                 downloadUrl: action.payload.downloadUrl ?? report.downloadUrl,
@@ -142,7 +139,7 @@ function reportReducer(state: ReportState, action: ReportAction): ReportState {
             : report
         )
       }
-    
+
     case 'RESET_WIZARD':
       return {
         ...state,
@@ -151,17 +148,16 @@ function reportReducer(state: ReportState, action: ReportAction): ReportState {
         currentStep: 1,
         error: null
       }
-    
+
     default:
       return state
   }
 }
 
-// Context
 interface ReportContextType {
   state: ReportState
   dispatch: React.Dispatch<ReportAction>
-  // Actions
+
   selectTemplate: (template: ReportTemplate) => void
   updateConfig: (config: Partial<ReportConfig>) => void
   setStep: (step: number) => void
@@ -172,7 +168,6 @@ interface ReportContextType {
 
 const ReportContext = createContext<ReportContextType | undefined>(undefined)
 
-// Provider component
 interface ReportProviderProps {
   children: ReactNode
 }
@@ -180,7 +175,6 @@ interface ReportProviderProps {
 export function ReportProvider({ children }: ReportProviderProps) {
   const [state, dispatch] = useReducer(reportReducer, initialState)
 
-  // Mock data generation
   const generateMockTemplates = (): ReportTemplate[] => [
     {
       id: 'performance-summary',
@@ -240,20 +234,17 @@ export function ReportProvider({ children }: ReportProviderProps) {
     }
   ]
 
-  // Load initial data
   useEffect(() => {
     dispatch({ type: 'SET_TEMPLATES', payload: generateMockTemplates() })
   }, [])
 
-  // Action creators
   const selectTemplate = (template: ReportTemplate) => {
     dispatch({ type: 'SET_SELECTED_TEMPLATE', payload: template })
-    
-    // Initialize config with template defaults
+
     const defaultConfig: ReportConfig = {
       templateId: template.id,
       timeRange: {
-        start: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), // 30 days ago
+        start: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
         end: new Date()
       },
       dataSources: ['facebook', 'instagram', 'tiktok'],
@@ -271,7 +262,7 @@ export function ReportProvider({ children }: ReportProviderProps) {
       outputFormat: 'pdf',
       language: 'vi'
     }
-    
+
     dispatch({ type: 'SET_CONFIG', payload: defaultConfig })
   }
 
@@ -298,43 +289,42 @@ export function ReportProvider({ children }: ReportProviderProps) {
     dispatch({ type: 'SET_LOADING', payload: true })
 
     try {
-      // Simulate report generation with progress updates
+
       for (let progress = 0; progress <= 100; progress += 10) {
         await new Promise(resolve => setTimeout(resolve, 200))
-        dispatch({ 
-          type: 'UPDATE_REPORT_STATUS', 
-          payload: { 
-            id: reportId, 
-            status: 'generating', 
-            progress 
-          } 
+        dispatch({
+          type: 'UPDATE_REPORT_STATUS',
+          payload: {
+            id: reportId,
+            status: 'generating',
+            progress
+          }
         })
       }
 
-      // Simulate successful completion
       const downloadUrl = `/api/reports/${reportId}/download`
-      dispatch({ 
-        type: 'UPDATE_REPORT_STATUS', 
-        payload: { 
-          id: reportId, 
-          status: 'completed', 
+      dispatch({
+        type: 'UPDATE_REPORT_STATUS',
+        payload: {
+          id: reportId,
+          status: 'completed',
           progress: 100,
           downloadUrl,
-          fileSize: Math.floor(Math.random() * 5000000) + 1000000, // 1-6MB
-          pageCount: Math.floor(Math.random() * 20) + 5 // 5-25 pages
-        } 
+          fileSize: Math.floor(Math.random() * 5000000) + 1000000,
+          pageCount: Math.floor(Math.random() * 20) + 5
+        }
       })
 
       dispatch({ type: 'SET_LOADING', payload: false })
       return { ...report, status: 'completed', progress: 100, downloadUrl }
     } catch (error) {
-      dispatch({ 
-        type: 'UPDATE_REPORT_STATUS', 
-        payload: { 
-          id: reportId, 
-          status: 'failed', 
+      dispatch({
+        type: 'UPDATE_REPORT_STATUS',
+        payload: {
+          id: reportId,
+          status: 'failed',
           error: error instanceof Error ? error.message : 'Unknown error'
-        } 
+        }
       })
       dispatch({ type: 'SET_LOADING', payload: false })
       throw error
@@ -344,7 +334,7 @@ export function ReportProvider({ children }: ReportProviderProps) {
   const downloadReport = (reportId: string) => {
     const report = state.generatedReports.find(r => r.id === reportId)
     if (report?.downloadUrl) {
-      // In a real app, this would trigger a download
+
       window.open(report.downloadUrl, '_blank')
     }
   }
@@ -371,7 +361,6 @@ export function ReportProvider({ children }: ReportProviderProps) {
   )
 }
 
-// Custom hook
 export const useReport = () => {
   const context = useContext(ReportContext)
   if (context === undefined) {

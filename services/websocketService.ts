@@ -68,7 +68,7 @@ export class WebSocketService extends EventEmitter {
           this.isConnecting = false
           this.stopHeartbeat()
           this.emit('disconnected', event.code, event.reason)
-          
+
           if (!event.wasClean && this.reconnectAttempts < this.config.maxReconnectAttempts!) {
             this.scheduleReconnect()
           }
@@ -90,12 +90,12 @@ export class WebSocketService extends EventEmitter {
   disconnect(): void {
     this.stopHeartbeat()
     this.clearReconnectTimeout()
-    
+
     if (this.ws) {
       this.ws.close(1000, 'Client disconnect')
       this.ws = null
     }
-    
+
     this.isConnected = false
     this.isConnecting = false
   }
@@ -130,11 +130,11 @@ export class WebSocketService extends EventEmitter {
   private scheduleReconnect(): void {
     this.reconnectAttempts++
     const delay = this.config.reconnectInterval! * Math.pow(2, this.reconnectAttempts - 1)
-    
+
     this.reconnectTimeout = setTimeout(() => {
       this.emit('reconnecting', this.reconnectAttempts)
       this.connect().catch(() => {
-        // Reconnect failed, will be handled by onclose
+
       })
     }, delay)
   }
@@ -159,7 +159,6 @@ export class WebSocketService extends EventEmitter {
   }
 }
 
-// Singleton instance for dashboard
 export const dashboardWebSocket = new WebSocketService({
   url: process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:8080/ws/dashboard',
   reconnectInterval: 3000,

@@ -7,16 +7,16 @@ import { useDashboard } from '@/contexts/DashboardContext'
 export default function RealTimeIndicator() {
   const { t } = useTranslation('common')
   const { state, toggleRealTime } = useDashboard()
-  
+
   return (
     <div className="flex items-center gap-3">
       <motion.div
-        animate={{ 
+        animate={{
           scale: state.isRealTimeEnabled ? [1, 1.2, 1] : 1,
           opacity: state.isRealTimeEnabled ? [0.7, 1, 0.7] : 0.5
         }}
-        transition={{ 
-          duration: 2, 
+        transition={{
+          duration: 2,
           repeat: state.isRealTimeEnabled ? Infinity : 0,
           ease: "easeInOut"
         }}
@@ -27,16 +27,16 @@ export default function RealTimeIndicator() {
         ) : (
           <WifiOff className="h-4 w-4 text-muted-foreground" />
         )}
-        
-        {/* Pulsing dot */}
+
+        {}
         {state.isRealTimeEnabled && (
           <motion.div
-            animate={{ 
+            animate={{
               scale: [0, 1, 0],
               opacity: [0, 1, 0]
             }}
-            transition={{ 
-              duration: 1.5, 
+            transition={{
+              duration: 1.5,
               repeat: Infinity,
               ease: "easeInOut"
             }}
@@ -44,12 +44,12 @@ export default function RealTimeIndicator() {
           />
         )}
       </motion.div>
-      
+
       <span className="text-sm text-muted-foreground">
         {state.isRealTimeEnabled ? t('dashboard.realTime') : t('dashboard.offline')}
       </span>
 
-      {/* Toggle Switch */}
+      {}
       <motion.button
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}

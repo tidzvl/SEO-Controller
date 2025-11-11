@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
-import { 
-  Facebook, 
-  Instagram, 
-  Twitter, 
-  Youtube, 
-  Linkedin, 
+import {
+  Facebook,
+  Instagram,
+  Twitter,
+  Youtube,
+  Linkedin,
   MessageSquare,
   Check,
   AlertCircle,
@@ -90,7 +90,7 @@ export default function DataSourceSelector() {
   }
 
   const handleConnectSource = (sourceId: string) => {
-    // In a real app, this would open OAuth flow
+
     console.log('Connecting to:', sourceId)
     setShowConnectionModal(true)
   }
@@ -112,7 +112,7 @@ export default function DataSourceSelector() {
         </p>
       </div>
 
-      {/* Summary Stats */}
+      {}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
         <div className="p-4 bg-muted/50 rounded-lg border border-border">
           <div className="text-2xl font-bold text-primary">{getSelectedCount()}</div>
@@ -128,7 +128,7 @@ export default function DataSourceSelector() {
         </div>
       </div>
 
-      {/* Data Sources Grid */}
+      {}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {dataSources.map((source, index) => (
           <motion.div
@@ -143,7 +143,7 @@ export default function DataSourceSelector() {
             } ${!source.connected ? 'opacity-60' : 'cursor-pointer'}`}
             onClick={() => source.connected && handleDataSourceToggle(source.id)}
           >
-            {/* Selection Indicator */}
+            {}
             {state.config?.dataSources.includes(source.id) && (
               <motion.div
                 initial={{ scale: 0 }}
@@ -154,7 +154,7 @@ export default function DataSourceSelector() {
               </motion.div>
             )}
 
-            {/* Connection Status */}
+            {}
             <div className="absolute top-4 left-4">
               {source.connected ? (
                 <div className="w-3 h-3 bg-green-500 rounded-full" />
@@ -163,18 +163,18 @@ export default function DataSourceSelector() {
               )}
             </div>
 
-            {/* Platform Icon */}
+            {}
             <div className={`w-12 h-12 ${source.color} rounded-lg flex items-center justify-center text-white mb-4`}>
               {source.icon}
             </div>
 
-            {/* Platform Info */}
+            {}
             <div className="mb-4">
               <h3 className="text-lg font-semibold mb-1">{source.name}</h3>
               <p className="text-sm text-muted-foreground">{source.description}</p>
             </div>
 
-            {/* Connection Status */}
+            {}
             <div className="mb-4">
               {source.connected ? (
                 <div className="text-sm text-green-600">
@@ -189,7 +189,7 @@ export default function DataSourceSelector() {
               )}
             </div>
 
-            {/* Data Types */}
+            {}
             <div className="mb-4">
               <div className="text-xs font-medium text-muted-foreground mb-2">Available Data:</div>
               <div className="flex flex-wrap gap-1">
@@ -204,7 +204,7 @@ export default function DataSourceSelector() {
               </div>
             </div>
 
-            {/* Connect Button for Disconnected Sources */}
+            {}
             {!source.connected && (
               <button
                 onClick={(e) => {
@@ -217,7 +217,7 @@ export default function DataSourceSelector() {
               </button>
             )}
 
-            {/* Hover Effect */}
+            {}
             {source.connected && (
               <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-primary/5 to-violet-500/5 opacity-0 hover:opacity-100 transition-opacity pointer-events-none" />
             )}
@@ -225,7 +225,7 @@ export default function DataSourceSelector() {
         ))}
       </div>
 
-      {/* Selection Summary */}
+      {}
       {getSelectedCount() > 0 && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -252,7 +252,7 @@ export default function DataSourceSelector() {
         </motion.div>
       )}
 
-      {/* Warning for No Selection */}
+      {}
       {getSelectedCount() === 0 && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}

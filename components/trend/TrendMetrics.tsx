@@ -1,9 +1,9 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { 
-  TrendingUp, 
-  TrendingDown, 
-  Hash, 
+import {
+  TrendingUp,
+  TrendingDown,
+  Hash,
   MessageSquare,
   Users,
   BarChart3,
@@ -17,10 +17,9 @@ export default function TrendMetrics() {
   const { t } = useTranslation('common')
   const { state, filteredTopics, filteredHashtags, filteredPosts } = useTrend()
 
-  // Calculate aggregated metrics
   const totalVolume = filteredTopics.reduce((sum, topic) => sum + topic.volume, 0)
-  const avgConfidence = filteredTopics.length > 0 
-    ? filteredTopics.reduce((sum, topic) => sum + topic.confidence, 0) / filteredTopics.length 
+  const avgConfidence = filteredTopics.length > 0
+    ? filteredTopics.reduce((sum, topic) => sum + topic.confidence, 0) / filteredTopics.length
     : 0
   const avgSentiment = filteredTopics.length > 0
     ? filteredTopics.reduce((sum, topic) => sum + topic.sentiment.positive, 0) / filteredTopics.length
@@ -96,7 +95,7 @@ export default function TrendMetrics() {
             Real-time insights from {state.filters.timeRange} data
           </p>
         </div>
-        
+
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
           <Clock className="h-4 w-4" />
           <span>Last updated: {state.lastUpdate?.toLocaleTimeString() || 'Never'}</span>
@@ -130,7 +129,7 @@ export default function TrendMetrics() {
                 </span>
               </div>
             </div>
-            
+
             <div>
               <p className="text-2xl font-bold mb-1">{metric.value}</p>
               <p className="text-xs text-muted-foreground">{metric.title}</p>
@@ -139,7 +138,7 @@ export default function TrendMetrics() {
         ))}
       </div>
 
-      {/* Quick Stats */}
+      {}
       <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="bg-muted/50 rounded-lg p-4">
           <h4 className="font-medium mb-2">Top Platform</h4>
@@ -148,7 +147,7 @@ export default function TrendMetrics() {
             <span className="text-sm">Instagram (45%)</span>
           </div>
         </div>
-        
+
         <div className="bg-muted/50 rounded-lg p-4">
           <h4 className="font-medium mb-2">Peak Activity</h4>
           <div className="flex items-center gap-2">
@@ -156,7 +155,7 @@ export default function TrendMetrics() {
             <span className="text-sm">2:00 PM - 4:00 PM</span>
           </div>
         </div>
-        
+
         <div className="bg-muted/50 rounded-lg p-4">
           <h4 className="font-medium mb-2">Trending Now</h4>
           <div className="flex items-center gap-2">

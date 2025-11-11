@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { 
-  CheckCircle, 
+import {
+  CheckCircle,
   ArrowRight,
   BarChart3,
   TrendingUp,
@@ -15,10 +15,10 @@ export default function ProjectSuccessState() {
   const { currentProject, setProject } = useDashboard()
 
   useEffect(() => {
-    // Simulate project completion after 3 seconds
+
     const timer = setTimeout(() => {
       if (currentProject) {
-        setProject(currentProject.id) // This will trigger the normal dashboard
+        setProject(currentProject.id)
       }
     }, 3000)
 
@@ -35,7 +35,7 @@ export default function ProjectSuccessState() {
     },
     {
       icon: <Users className="h-6 w-6" />,
-      title: "Competitor Tracking", 
+      title: "Competitor Tracking",
       description: "So sánh với đối thủ cạnh tranh"
     },
     {
@@ -48,7 +48,7 @@ export default function ProjectSuccessState() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 flex items-center justify-center p-6">
       <div className="max-w-2xl w-full">
-        {/* Success Animation */}
+        {}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -63,7 +63,7 @@ export default function ProjectSuccessState() {
           >
             <CheckCircle className="h-12 w-12 text-white" />
           </motion.div>
-          
+
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -72,7 +72,7 @@ export default function ProjectSuccessState() {
           >
             Project đã sẵn sàng!
           </motion.h1>
-          
+
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -83,7 +83,7 @@ export default function ProjectSuccessState() {
           </motion.p>
         </motion.div>
 
-        {/* Features Grid */}
+        {}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -108,7 +108,7 @@ export default function ProjectSuccessState() {
           ))}
         </motion.div>
 
-        {/* Project Summary */}
+        {}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -119,7 +119,7 @@ export default function ProjectSuccessState() {
             <Target className="h-5 w-5" />
             Tóm tắt project
           </h3>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <h4 className="text-sm font-medium text-muted-foreground mb-2">Thương hiệu của bạn</h4>
@@ -132,7 +132,7 @@ export default function ProjectSuccessState() {
                 ))}
               </div>
             </div>
-            
+
             <div>
               <h4 className="text-sm font-medium text-muted-foreground mb-2">Đối thủ cạnh tranh</h4>
               <div className="space-y-1">
@@ -147,7 +147,7 @@ export default function ProjectSuccessState() {
           </div>
         </motion.div>
 
-        {/* Auto Redirect Message */}
+        {}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

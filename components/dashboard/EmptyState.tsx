@@ -1,10 +1,10 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { useTranslation } from 'next-i18next'
-import { 
-  Plus, 
-  TrendingUp, 
-  Users, 
+import {
+  Plus,
+  TrendingUp,
+  Users,
   BarChart3,
   ArrowRight,
   Sparkles,
@@ -19,7 +19,7 @@ interface EmptyStateProps {
 
 export default function EmptyState({ onCreateProject, onImportProject }: EmptyStateProps) {
   const { t } = useTranslation('common')
-  
+
   const features = [
     {
       icon: <TrendingUp className="h-6 w-6" />,
@@ -28,7 +28,7 @@ export default function EmptyState({ onCreateProject, onImportProject }: EmptySt
     },
     {
       icon: <Users className="h-6 w-6" />,
-      title: t('emptyState.features.competitorTracking.title'), 
+      title: t('emptyState.features.competitorTracking.title'),
       description: t('emptyState.features.competitorTracking.description')
     },
     {
@@ -58,7 +58,7 @@ export default function EmptyState({ onCreateProject, onImportProject }: EmptySt
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 flex items-center justify-center p-6">
       <div className="max-w-4xl w-full">
-        {/* Header Section */}
+        {}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -73,17 +73,17 @@ export default function EmptyState({ onCreateProject, onImportProject }: EmptySt
           >
             <Sparkles className="h-10 w-10 text-white" />
           </motion.div>
-          
+
           <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent mb-4">
             {t('emptyState.welcome.title')}
           </h1>
-          
+
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             {t('emptyState.welcome.description')}
           </p>
         </motion.div>
 
-        {/* Features Grid */}
+        {}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -108,7 +108,7 @@ export default function EmptyState({ onCreateProject, onImportProject }: EmptySt
           ))}
         </motion.div>
 
-        {/* Quick Actions */}
+        {}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -133,28 +133,28 @@ export default function EmptyState({ onCreateProject, onImportProject }: EmptySt
               <div className="relative z-10">
                 <div className="flex items-center gap-3 mb-3">
                   <div className={`p-2 rounded-lg ${
-                    action.primary 
-                      ? 'bg-white/20' 
+                    action.primary
+                      ? 'bg-white/20'
                       : 'bg-primary/10 text-primary'
                   }`}>
                     {action.icon}
                   </div>
                   <h3 className="text-lg font-semibold">{action.title}</h3>
                 </div>
-                
+
                 <p className={`text-sm mb-4 ${
                   action.primary ? 'text-white/80' : 'text-muted-foreground'
                 }`}>
                   {action.description}
                 </p>
-                
+
                 <div className="flex items-center gap-2 text-sm font-medium">
                   <span>{action.primary ? t('emptyState.quickActions.createProject.buttonText') : t('emptyState.quickActions.importCSV.buttonText')}</span>
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </div>
               </div>
-              
-              {/* Background decoration */}
+
+              {}
               {action.primary && (
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-violet-600/20 opacity-0 group-hover:opacity-100 transition-opacity" />
               )}
@@ -162,7 +162,7 @@ export default function EmptyState({ onCreateProject, onImportProject }: EmptySt
           ))}
         </motion.div>
 
-        {/* Getting Started Tips */}
+        {}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

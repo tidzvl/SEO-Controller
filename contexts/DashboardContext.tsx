@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useReducer, useEffect, ReactNode } from 'react'
 import { useRealTimeData, RealTimeData } from '@/hooks/useRealTimeData'
 
-// Types
 export interface Project {
   id: string
   name: string
@@ -61,7 +60,6 @@ export type DashboardAction =
   | { type: 'SET_SHOW_EMPTY_STATE'; payload: boolean }
   | { type: 'SET_SELECTED_TOPIC'; payload: any | null }
 
-// Mock data for testing
 const mockProjects: Project[] = [
   {
     id: 'project_1',
@@ -78,7 +76,7 @@ const mockProjects: Project[] = [
     status: 'active'
   },
   {
-    id: 'project_2', 
+    id: 'project_2',
     name: 'E-commerce Brand Tracking',
     description: 'Monitoring e-commerce brand performance and market share',
     brands: [
@@ -93,10 +91,9 @@ const mockProjects: Project[] = [
   }
 ]
 
-// Initial state
 const initialState: DashboardState = {
   projects: mockProjects,
-  selectedProject: null, // Start with no project selected to show EmptyState
+  selectedProject: null,
   timeRange: '7d',
   filters: {
     platform: [],
@@ -113,20 +110,19 @@ const initialState: DashboardState = {
   isRealTimeEnabled: true,
   lastUpdate: null,
   error: null,
-  showEmptyState: true, // Always start with empty state
+  showEmptyState: true,
   selectedTopic: null
 }
 
-// Reducer
 function dashboardReducer(state: DashboardState, action: DashboardAction): DashboardState {
   switch (action.type) {
     case 'SET_PROJECT':
-      return { 
-        ...state, 
+      return {
+        ...state,
         selectedProject: action.payload,
         showEmptyState: action.payload === null || state.projects.length === 0
       }
-    
+
     case 'ADD_PROJECT':
       return {
         ...state,
@@ -134,15 +130,15 @@ function dashboardReducer(state: DashboardState, action: DashboardAction): Dashb
         selectedProject: action.payload.id,
         showEmptyState: false
       }
-    
+
     case 'UPDATE_PROJECT':
       return {
         ...state,
-        projects: state.projects.map(project => 
+        projects: state.projects.map(project =>
           project.id === action.payload.id ? action.payload : project
         )
       }
-    
+
     case 'DELETE_PROJECT':
       const remainingProjects = state.projects.filter(p => p.id !== action.payload)
       return {
@@ -151,63 +147,62 @@ function dashboardReducer(state: DashboardState, action: DashboardAction): Dashb
         selectedProject: remainingProjects.length > 0 ? remainingProjects[0].id : null,
         showEmptyState: remainingProjects.length === 0
       }
-    
+
     case 'SET_TIME_RANGE':
       return { ...state, timeRange: action.payload }
-    
+
     case 'SET_FILTERS':
       return {
         ...state,
         filters: { ...state.filters, ...action.payload }
       }
-    
+
     case 'SET_VIEW_MODE':
       return { ...state, viewMode: action.payload }
-    
+
     case 'TOGGLE_SIDEBAR':
       return { ...state, sidebarCollapsed: !state.sidebarCollapsed }
-    
+
     case 'SET_SELECTED_METRICS':
       return { ...state, selectedMetrics: action.payload }
-    
+
     case 'SET_REAL_TIME_DATA':
       return { ...state, realTimeData: action.payload }
-    
+
     case 'TOGGLE_REAL_TIME':
       return { ...state, isRealTimeEnabled: !state.isRealTimeEnabled }
-    
+
     case 'SET_LAST_UPDATE':
       return { ...state, lastUpdate: action.payload }
-    
+
     case 'SET_ERROR':
       return { ...state, error: action.payload }
-    
+
     case 'RESET_FILTERS':
       return {
         ...state,
         filters: initialState.filters
       }
-    
+
     case 'SET_SHOW_EMPTY_STATE':
       return { ...state, showEmptyState: action.payload }
-    
+
     case 'SET_SELECTED_TOPIC':
       return { ...state, selectedTopic: action.payload }
-    
+
     default:
       return state
   }
 }
 
-// Context
 interface DashboardContextType {
   state: DashboardState
   dispatch: React.Dispatch<DashboardAction>
-  // Computed values
+
   filteredData: RealTimeData | null
   isLoading: boolean
   currentProject: Project | null
-  // Actions
+
   setProject: (projectId: string | null) => void
   addProject: (project: Project) => void
   updateProject: (project: Project) => void
@@ -222,15 +217,13 @@ interface DashboardContextType {
 
 const DashboardContext = createContext<DashboardContextType | undefined>(undefined)
 
-// Provider component
 interface DashboardProviderProps {
   children: ReactNode
 }
 
 export function DashboardProvider({ children }: DashboardProviderProps) {
   const [state, dispatch] = useReducer(dashboardReducer, initialState)
-  
-  // Real-time data hook
+
   const {
     data: realTimeData,
     isConnected,
@@ -244,7 +237,6 @@ export function DashboardProvider({ children }: DashboardProviderProps) {
     autoConnect: state.isRealTimeEnabled && state.selectedProject !== null
   })
 
-  // Update state when real-time data changes
   useEffect(() => {
     if (realTimeData) {
       dispatch({ type: 'SET_REAL_TIME_DATA', payload: realTimeData })
@@ -263,27 +255,23 @@ export function DashboardProvider({ children }: DashboardProviderProps) {
     }
   }, [realTimeError])
 
-  // Computed values
   const filteredData = React.useMemo(() => {
     if (!state.realTimeData) return null
 
     let filtered = { ...state.realTimeData }
 
-    // Apply platform filter
     if (state.filters.platform.length > 0) {
       filtered.content = filtered.content.filter(item =>
         state.filters.platform.includes(item.platform)
       )
     }
 
-    // Apply sentiment filter
     if (state.filters.sentiment.length > 0) {
       filtered.sentiment = filtered.sentiment.filter(item =>
         state.filters.sentiment.includes(item.name.toLowerCase())
       )
     }
 
-    // Apply date range filter
     if (state.filters.dateRange.start && state.filters.dateRange.end) {
       filtered.trends = filtered.trends.filter(item => {
         const itemDate = new Date(item.date)
@@ -298,7 +286,6 @@ export function DashboardProvider({ children }: DashboardProviderProps) {
   const isLoading = isConnecting || !state.realTimeData
   const currentProject = state.projects.find(p => p.id === state.selectedProject) || null
 
-  // Action creators
   const setProject = (projectId: string | null) => {
     dispatch({ type: 'SET_PROJECT', payload: projectId })
   }
@@ -364,7 +351,6 @@ export function DashboardProvider({ children }: DashboardProviderProps) {
   )
 }
 
-// Hook to use dashboard context
 export function useDashboard() {
   const context = useContext(DashboardContext)
   if (context === undefined) {

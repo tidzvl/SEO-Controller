@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
-import { 
-  ArrowLeft, 
-  TrendingUp, 
-  TrendingDown, 
-  Users, 
+import {
+  ArrowLeft,
+  TrendingUp,
+  TrendingDown,
+  Users,
   MessageSquare,
   BarChart3,
   Target,
@@ -26,7 +26,7 @@ interface TopicDetailProps {
 export default function TopicDetail({ topicId, onBack }: TopicDetailProps) {
   const { state } = useTrend()
   const [activeTab, setActiveTab] = useState<'overview' | 'posts' | 'analytics'>('overview')
-  
+
   const topic = state.topics.find(t => t.id === topicId)
 
   if (!topic) {
@@ -72,7 +72,7 @@ export default function TopicDetail({ topicId, onBack }: TopicDetailProps) {
 
   return (
     <div className="h-full flex flex-col">
-      {/* Header */}
+      {}
       <div className="p-6 border-b border-border bg-card/50">
         <div className="flex items-center gap-4 mb-4">
           <button
@@ -113,7 +113,7 @@ export default function TopicDetail({ topicId, onBack }: TopicDetailProps) {
         </div>
       </div>
 
-      {/* Tabs */}
+      {}
       <div className="border-b border-border">
         <div className="flex">
           {tabs.map((tab) => (
@@ -140,11 +140,11 @@ export default function TopicDetail({ topicId, onBack }: TopicDetailProps) {
         </div>
       </div>
 
-      {/* Content */}
+      {}
       <div className="flex-1 overflow-auto">
         {activeTab === 'overview' && (
           <div className="p-6 space-y-6">
-            {/* Key Metrics */}
+            {}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div className="bg-card border border-border rounded-lg p-4">
                 <div className="flex items-center gap-2 mb-2">
@@ -194,7 +194,7 @@ export default function TopicDetail({ topicId, onBack }: TopicDetailProps) {
               </div>
             </div>
 
-            {/* Sentiment Breakdown */}
+            {}
             <div className="bg-card border border-border rounded-lg p-6">
               <h3 className="text-lg font-semibold mb-4">Sentiment Analysis</h3>
               <div className="space-y-4">
@@ -205,7 +205,7 @@ export default function TopicDetail({ topicId, onBack }: TopicDetailProps) {
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-32 h-2 bg-muted rounded-full overflow-hidden">
-                      <div 
+                      <div
                         className="h-full bg-green-500"
                         style={{ width: `${topic.sentiment.positive}%` }}
                       />
@@ -221,7 +221,7 @@ export default function TopicDetail({ topicId, onBack }: TopicDetailProps) {
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-32 h-2 bg-muted rounded-full overflow-hidden">
-                      <div 
+                      <div
                         className="h-full bg-gray-500"
                         style={{ width: `${topic.sentiment.neutral}%` }}
                       />
@@ -237,7 +237,7 @@ export default function TopicDetail({ topicId, onBack }: TopicDetailProps) {
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-32 h-2 bg-muted rounded-full overflow-hidden">
-                      <div 
+                      <div
                         className="h-full bg-red-500"
                         style={{ width: `${topic.sentiment.negative}%` }}
                       />
@@ -248,7 +248,7 @@ export default function TopicDetail({ topicId, onBack }: TopicDetailProps) {
               </div>
             </div>
 
-            {/* Keywords */}
+            {}
             <div className="bg-card border border-border rounded-lg p-6">
               <h3 className="text-lg font-semibold mb-4">Related Keywords</h3>
               <div className="flex flex-wrap gap-2">
@@ -263,7 +263,7 @@ export default function TopicDetail({ topicId, onBack }: TopicDetailProps) {
               </div>
             </div>
 
-            {/* Platforms */}
+            {}
             <div className="bg-card border border-border rounded-lg p-6">
               <h3 className="text-lg font-semibold mb-4">Active Platforms</h3>
               <div className="flex gap-2">
@@ -316,12 +316,12 @@ export default function TopicDetail({ topicId, onBack }: TopicDetailProps) {
                         <ExternalLink className="h-4 w-4 text-muted-foreground" />
                       </button>
                     </div>
-                    
+
                     <p className="text-muted-foreground mb-3">
-                      This is a sample post related to the topic. In a real implementation, 
+                      This is a sample post related to the topic. In a real implementation,
                       this would show actual content from social media platforms.
                     </p>
-                    
+
                     <div className="flex items-center gap-4 text-sm text-muted-foreground">
                       <div className="flex items-center gap-1">
                         <Heart className="h-4 w-4" />
@@ -353,7 +353,7 @@ export default function TopicDetail({ topicId, onBack }: TopicDetailProps) {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Volume Trend */}
+              {}
               <div className="bg-card border border-border rounded-lg p-6">
                 <h4 className="font-semibold mb-4">Volume Trend</h4>
                 <div className="h-48 flex items-center justify-center text-muted-foreground">
@@ -364,7 +364,7 @@ export default function TopicDetail({ topicId, onBack }: TopicDetailProps) {
                 </div>
               </div>
 
-              {/* Sentiment Trend */}
+              {}
               <div className="bg-card border border-border rounded-lg p-6">
                 <h4 className="font-semibold mb-4">Sentiment Trend</h4>
                 <div className="h-48 flex items-center justify-center text-muted-foreground">
@@ -375,7 +375,7 @@ export default function TopicDetail({ topicId, onBack }: TopicDetailProps) {
                 </div>
               </div>
 
-              {/* Platform Distribution */}
+              {}
               <div className="bg-card border border-border rounded-lg p-6">
                 <h4 className="font-semibold mb-4">Platform Distribution</h4>
                 <div className="space-y-3">
@@ -384,7 +384,7 @@ export default function TopicDetail({ topicId, onBack }: TopicDetailProps) {
                       <span className="text-sm font-medium capitalize">{platform}</span>
                       <div className="flex items-center gap-2">
                         <div className="w-24 h-2 bg-muted rounded-full overflow-hidden">
-                          <div 
+                          <div
                             className="h-full bg-primary"
                             style={{ width: `${(100 / topic.platforms.length) + (index * 10)}%` }}
                           />
@@ -398,7 +398,7 @@ export default function TopicDetail({ topicId, onBack }: TopicDetailProps) {
                 </div>
               </div>
 
-              {/* Top Keywords */}
+              {}
               <div className="bg-card border border-border rounded-lg p-6">
                 <h4 className="font-semibold mb-4">Top Keywords</h4>
                 <div className="space-y-2">
@@ -407,7 +407,7 @@ export default function TopicDetail({ topicId, onBack }: TopicDetailProps) {
                       <span className="text-sm font-medium">{keyword}</span>
                       <div className="flex items-center gap-2">
                         <div className="w-16 h-2 bg-muted rounded-full overflow-hidden">
-                          <div 
+                          <div
                             className="h-full bg-primary"
                             style={{ width: `${100 - (index * 15)}%` }}
                           />

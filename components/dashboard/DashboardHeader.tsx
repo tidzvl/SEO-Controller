@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { 
-  Download, 
-  Share2, 
+import {
+  Download,
+  Share2,
   Calendar,
   RefreshCw,
   Settings,
@@ -21,18 +21,18 @@ export default function DashboardHeader() {
 
   const handleRefresh = async () => {
     setIsRefreshing(true)
-    // Simulate API call
+
     await new Promise(resolve => setTimeout(resolve, 1000))
     setIsRefreshing(false)
   }
 
   const handleExport = () => {
-    // Export functionality
+
     console.log('Exporting dashboard...')
   }
 
   const handleShare = () => {
-    // Share functionality
+
     console.log('Sharing dashboard...')
   }
 
@@ -44,7 +44,7 @@ export default function DashboardHeader() {
       className="sticky top-0 z-50 bg-card/95 backdrop-blur-sm border-b border-border"
     >
       <div className="flex items-center justify-between px-6 py-4">
-        {/* Left Section - Brand & Project */}
+        {}
         <div className="flex items-center gap-4">
           <motion.h1
             initial={{ opacity: 0, x: -20 }}
@@ -54,7 +54,7 @@ export default function DashboardHeader() {
           >
 {t('dashboard.title')}
           </motion.h1>
-          
+
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -63,10 +63,10 @@ export default function DashboardHeader() {
             <ProjectSelector />
           </motion.div>
         </div>
-        
-        {/* Right Section - Controls & Status */}
+
+        {}
         <div className="flex items-center gap-4">
-          {/* Real-time Status */}
+          {}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -74,20 +74,20 @@ export default function DashboardHeader() {
           >
             <RealTimeIndicator />
           </motion.div>
-          
-          {/* Time Range Selector */}
+
+          {}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.5 }}
           >
-            <TimeRangeSelector 
+            <TimeRangeSelector
               selectedRange={state.timeRange}
               onRangeChange={setTimeRange}
             />
           </motion.div>
-          
-          {/* Action Buttons */}
+
+          {}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -102,11 +102,11 @@ export default function DashboardHeader() {
               className="p-2 rounded-md hover:bg-accent transition-colors disabled:opacity-50"
               aria-label={t('dashboard.loading')}
             >
-              <RefreshCw 
-                className={`h-4 w-4 ${isRefreshing ? 'animate-spin' : ''}`} 
+              <RefreshCw
+                className={`h-4 w-4 ${isRefreshing ? 'animate-spin' : ''}`}
               />
             </motion.button>
-            
+
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -116,7 +116,7 @@ export default function DashboardHeader() {
             >
               <Download className="h-4 w-4" />
             </motion.button>
-            
+
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -126,7 +126,7 @@ export default function DashboardHeader() {
             >
               <Share2 className="h-4 w-4" />
             </motion.button>
-            
+
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -138,7 +138,7 @@ export default function DashboardHeader() {
                 3
               </span>
             </motion.button>
-            
+
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}

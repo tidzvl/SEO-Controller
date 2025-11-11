@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { 
-  ChevronLeft, 
+import {
+  ChevronLeft,
   ChevronRight,
   TrendingUp,
   Users,
@@ -82,7 +82,7 @@ export default function DashboardSidebar() {
               >
                 <ChevronRight className="h-4 w-4" />
               </motion.button>
-            
+
             {quickActions.map((action, index) => (
               <motion.button
                 key={action.id}
@@ -106,7 +106,7 @@ export default function DashboardSidebar() {
             exit={{ opacity: 0 }}
             className="flex flex-col h-full"
           >
-            {/* Header */}
+            {}
             <div className="flex items-center justify-between p-4 border-b border-border">
               <h3 className="text-sm font-semibold">Dashboard</h3>
               <motion.button
@@ -118,10 +118,10 @@ export default function DashboardSidebar() {
                 <ChevronLeft className="h-4 w-4" />
               </motion.button>
             </div>
-            
-            {/* Content */}
+
+            {}
             <div className="flex-1 overflow-y-auto p-4 space-y-6">
-              {/* Quick Actions */}
+              {}
               <div>
                 <motion.button
                   onClick={() => toggleSection('quick-actions')}
@@ -137,7 +137,7 @@ export default function DashboardSidebar() {
                     <ChevronLeft className="h-3.5 w-3.5 text-muted-foreground" />
                   </motion.div>
                 </motion.button>
-                
+
                 <AnimatePresence>
                   {expandedSections.has('quick-actions') && (
                     <motion.div
@@ -165,7 +165,7 @@ export default function DashboardSidebar() {
                 </AnimatePresence>
               </div>
 
-              {/* Data Sources */}
+              {}
               <div>
                 <motion.button
                   onClick={() => toggleSection('data-sources')}
@@ -181,7 +181,7 @@ export default function DashboardSidebar() {
                     <ChevronLeft className="h-3.5 w-3.5 text-muted-foreground" />
                   </motion.div>
                 </motion.button>
-                
+
                 <AnimatePresence>
                   {expandedSections.has('data-sources') && (
                     <motion.div
@@ -211,7 +211,7 @@ export default function DashboardSidebar() {
                 </AnimatePresence>
               </div>
 
-              {/* Recent Alerts */}
+              {}
               <div>
                 <div className="flex items-center gap-2 p-2">
                   <AlertTriangle className="h-4 w-4 text-orange-500" />
@@ -219,7 +219,7 @@ export default function DashboardSidebar() {
                     Recent Alerts
                   </span>
                 </div>
-                
+
                 <div className="mt-2 space-y-2">
                   {recentAlerts.map((alert, index) => (
                     <motion.div
@@ -236,7 +236,7 @@ export default function DashboardSidebar() {
                 </div>
               </div>
 
-              {/* Saved Views */}
+              {}
               <div>
                 <div className="flex items-center gap-2 p-2">
                   <Bookmark className="h-4 w-4 text-blue-500" />
@@ -244,7 +244,7 @@ export default function DashboardSidebar() {
                     Saved Views
                   </span>
                 </div>
-                
+
                 <div className="mt-2 space-y-2">
                   {savedViews.map((view, index) => (
                     <motion.button

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
-import { 
-  Download, 
+import {
+  Download,
   Maximize2,
   Hash,
   TrendingUp
@@ -18,7 +18,6 @@ import {
 } from 'chart.js'
 import { WordCloudController, WordElement } from 'chartjs-chart-wordcloud'
 
-// Register Chart.js components
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -49,9 +48,9 @@ interface TopicCloudProps {
   onTopicClick?: (topic: TopicData) => void
 }
 
-export default function TopicCloud({ 
-  title, 
-  data, 
+export default function TopicCloud({
+  title,
+  data,
   animation = 'word-cloud',
   interaction = 'click-filter',
   onTopicClick
@@ -62,7 +61,6 @@ export default function TopicCloud({
   const [canvasKey, setCanvasKey] = useState(0)
   const [renderFallback, setRenderFallback] = useState(false)
 
-  // Get color based on sentiment and trend
   const getColor = (sentiment: number = 0, trend: string = 'stable') => {
     if (trend === 'rising') {
       return sentiment > 0 ? '#10b981' : sentiment < 0 ? '#ef4444' : '#6b7280'
@@ -75,9 +73,7 @@ export default function TopicCloud({
   useEffect(() => {
     if (!data.length) return
 
-    // Reset fallback state when data changes
     setRenderFallback(false)
-    // Force re-mount canvas by changing key
     setCanvasKey(prev => prev + 1)
   }, [data])
 
@@ -87,28 +83,24 @@ export default function TopicCloud({
       return
     }
 
-    // Destroy existing chart
     if (chartRef.current) {
       chartRef.current.destroy()
       chartRef.current = null
     }
 
-    // Limit to top 5 words to avoid fitting issues and ensure better rendering
     const sortedData = [...data]
-      .filter(item => item.text && item.text.trim().length > 0) // Filter out empty text
+      .filter(item => item.text && item.text.trim().length > 0)
       .sort((a, b) => b.value - a.value)
       .slice(0, 50)
 
-    // If no valid data, show fallback
     if (sortedData.length === 0) {
       setRenderFallback(true)
       return
     }
 
-    // Prepare data for Chart.js - map to the correct structure
     const words = sortedData.map(item => ({
       text: item.text.trim(),
-      weight: Math.max(1, Math.min(item.value, 50)), // Normalize weight between 1-20
+      weight: Math.max(1, Math.min(item.value, 50)),
       sentiment: item.sentiment || 0,
       trend: item.trend || 'stable',
       mentions: item.mentions || 0,
@@ -116,15 +108,12 @@ export default function TopicCloud({
       color: getColor(item.sentiment, item.trend)
     }))
 
-    // Clear any existing timeout
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current)
     }
 
-    // Add small delay to ensure canvas is cleared
     timeoutRef.current = setTimeout(() => {
       try {
-        // Create chart with optimized options for better word placement
         chartRef.current = new ChartJS(canvasRef.current, {
         type: 'wordCloud',
         data: {
@@ -132,7 +121,7 @@ export default function TopicCloud({
           datasets: [
             {
               label: '',
-              data: words.map(d => d.weight) // Use normalized weight directly
+              data: words.map(d => d.weight)
             }
           ]
         },
@@ -188,9 +177,8 @@ export default function TopicCloud({
         console.warn('WordCloud rendering failed:', error)
         setRenderFallback(true)
       }
-    }, 50) // Small delay to ensure canvas is cleared
+    }, 50)
 
-    // Cleanup function
     return () => {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current)
@@ -203,13 +191,11 @@ export default function TopicCloud({
     }
   }, [canvasKey, data])
 
-  // Get top 5 trending topics for the list
   const topTrendingTopics = [...data]
     .filter(item => item.text && item.text.trim().length > 0)
     .sort((a, b) => b.value - a.value)
     .slice(0, 5)
 
-  // Handle topic click
   const handleTopicClick = (topic: TopicData) => {
     if (onTopicClick && interaction === 'click-filter') {
       onTopicClick(topic)
@@ -223,7 +209,6 @@ export default function TopicCloud({
       transition={{ duration: 0.6, delay: 0.7 }}
       className="bg-card border border-border rounded-lg p-6"
     >
-      {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-4">
           <motion.h3
@@ -234,7 +219,7 @@ export default function TopicCloud({
           >
             {title}
           </motion.h3>
-          
+
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -247,7 +232,7 @@ export default function TopicCloud({
             </span>
           </motion.div>
         </div>
-        
+
         <div className="flex items-center gap-2">
           <motion.button
             whileHover={{ scale: 1.05 }}
@@ -256,7 +241,7 @@ export default function TopicCloud({
           >
             <Download className="h-4 w-4" />
           </motion.button>
-          
+
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -266,8 +251,7 @@ export default function TopicCloud({
           </motion.button>
         </div>
       </div>
-      
-      {/* Word Cloud Canvas */}
+
       <div className="relative h-80 w-full mb-6 overflow-hidden rounded-lg bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
         {renderFallback ? (
           <div className="flex items-center justify-center h-full">
@@ -287,8 +271,7 @@ export default function TopicCloud({
           />
         )}
       </div>
-      
-      {/* Top Trending Topics */}
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -299,7 +282,7 @@ export default function TopicCloud({
           <TrendingUp className="h-4 w-4 text-green-600" />
           <h4 className="text-sm font-medium text-muted-foreground">Top Trending Topics</h4>
         </div>
-        
+
         {topTrendingTopics.map((topic, index) => (
           <motion.div
             key={topic.text}
@@ -315,8 +298,8 @@ export default function TopicCloud({
               <div className="flex items-center justify-center w-6 h-6 rounded-full bg-muted text-xs font-bold">
                 {index + 1}
               </div>
-              <div 
-                className="w-3 h-3 rounded-full" 
+              <div
+                className="w-3 h-3 rounded-full"
                 style={{ backgroundColor: getColor(topic.sentiment, topic.trend) }}
               />
               <span className="font-medium">{topic.text}</span>

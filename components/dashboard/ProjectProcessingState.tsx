@@ -1,8 +1,8 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { 
-  Loader2, 
-  CheckCircle, 
+import {
+  Loader2,
+  CheckCircle,
   AlertCircle,
   BarChart3,
   TrendingUp,
@@ -52,7 +52,7 @@ export default function ProjectProcessingState() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 flex items-center justify-center p-6">
       <div className="max-w-2xl w-full">
-        {/* Header */}
+        {}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -67,17 +67,17 @@ export default function ProjectProcessingState() {
           >
             <Loader2 className="h-10 w-10 text-white animate-spin" />
           </motion.div>
-          
+
           <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent mb-4">
             Đang thiết lập project
           </h1>
-          
+
           <p className="text-lg text-muted-foreground">
             Chúng tôi đang chuẩn bị dữ liệu cho <strong>{currentProject.name}</strong>
           </p>
         </motion.div>
 
-        {/* Processing Steps */}
+        {}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -93,8 +93,8 @@ export default function ProjectProcessingState() {
               className="flex items-center gap-4 p-4 bg-card border border-border rounded-lg"
             >
               <div className={`flex items-center justify-center w-10 h-10 rounded-full ${
-                step.status === 'processing' 
-                  ? 'bg-primary/20 text-primary' 
+                step.status === 'processing'
+                  ? 'bg-primary/20 text-primary'
                   : step.status === 'completed'
                   ? 'bg-green-100 text-green-600'
                   : 'bg-muted text-muted-foreground'
@@ -107,12 +107,12 @@ export default function ProjectProcessingState() {
                   step.icon
                 )}
               </div>
-              
+
               <div className="flex-1">
                 <h3 className="font-medium">{step.title}</h3>
                 <p className="text-sm text-muted-foreground">{step.description}</p>
               </div>
-              
+
               {step.status === 'processing' && (
                 <motion.div
                   initial={{ opacity: 0 }}
@@ -126,7 +126,7 @@ export default function ProjectProcessingState() {
           ))}
         </motion.div>
 
-        {/* Progress Bar */}
+        {}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -137,7 +137,7 @@ export default function ProjectProcessingState() {
             <span className="text-sm font-medium">Tiến độ</span>
             <span className="text-sm text-muted-foreground">25%</span>
           </div>
-          
+
           <div className="w-full bg-muted rounded-full h-2">
             <motion.div
               initial={{ width: 0 }}
@@ -148,7 +148,7 @@ export default function ProjectProcessingState() {
           </div>
         </motion.div>
 
-        {/* Estimated Time */}
+        {}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -161,7 +161,7 @@ export default function ProjectProcessingState() {
           </div>
         </motion.div>
 
-        {/* Project Info */}
+        {}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -169,7 +169,7 @@ export default function ProjectProcessingState() {
           className="mt-8 bg-muted/50 rounded-lg p-6"
         >
           <h3 className="font-semibold mb-4">Thông tin project</h3>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <h4 className="text-sm font-medium text-muted-foreground mb-1">Thương hiệu của bạn</h4>
@@ -182,7 +182,7 @@ export default function ProjectProcessingState() {
                 ))}
               </div>
             </div>
-            
+
             <div>
               <h4 className="text-sm font-medium text-muted-foreground mb-1">Đối thủ cạnh tranh</h4>
               <div className="space-y-1">

@@ -1,16 +1,16 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { 
-  PieChart, 
-  Pie, 
-  Cell, 
-  ResponsiveContainer, 
-  Tooltip, 
+import {
+  PieChart,
+  Pie,
+  Cell,
+  ResponsiveContainer,
+  Tooltip,
   Legend
 } from 'recharts'
-import { 
-  MoreHorizontal, 
-  Download, 
+import {
+  MoreHorizontal,
+  Download,
   Maximize2,
   TrendingUp,
   TrendingDown,
@@ -41,8 +41,8 @@ const CustomTooltip = ({ active, payload }: any) => {
         className="bg-card border border-border rounded-lg p-3 shadow-lg"
       >
         <div className="flex items-center gap-2 mb-1">
-          <div 
-            className="w-3 h-3 rounded-full" 
+          <div
+            className="w-3 h-3 rounded-full"
             style={{ backgroundColor: data.payload.color }}
           />
           <span className="font-medium">{data.payload.name}</span>
@@ -67,8 +67,8 @@ const CustomLegend = ({ payload }: any) => {
           transition={{ delay: index * 0.1 }}
           className="flex items-center gap-2"
         >
-          <div 
-            className="w-3 h-3 rounded-full" 
+          <div
+            className="w-3 h-3 rounded-full"
             style={{ backgroundColor: entry.color }}
           />
           <span className="text-sm text-muted-foreground">{entry.value}</span>
@@ -78,9 +78,9 @@ const CustomLegend = ({ payload }: any) => {
   )
 }
 
-export default function SentimentChart({ 
-  title, 
-  data, 
+export default function SentimentChart({
+  title,
+  data,
   animation = 'pie-reveal',
   interaction = 'hover-details'
 }: SentimentChartProps) {
@@ -88,12 +88,12 @@ export default function SentimentChart({
   const [selectedSentiment, setSelectedSentiment] = useState<string | null>(null)
 
   const totalMentions = data.reduce((sum, item) => sum + item.value, 0)
-  
+
   const getSentimentTrend = () => {
     const positive = data.find(d => d.name === 'Positive')?.value || 0
     const negative = data.find(d => d.name === 'Negative')?.value || 0
     const netSentiment = positive - negative
-    
+
     return {
       value: netSentiment,
       trend: netSentiment > 0 ? 'up' : netSentiment < 0 ? 'down' : 'neutral'
@@ -116,7 +116,7 @@ export default function SentimentChart({
       transition={{ duration: 0.8, delay: 0.2 }}
       className="bg-card border border-border rounded-lg p-6"
     >
-      {/* Header */}
+      {}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-4">
           <motion.h3
@@ -127,7 +127,7 @@ export default function SentimentChart({
           >
             {title}
           </motion.h3>
-          
+
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -142,15 +142,15 @@ export default function SentimentChart({
               <Minus className="h-4 w-4 text-gray-600" />
             )}
             <span className={`text-sm font-medium ${
-              trend === 'up' ? 'text-green-600' : 
-              trend === 'down' ? 'text-red-600' : 
+              trend === 'up' ? 'text-green-600' :
+              trend === 'down' ? 'text-red-600' :
               'text-gray-600'
             }`}>
               Net: {netSentiment > 0 ? '+' : ''}{netSentiment.toFixed(1)}%
             </span>
           </motion.div>
         </div>
-        
+
         <div className="flex items-center gap-2">
           <motion.button
             whileHover={{ scale: 1.05 }}
@@ -159,7 +159,7 @@ export default function SentimentChart({
           >
             <Download className="h-4 w-4" />
           </motion.button>
-          
+
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -169,8 +169,8 @@ export default function SentimentChart({
           </motion.button>
         </div>
       </div>
-      
-      {/* Chart */}
+
+      {}
       <div className="h-80 w-full flex items-center justify-center">
         <ResponsiveContainer width="100%" height="100%" minHeight={300}>
           <PieChart>
@@ -188,8 +188,8 @@ export default function SentimentChart({
               onClick={handlePieClick}
             >
               {data.map((entry, index) => (
-                <Cell 
-                  key={`cell-${index}`} 
+                <Cell
+                  key={`cell-${index}`}
                   fill={entry.color}
                   className={`hover:opacity-80 transition-opacity cursor-pointer ${
                     activeIndex === index ? 'opacity-80' : ''
@@ -199,14 +199,14 @@ export default function SentimentChart({
                 />
               ))}
             </Pie>
-            
+
             <Tooltip content={<CustomTooltip />} />
             <Legend />
           </PieChart>
         </ResponsiveContainer>
       </div>
-      
-      {/* Sentiment Summary */}
+
+      {}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -220,8 +220,8 @@ export default function SentimentChart({
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7 + index * 0.1 }}
             className={`text-center p-3 rounded-lg transition-colors cursor-pointer ${
-              selectedSentiment === item.name 
-                ? 'bg-primary/10 border border-primary/20' 
+              selectedSentiment === item.name
+                ? 'bg-primary/10 border border-primary/20'
                 : 'bg-muted/50 hover:bg-muted'
             }`}
             onClick={() => setSelectedSentiment(
@@ -238,8 +238,8 @@ export default function SentimentChart({
           </motion.div>
         ))}
       </motion.div>
-      
-      {/* Selected Sentiment Details */}
+
+      {}
       {selectedSentiment && (
         <motion.div
           initial={{ opacity: 0, height: 0 }}

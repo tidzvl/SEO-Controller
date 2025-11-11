@@ -53,7 +53,7 @@ export default function TemplateSelector() {
                 : 'border-border hover:border-primary/50 hover:shadow-md'
             }`}
           >
-            {/* Selection Indicator */}
+            {}
             {state.selectedTemplate?.id === template.id && (
               <motion.div
                 initial={{ scale: 0 }}
@@ -64,7 +64,7 @@ export default function TemplateSelector() {
               </motion.div>
             )}
 
-            {/* Template Icon */}
+            {}
             <div className="flex items-center gap-3 mb-4">
               <div className="text-3xl">{template.icon}</div>
             <div>
@@ -82,7 +82,7 @@ export default function TemplateSelector() {
             </div>
             </div>
 
-            {/* Description */}
+            {}
             <p className="text-muted-foreground mb-4">
               {template.id === 'performance-summary' && t('reportWizard.performanceSummaryDesc')}
               {template.id === 'trend-analysis' && t('reportWizard.trendAnalysisReportDesc')}
@@ -91,7 +91,7 @@ export default function TemplateSelector() {
               {!['performance-summary', 'trend-analysis', 'competitor-comparison', 'custom-report'].includes(template.id) && template.description}
             </p>
 
-            {/* Sections Preview */}
+            {}
             <div className="mb-4">
               <h4 className="text-sm font-medium mb-2">{t('reportWizard.includes')}:</h4>
               <div className="flex flex-wrap gap-2">
@@ -111,19 +111,19 @@ export default function TemplateSelector() {
               </div>
             </div>
 
-            {/* Estimated Time */}
+            {}
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Clock className="h-4 w-4" />
               <span>~{template.estimatedTime} {t('reportWizard.minutesToGenerate')}</span>
             </div>
 
-            {/* Hover Effect */}
+            {}
             <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-primary/5 to-violet-500/5 opacity-0 hover:opacity-100 transition-opacity pointer-events-none" />
           </motion.div>
         ))}
       </div>
 
-      {/* Selected Template Details */}
+      {}
       {state.selectedTemplate && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -150,7 +150,7 @@ export default function TemplateSelector() {
                 ))}
               </ul>
             </div>
-            
+
             <div>
               <h4 className="font-medium mb-2">{t('reportWizard.reportFeatures')}:</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">

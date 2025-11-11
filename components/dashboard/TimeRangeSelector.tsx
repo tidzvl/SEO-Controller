@@ -71,7 +71,7 @@ export default function TimeRangeSelector({ selectedRange, onRangeChange }: Time
         )}
       </AnimatePresence>
 
-      {/* Backdrop */}
+      {}
       <AnimatePresence>
         {isOpen && (
           <motion.div

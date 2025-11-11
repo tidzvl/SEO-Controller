@@ -1,10 +1,10 @@
 import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { 
-  X, 
-  TrendingUp, 
-  TrendingDown, 
-  Users, 
+import {
+  X,
+  TrendingUp,
+  TrendingDown,
+  Users,
   MessageSquare,
   BarChart3,
   Target,
@@ -75,7 +75,7 @@ export default function TopicDetailModal({ topic, isOpen, onClose }: TopicDetail
     <AnimatePresence>
       {isOpen && (
         <>
-          {/* Backdrop */}
+          {}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -83,8 +83,8 @@ export default function TopicDetailModal({ topic, isOpen, onClose }: TopicDetail
             onClick={onClose}
             className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50"
           />
-          
-          {/* Modal */}
+
+          {}
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -93,7 +93,7 @@ export default function TopicDetailModal({ topic, isOpen, onClose }: TopicDetail
             className="fixed inset-4 z-50 flex items-center justify-center p-4"
           >
             <div className="bg-card border border-border rounded-lg shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
-              {/* Header */}
+              {}
               <div className="p-6 border-b border-border bg-card/50">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-3">
@@ -129,9 +129,9 @@ export default function TopicDetailModal({ topic, isOpen, onClose }: TopicDetail
                 </div>
               </div>
 
-              {/* Content */}
+              {}
               <div className="p-6 overflow-y-auto max-h-[calc(90vh-200px)]">
-                {/* Metrics Grid */}
+                {}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -204,7 +204,7 @@ export default function TopicDetailModal({ topic, isOpen, onClose }: TopicDetail
                   </motion.div>
                 </div>
 
-                {/* Detailed Information */}
+                {}
                 <div className="space-y-6">
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -271,7 +271,7 @@ export default function TopicDetailModal({ topic, isOpen, onClose }: TopicDetail
                 </div>
               </div>
 
-              {/* Footer */}
+              {}
               <div className="p-6 border-t border-border bg-card/50">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">

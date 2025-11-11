@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { 
-  Search, 
-  Filter, 
-  TrendingUp, 
-  Hash, 
+import {
+  Search,
+  Filter,
+  TrendingUp,
+  Hash,
   FileText,
   ArrowUp,
   ArrowDown,
@@ -26,10 +26,10 @@ interface TrendDashboardProps {
 
 export default function TrendDashboard({ onTopicSelect }: TrendDashboardProps) {
   const { t } = useTranslation('common')
-  const { 
-    state, 
-    filteredTopics, 
-    filteredHashtags, 
+  const {
+    state,
+    filteredTopics,
+    filteredHashtags,
     filteredPosts,
     setSearchQuery,
     setViewMode,
@@ -44,11 +44,11 @@ export default function TrendDashboard({ onTopicSelect }: TrendDashboardProps) {
     setSort(by, newOrder)
   }
 
-  const SortButton = ({ 
-    field, 
-    labelKey, 
-    icon 
-  }: { 
+  const SortButton = ({
+    field,
+    labelKey,
+    icon
+  }: {
     field: 'volume' | 'delta' | 'confidence' | 'sentiment'
     labelKey: string
     icon: React.ReactNode
@@ -71,10 +71,10 @@ export default function TrendDashboard({ onTopicSelect }: TrendDashboardProps) {
 
   return (
     <div className="h-full flex flex-col">
-      {/* Search and Controls */}
+      {}
       <div className="p-6 border-b border-border bg-card/50">
         <div className="flex items-center gap-4 mb-4">
-          {/* Search */}
+          {}
           <div className="flex-1 relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <input
@@ -86,7 +86,7 @@ export default function TrendDashboard({ onTopicSelect }: TrendDashboardProps) {
             />
           </div>
 
-          {/* View Mode Toggle */}
+          {}
           <div className="flex items-center gap-2 bg-muted rounded-lg p-1">
             <button
               onClick={() => setViewMode('topics')}
@@ -123,7 +123,7 @@ export default function TrendDashboard({ onTopicSelect }: TrendDashboardProps) {
             </button>
           </div>
 
-          {/* Refresh */}
+          {}
           <button
             onClick={refreshData}
             disabled={state.isLoading}
@@ -134,7 +134,7 @@ export default function TrendDashboard({ onTopicSelect }: TrendDashboardProps) {
           </button>
         </div>
 
-        {/* Sort Controls */}
+        {}
         <div className="flex items-center gap-2">
            <span className="text-sm font-medium text-muted-foreground">{t('trendAnalysis.sortBy')}:</span>
           <SortButton field="volume" labelKey="trendAnalysis.sortByVolume" icon={<BarChart3 className="h-4 w-4" />} />
@@ -144,7 +144,7 @@ export default function TrendDashboard({ onTopicSelect }: TrendDashboardProps) {
         </div>
       </div>
 
-      {/* Metrics Overview */}
+      {}
       {showMetrics && (
         <motion.div
           initial={{ opacity: 0, height: 0 }}
@@ -156,7 +156,7 @@ export default function TrendDashboard({ onTopicSelect }: TrendDashboardProps) {
         </motion.div>
       )}
 
-      {/* Content */}
+      {}
       <div className="flex-1 overflow-auto">
         {state.isLoading ? (
           <div className="flex items-center justify-center h-full">
@@ -209,8 +209,8 @@ export default function TrendDashboard({ onTopicSelect }: TrendDashboardProps) {
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: index * 0.1 }}
                         >
-                          <TrendTopicCard 
-                            topic={topic} 
+                          <TrendTopicCard
+                            topic={topic}
                             onClick={() => onTopicSelect(topic.id)}
                           />
                         </motion.div>

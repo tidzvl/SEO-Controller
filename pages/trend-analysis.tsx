@@ -19,14 +19,14 @@ const TrendAnalysis: NextPage = () => {
     <TrendProvider>
       <div className="flex flex-col h-screen bg-background">
         <Navbar />
-        
+
         <main className="flex-1 overflow-hidden">
           <TrendAnalysisContent />
         </main>
-        
+
         <Footer />
-        
-        {/* Saved Items Floating Button */}
+
+        {}
         <SavedItems />
       </div>
     </TrendProvider>
@@ -39,9 +39,9 @@ const TrendAnalysisContent: React.FC = () => {
 
   return (
     <div className="flex h-full">
-      {/* Main Content */}
+      {}
       <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Header */}
+        {}
         <div className="flex items-center justify-between p-6 border-b border-border">
           <div>
             <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">
@@ -51,7 +51,7 @@ const TrendAnalysisContent: React.FC = () => {
               Khám phá xu hướng nội dung theo thời gian thực
             </p>
           </div>
-          
+
           <div className="flex items-center gap-3">
             <button
               onClick={() => setShowFilters(!showFilters)}
@@ -65,11 +65,11 @@ const TrendAnalysisContent: React.FC = () => {
           </div>
         </div>
 
-        {/* Content */}
+        {}
         <div className="flex-1 overflow-hidden">
           {selectedTopic ? (
-            <TopicDetail 
-              topicId={selectedTopic} 
+            <TopicDetail
+              topicId={selectedTopic}
               onBack={() => setSelectedTopic(null)}
             />
           ) : (
@@ -78,7 +78,7 @@ const TrendAnalysisContent: React.FC = () => {
         </div>
       </div>
 
-      {/* Filters Sidebar */}
+      {}
       {showFilters && (
         <div className="w-80 border-l border-border bg-card/50">
           <TrendFilters onClose={() => setShowFilters(false)} />

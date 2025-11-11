@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
-import { 
-  X, 
-  Calendar, 
-  Smartphone, 
+import {
+  X,
+  Calendar,
+  Smartphone,
   Hash,
   Filter,
   RotateCcw,
@@ -73,7 +73,7 @@ export default function TrendFilters({ onClose }: TrendFiltersProps) {
     const newPlatforms = state.filters.platforms.includes(platformId)
       ? state.filters.platforms.filter(p => p !== platformId)
       : [...state.filters.platforms, platformId]
-    
+
     setFilters({ platforms: newPlatforms })
   }
 
@@ -81,7 +81,7 @@ export default function TrendFilters({ onClose }: TrendFiltersProps) {
     const newIndustries = state.filters.industries.includes(industryId)
       ? state.filters.industries.filter(i => i !== industryId)
       : [...state.filters.industries, industryId]
-    
+
     setFilters({ industries: newIndustries })
   }
 
@@ -89,16 +89,16 @@ export default function TrendFilters({ onClose }: TrendFiltersProps) {
     const newSentiment = state.filters.sentiment.includes(sentimentId)
       ? state.filters.sentiment.filter(s => s !== sentimentId)
       : [...state.filters.sentiment, sentimentId]
-    
+
     setFilters({ sentiment: newSentiment })
   }
 
-  const FilterSection = ({ 
-    title, 
-    sectionId, 
-    icon, 
-    children 
-  }: { 
+  const FilterSection = ({
+    title,
+    sectionId,
+    icon,
+    children
+  }: {
     title: string
     sectionId: string
     icon: React.ReactNode
@@ -113,13 +113,13 @@ export default function TrendFilters({ onClose }: TrendFiltersProps) {
           {icon}
           <span className="font-medium">{title}</span>
         </div>
-        <ChevronDown 
+        <ChevronDown
           className={`h-4 w-4 transition-transform ${
             expandedSections.has(sectionId) ? 'rotate-180' : ''
-          }`} 
+          }`}
         />
       </button>
-      
+
       {expandedSections.has(sectionId) && (
         <motion.div
           initial={{ opacity: 0, height: 0 }}
@@ -135,7 +135,7 @@ export default function TrendFilters({ onClose }: TrendFiltersProps) {
 
   return (
     <div className="h-full flex flex-col">
-      {/* Header */}
+      {}
       <div className="flex items-center justify-between p-4 border-b border-border">
         <div className="flex items-center gap-2">
           <Filter className="h-5 w-5" />
@@ -149,9 +149,9 @@ export default function TrendFilters({ onClose }: TrendFiltersProps) {
         </button>
       </div>
 
-      {/* Content */}
+      {}
       <div className="flex-1 overflow-y-auto p-4">
-        {/* Time Range */}
+        {}
         <FilterSection
           title="Time Range"
           sectionId="time-range"
@@ -174,7 +174,7 @@ export default function TrendFilters({ onClose }: TrendFiltersProps) {
           </div>
         </FilterSection>
 
-        {/* Platforms */}
+        {}
         <FilterSection
           title="Platforms"
           sectionId="platforms"
@@ -196,7 +196,7 @@ export default function TrendFilters({ onClose }: TrendFiltersProps) {
           </div>
         </FilterSection>
 
-        {/* Industries */}
+        {}
         <FilterSection
           title="Industries"
           sectionId="industries"
@@ -217,7 +217,7 @@ export default function TrendFilters({ onClose }: TrendFiltersProps) {
           </div>
         </FilterSection>
 
-        {/* Sentiment */}
+        {}
         <FilterSection
           title="Sentiment"
           sectionId="sentiment"
@@ -238,7 +238,7 @@ export default function TrendFilters({ onClose }: TrendFiltersProps) {
           </div>
         </FilterSection>
 
-        {/* Volume Range */}
+        {}
         <FilterSection
           title="Volume Range"
           sectionId="volume"
@@ -255,7 +255,7 @@ export default function TrendFilters({ onClose }: TrendFiltersProps) {
                 placeholder="100"
               />
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium mb-2">Minimum Confidence</label>
               <input
@@ -273,7 +273,7 @@ export default function TrendFilters({ onClose }: TrendFiltersProps) {
         </FilterSection>
       </div>
 
-      {/* Footer */}
+      {}
       <div className="p-4 border-t border-border">
         <div className="flex gap-2">
           <button

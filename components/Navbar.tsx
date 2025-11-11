@@ -31,16 +31,16 @@ export default function Navbar() {
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between px-4">
-        {/* Left: Logo & Nav Items */}
+        {}
         <div className="flex items-center gap-8">
-          {/* Brand */}
+          {}
           <div className="flex items-center">
             <h1 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">
               {t('navbar.brand')}
             </h1>
           </div>
 
-          {/* Navigation Menu */}
+          {}
           <ul className="hidden md:flex items-center gap-1">
             {navItems.map((item) => {
               const isActive = router.pathname === item.href
@@ -68,9 +68,9 @@ export default function Navbar() {
           </ul>
         </div>
 
-        {/* Right: Theme, Language, Avatar */}
+        {}
         <div className="flex items-center gap-2">
-          {/* Theme Switcher */}
+          {}
           <button
             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
             className="inline-flex items-center justify-center rounded-md p-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
@@ -80,7 +80,7 @@ export default function Navbar() {
             <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
           </button>
 
-          {/* Language Switcher */}
+          {}
           <div className="relative">
             <button
               onClick={() => setLangOpen(!langOpen)}
@@ -120,7 +120,7 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* User Avatar */}
+          {}
           <button
             className="inline-flex items-center justify-center rounded-full p-1.5 transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
             aria-label="User profile"

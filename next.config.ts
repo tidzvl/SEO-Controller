@@ -7,6 +7,8 @@ const nextConfig: NextConfig = {
   allowedDevOrigins: [env.REPLIT_DOMAINS?.split(",")[0]],
   i18n,
   reactStrictMode: true,
+  // Enable standalone output for Docker
+  output: 'standalone',
 };
 
 module.exports = nextConfig;

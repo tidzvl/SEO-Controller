@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { 
-  Menu, 
-  X, 
+import {
+  Menu,
+  X,
   ChevronDown,
   Filter,
   Download,
@@ -117,7 +117,7 @@ export default function MobileDashboard() {
       case 'overview':
         return (
           <div className="space-y-4">
-            {/* Metrics */}
+            {}
             <div className="space-y-3">
               {metrics.map((metric, index) => (
                 <motion.div
@@ -130,14 +130,14 @@ export default function MobileDashboard() {
                 </motion.div>
               ))}
             </div>
-            
-            {/* Sentiment Chart */}
+
+            {}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
             >
-              <SentimentChart 
+              <SentimentChart
                 title="Sentiment Distribution"
                 data={data.sentiment}
                 animation="pie-reveal"
@@ -146,7 +146,7 @@ export default function MobileDashboard() {
             </motion.div>
           </div>
         )
-      
+
       case 'trends':
         return (
           <div className="space-y-4">
@@ -155,20 +155,20 @@ export default function MobileDashboard() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
             >
-              <TrendChart 
+              <TrendChart
                 title="Trend Analysis"
                 data={data.trends}
                 animation="line-draw"
                 interaction="zoom-pan"
               />
             </motion.div>
-            
+
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
             >
-              <TopicCloud 
+              <TopicCloud
                 title="Trending Topics"
                 data={data.topics}
                 animation="word-cloud"
@@ -178,7 +178,7 @@ export default function MobileDashboard() {
             </motion.div>
           </div>
         )
-      
+
       case 'competitors':
         return (
           <motion.div
@@ -186,7 +186,7 @@ export default function MobileDashboard() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <CompetitorChart 
+            <CompetitorChart
               title="Share of Voice Comparison"
               data={data.competitors}
               animation="bar-stack"
@@ -194,7 +194,7 @@ export default function MobileDashboard() {
             />
           </motion.div>
         )
-      
+
       case 'content':
         return (
           <motion.div
@@ -202,7 +202,7 @@ export default function MobileDashboard() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <DataTable 
+            <DataTable
               title="Top Performing Content"
               data={data.content}
               animation="row-reveal"
@@ -210,7 +210,7 @@ export default function MobileDashboard() {
             />
           </motion.div>
         )
-      
+
       default:
         return null
     }
@@ -231,7 +231,7 @@ export default function MobileDashboard() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Mobile Header */}
+      {}
       <motion.header
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -247,12 +247,12 @@ export default function MobileDashboard() {
             >
               <Menu className="h-5 w-5" />
             </motion.button>
-            
+
             <h1 className="text-lg font-bold bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">
               SMAP
             </h1>
           </div>
-          
+
           <div className="flex items-center gap-2">
             <motion.button
               whileHover={{ scale: 1.05 }}
@@ -262,7 +262,7 @@ export default function MobileDashboard() {
             >
               <Filter className="h-5 w-5" />
             </motion.button>
-            
+
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -275,8 +275,8 @@ export default function MobileDashboard() {
             </motion.button>
           </div>
         </div>
-        
-        {/* Project Info */}
+
+        {}
         <div className="px-4 pb-3">
           <div className="text-sm text-muted-foreground">
             Project: Coffee Shop Analysis
@@ -287,7 +287,7 @@ export default function MobileDashboard() {
         </div>
       </motion.header>
 
-      {/* Filters Panel */}
+      {}
       <AnimatePresence>
         {showFilters && (
           <motion.div
@@ -321,7 +321,7 @@ export default function MobileDashboard() {
                   ))}
                 </div>
               </div>
-              
+
               <div>
                 <label className="text-sm font-medium mb-2 block">Time Range</label>
                 <div className="flex gap-2">
@@ -345,7 +345,7 @@ export default function MobileDashboard() {
         )}
       </AnimatePresence>
 
-      {/* Tab Navigation */}
+      {}
       <div className="sticky top-[120px] z-40 bg-background border-b border-border">
         <div className="flex overflow-x-auto scrollbar-hide">
           {tabs.map((tab) => (
@@ -367,7 +367,7 @@ export default function MobileDashboard() {
         </div>
       </div>
 
-      {/* Content */}
+      {}
       <main className="p-4">
         <AnimatePresence mode="wait">
           <motion.div
@@ -382,7 +382,7 @@ export default function MobileDashboard() {
         </AnimatePresence>
       </main>
 
-      {/* Floating Action Button */}
+      {}
       <motion.button
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
@@ -393,7 +393,7 @@ export default function MobileDashboard() {
         <Share2 className="h-6 w-6" />
       </motion.button>
 
-      {/* Topic Detail Modal */}
+      {}
       <TopicDetailModal
         topic={state.selectedTopic}
         isOpen={!!state.selectedTopic}

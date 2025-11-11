@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { 
-  BookmarkCheck, 
-  X, 
-  TrendingUp, 
-  Hash, 
+import {
+  BookmarkCheck,
+  X,
+  TrendingUp,
+  Hash,
   FileText,
   Trash2,
   Share2,
@@ -28,7 +28,7 @@ export default function SavedItems() {
 
   return (
     <>
-      {/* Floating Save Button */}
+      {}
       <motion.button
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
@@ -50,7 +50,7 @@ export default function SavedItems() {
         )}
       </motion.button>
 
-      {/* Saved Items Modal */}
+      {}
       <AnimatePresence>
         {isOpen && (
           <>
@@ -61,14 +61,14 @@ export default function SavedItems() {
               className="fixed inset-0 bg-black/50 z-50"
               onClick={() => setIsOpen(false)}
             />
-            
+
             <motion.div
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
               className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl max-h-[80vh] bg-card border border-border rounded-lg shadow-xl z-50 overflow-hidden"
             >
-              {/* Header */}
+              {}
               <div className="flex items-center justify-between p-6 border-b border-border">
                 <div className="flex items-center gap-3">
                   <BookmarkCheck className="h-6 w-6 text-primary" />
@@ -85,10 +85,10 @@ export default function SavedItems() {
                 </button>
               </div>
 
-              {/* Content */}
+              {}
               <div className="p-6 overflow-y-auto max-h-[60vh]">
                 <div className="space-y-6">
-                  {/* Saved Topics */}
+                  {}
                   {savedTopics.length > 0 && (
                     <div>
                       <div className="flex items-center gap-2 mb-4">
@@ -123,7 +123,7 @@ export default function SavedItems() {
                     </div>
                   )}
 
-                  {/* Saved Hashtags */}
+                  {}
                   {savedHashtags.length > 0 && (
                     <div>
                       <div className="flex items-center gap-2 mb-4">
@@ -158,7 +158,7 @@ export default function SavedItems() {
                     </div>
                   )}
 
-                  {/* Saved Posts */}
+                  {}
                   {savedPosts.length > 0 && (
                     <div>
                       <div className="flex items-center gap-2 mb-4">
@@ -210,7 +210,7 @@ export default function SavedItems() {
                 </div>
               </div>
 
-              {/* Footer */}
+              {}
               <div className="flex items-center justify-between p-6 border-t border-border bg-muted/30">
                 <div className="text-sm text-muted-foreground">
                   {totalSaved} items saved • Click the bookmark icon to save more

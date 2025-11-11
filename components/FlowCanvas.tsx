@@ -31,7 +31,7 @@ function FlowCanvas() {
   const nodeTypes: NodeTypes = useMemo(() => ({ custom: CustomNode }), [])
   const reactFlowWrapper = useRef<HTMLDivElement>(null)
   const router = useRouter()
-  
+
   const [nodes, setNodes, onNodesChange] = useNodesState([])
   const [edges, setEdges, onEdgesChange] = useEdgesState([])
   const [reactFlowInstance, setReactFlowInstance] = useState<any>(null)
@@ -44,7 +44,7 @@ function FlowCanvas() {
     const loadDraftFromStorage = () => {
       const draft = storage.loadDraft()
       if (draft) {
-        // Migrate legacy nodes: ensure Social Media nodes have selectedFunction/functionFields
+
         const migratedNodes = draft.nodes.map(node => {
           const isSocialMediaNode = node.data?.config?.group === 'Social Media'
           if (isSocialMediaNode && !node.data.selectedFunction) {
@@ -59,10 +59,10 @@ function FlowCanvas() {
           }
           return node
         })
-        
+
         setNodes(migratedNodes)
         setEdges(draft.edges)
-        
+
         if (draft.nodes.length > 0) {
           const maxId = draft.nodes.reduce((max, node) => {
             const nodeId = parseInt(node.id.split('_')[1] || '0')
@@ -151,7 +151,7 @@ function FlowCanvas() {
 
     try {
       const engine = new WorkflowExecutionEngine(nodes, edges)
-      
+
       const updateVisualization = (context: ExecutionContext) => {
         const updatedEdges = edges.map(edge => {
           const edgeState = context.edgeStates.get(edge.id)
@@ -186,7 +186,7 @@ function FlowCanvas() {
       }
 
       await engine.execute(updateVisualization)
-      
+
       alert('Workflow executed successfully!')
     } catch (error) {
       alert(`Workflow execution failed: ${error instanceof Error ? error.message : 'Unknown error'}`)
@@ -273,7 +273,7 @@ function FlowCanvas() {
         id: getId(),
         type: 'custom',
         position,
-        data: { 
+        data: {
           config: nodeConfig,
           displayName: nodeConfig.name,
           inputValues: {},
@@ -298,7 +298,7 @@ function FlowCanvas() {
           onSave={handleSave}
           onClear={handleClear}
         />
-        
+
         <ReactFlow
           nodes={nodes}
           edges={edges}

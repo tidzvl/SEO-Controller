@@ -25,7 +25,7 @@ const DashboardContent: React.FC = () => {
   }
 
   const handleImportProject = () => {
-    // TODO: Implement CSV import functionality
+
     console.log('Import project from CSV')
   }
 
@@ -37,24 +37,23 @@ const DashboardContent: React.FC = () => {
       brands: projectData.brands,
       competitors: projectData.competitors,
       createdAt: new Date(),
-      status: 'active' // Set to active to show success state
+      status: 'active'
     }
-    
+
     addProject(newProject)
     setShowWizard(false)
   }
 
-  // Show empty state if no projects or no project selected
   if (state.showEmptyState || state.projects.length === 0 || state.selectedProject === null) {
     return (
       <>
         <Navbar />
-        <EmptyState 
+        <EmptyState
           onCreateProject={handleCreateProject}
           onImportProject={handleImportProject}
         />
         <Footer />
-        
+
         <ProjectSetupWizard
           isOpen={showWizard}
           onClose={() => setShowWizard(false)}
@@ -64,10 +63,8 @@ const DashboardContent: React.FC = () => {
     )
   }
 
-  // Get current project from selected project ID
   const currentProject = state.projects.find(p => p.id === state.selectedProject)
 
-  // Show processing state if current project is processing
   if (currentProject?.status === 'processing') {
     return (
       <>
@@ -78,8 +75,7 @@ const DashboardContent: React.FC = () => {
     )
   }
 
-  // Show success state if project was just created (simulate completion)
-  if (currentProject?.status === 'active' && currentProject.createdAt && 
+  if (currentProject?.status === 'active' && currentProject.createdAt &&
       (Date.now() - currentProject.createdAt.getTime()) < 10000) {
     return (
       <>
@@ -90,7 +86,6 @@ const DashboardContent: React.FC = () => {
     )
   }
 
-  // Show normal dashboard if projects exist
   if (isMobile) {
     return (
       <>
@@ -108,24 +103,24 @@ const DashboardContent: React.FC = () => {
     <>
       <div className="flex flex-col h-screen bg-background">
         <Navbar />
-        
+
         <div className="flex flex-1 overflow-hidden">
-          {/* Sidebar */}
+          {}
           <DashboardSidebar />
-          
-          {/* Main Content */}
+
+          {}
           <div className="flex-1 flex flex-col overflow-hidden">
             <DashboardHeader />
-            
+
             <main className="flex-1 overflow-auto">
               <DashboardGrid />
             </main>
           </div>
         </div>
-        
+
         <Footer />
       </div>
-      
+
       <ProjectSetupWizard
         isOpen={showWizard}
         onClose={() => setShowWizard(false)}

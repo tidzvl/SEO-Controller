@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { 
-  ArrowLeft, 
-  ArrowRight, 
-  Check, 
-  FileText, 
+import {
+  ArrowLeft,
+  ArrowRight,
+  Check,
+  FileText,
   Download,
   Settings,
   Calendar,
@@ -93,7 +93,7 @@ export default function ReportWizard({ onReportGenerated }: ReportWizardProps) {
 
   return (
     <div className="h-full flex flex-col">
-      {/* Header */}
+      {}
       <div className="p-6 border-b border-border bg-card/50">
         <div className="flex items-center justify-between">
           <div>
@@ -104,7 +104,7 @@ export default function ReportWizard({ onReportGenerated }: ReportWizardProps) {
               {t('reportWizard.subtitle')}
             </p>
           </div>
-          
+
           <div className="flex items-center gap-2">
             <div className="text-sm text-muted-foreground">
 {t('reportWizard.step')} {state.currentStep} {t('reportWizard.of')} {state.totalSteps}
@@ -112,20 +112,20 @@ export default function ReportWizard({ onReportGenerated }: ReportWizardProps) {
           </div>
         </div>
 
-        {/* Progress Steps */}
+        {}
         <div className="mt-6">
           <div className="flex items-center justify-between">
             {steps.map((step, index) => (
               <div key={step.id} className="flex items-center">
                 <motion.div
                   initial={{ scale: 0.8 }}
-                  animate={{ 
+                  animate={{
                     scale: state.currentStep >= step.id ? 1.1 : 1,
                     backgroundColor: state.currentStep >= step.id ? '#3b82f6' : '#e5e7eb'
                   }}
                   className={`flex items-center justify-center w-10 h-10 rounded-full border-2 transition-colors ${
-                    state.currentStep >= step.id 
-                      ? 'border-primary bg-primary text-primary-foreground' 
+                    state.currentStep >= step.id
+                      ? 'border-primary bg-primary text-primary-foreground'
                       : 'border-muted bg-muted text-muted-foreground'
                   }`}
                 >
@@ -135,7 +135,7 @@ export default function ReportWizard({ onReportGenerated }: ReportWizardProps) {
                     step.icon
                   )}
                 </motion.div>
-                
+
                 <div className="ml-3 hidden sm:block">
                   <div className={`text-sm font-medium ${
                     state.currentStep >= step.id ? 'text-foreground' : 'text-muted-foreground'
@@ -143,7 +143,7 @@ export default function ReportWizard({ onReportGenerated }: ReportWizardProps) {
                     {step.title}
                   </div>
                 </div>
-                
+
                 {index < steps.length - 1 && (
                   <div className={`w-16 h-0.5 mx-4 ${
                     state.currentStep > step.id ? 'bg-primary' : 'bg-muted'
@@ -155,7 +155,7 @@ export default function ReportWizard({ onReportGenerated }: ReportWizardProps) {
         </div>
       </div>
 
-      {/* Content */}
+      {}
       <div className="flex-1 overflow-auto">
         <div className="p-6">
           <AnimatePresence mode="wait">
@@ -172,7 +172,7 @@ export default function ReportWizard({ onReportGenerated }: ReportWizardProps) {
         </div>
       </div>
 
-      {/* Footer */}
+      {}
       <div className="p-6 border-t border-border bg-card/50">
         <div className="flex items-center justify-between">
           <button

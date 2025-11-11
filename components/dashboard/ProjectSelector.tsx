@@ -17,7 +17,7 @@ export default function ProjectSelector() {
   }
 
   const handleCreateProject = () => {
-    // Clear selected project to show empty state
+
     setProject(null)
     setIsOpen(false)
   }
@@ -47,7 +47,7 @@ export default function ProjectSelector() {
             className="absolute top-full left-0 mt-2 w-64 bg-card border border-border rounded-lg shadow-lg z-50"
           >
             <div className="p-2">
-              {/* Create New Project */}
+              {}
               <motion.button
                 whileHover={{ backgroundColor: 'rgba(0,0,0,0.05)' }}
                 onClick={handleCreateProject}
@@ -57,12 +57,12 @@ export default function ProjectSelector() {
                 {t('dashboard.createNewProject')}
               </motion.button>
 
-              {/* Divider */}
+              {}
               {state.projects.length > 0 && (
                 <div className="border-t border-border my-2" />
               )}
 
-              {/* Project List */}
+              {}
               {state.projects.length === 0 ? (
                 <div className="px-3 py-2 text-sm text-muted-foreground text-center">
                   {t('dashboard.noProjects')}
@@ -94,7 +94,7 @@ export default function ProjectSelector() {
         )}
       </AnimatePresence>
 
-      {/* Backdrop */}
+      {}
       <AnimatePresence>
         {isOpen && (
           <motion.div

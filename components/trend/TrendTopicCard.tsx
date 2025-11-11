@@ -1,9 +1,9 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { 
-  TrendingUp, 
-  TrendingDown, 
-  Users, 
+import {
+  TrendingUp,
+  TrendingDown,
+  Users,
   MessageSquare,
   ExternalLink,
   BarChart3,
@@ -50,7 +50,7 @@ export default function TrendTopicCard({ topic, onClick }: TrendTopicCardProps) 
 
   const handleShare = (e: React.MouseEvent) => {
     e.stopPropagation()
-    // TODO: Implement share functionality
+
     console.log('Share topic:', topic.name)
   }
 
@@ -61,7 +61,7 @@ export default function TrendTopicCard({ topic, onClick }: TrendTopicCardProps) 
       onClick={onClick}
       className="bg-card border border-border rounded-lg p-6 cursor-pointer hover:shadow-lg transition-all group"
     >
-      {/* Header */}
+      {}
       <div className="flex items-start justify-between mb-4">
         <div className="flex-1">
           <h3 className="text-lg font-semibold mb-2 group-hover:text-primary transition-colors">
@@ -72,7 +72,7 @@ export default function TrendTopicCard({ topic, onClick }: TrendTopicCardProps) 
             <span>Updated {topic.createdAt.toLocaleDateString()}</span>
           </div>
         </div>
-        
+
         <div className="flex items-center gap-2">
           <div className={`px-2 py-1 rounded-full text-xs font-medium ${getSentimentColor(dominantSentiment)}`}>
             {dominantSentiment}
@@ -99,7 +99,7 @@ export default function TrendTopicCard({ topic, onClick }: TrendTopicCardProps) 
         </div>
       </div>
 
-      {/* Metrics */}
+      {}
       <div className="grid grid-cols-2 gap-4 mb-4">
         <div className="flex items-center gap-2">
           <Users className="h-4 w-4 text-muted-foreground" />
@@ -108,7 +108,7 @@ export default function TrendTopicCard({ topic, onClick }: TrendTopicCardProps) 
             <p className="text-xs text-muted-foreground">Volume</p>
           </div>
         </div>
-        
+
         <div className="flex items-center gap-2">
           <BarChart3 className="h-4 w-4 text-muted-foreground" />
           <div>
@@ -118,7 +118,7 @@ export default function TrendTopicCard({ topic, onClick }: TrendTopicCardProps) 
         </div>
       </div>
 
-      {/* Change Indicator */}
+      {}
       <div className="flex items-center gap-2 mb-4">
         {topic.delta > 0 ? (
           <TrendingUp className="h-4 w-4 text-green-600" />
@@ -133,19 +133,19 @@ export default function TrendTopicCard({ topic, onClick }: TrendTopicCardProps) 
         <span className="text-xs text-muted-foreground">vs last period</span>
       </div>
 
-      {/* Sentiment Breakdown */}
+      {}
       <div className="mb-4">
         <p className="text-xs font-medium text-muted-foreground mb-2">Sentiment Distribution</p>
         <div className="flex gap-1 h-2 bg-muted rounded-full overflow-hidden">
-          <div 
+          <div
             className="bg-green-500 h-full"
             style={{ width: `${topic.sentiment.positive}%` }}
           />
-          <div 
+          <div
             className="bg-gray-500 h-full"
             style={{ width: `${topic.sentiment.neutral}%` }}
           />
-          <div 
+          <div
             className="bg-red-500 h-full"
             style={{ width: `${topic.sentiment.negative}%` }}
           />
@@ -157,7 +157,7 @@ export default function TrendTopicCard({ topic, onClick }: TrendTopicCardProps) 
         </div>
       </div>
 
-      {/* Keywords */}
+      {}
       <div className="mb-4">
         <p className="text-xs font-medium text-muted-foreground mb-2">Keywords</p>
         <div className="flex flex-wrap gap-1">
@@ -177,7 +177,7 @@ export default function TrendTopicCard({ topic, onClick }: TrendTopicCardProps) 
         </div>
       </div>
 
-      {/* Platforms */}
+      {}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Target className="h-4 w-4 text-muted-foreground" />
@@ -191,7 +191,7 @@ export default function TrendTopicCard({ topic, onClick }: TrendTopicCardProps) 
             ))}
           </div>
         </div>
-        
+
         <div className="flex items-center gap-1 text-xs text-muted-foreground">
           <MessageSquare className="h-3 w-3" />
           <span>{topic.samplePosts.length} samples</span>

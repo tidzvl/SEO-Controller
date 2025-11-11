@@ -321,7 +321,7 @@ export const nodesConfig: NodeConfig[] = [
       }
     ]
   },
-  // Basic nodes
+
   {
     id: 'url',
     name: 'URL',
@@ -392,7 +392,7 @@ export const nodesConfig: NodeConfig[] = [
       }
     ]
   },
-  // Output nodes
+
   {
     id: 'extract-csv',
     name: 'Extract CSV',
@@ -437,7 +437,7 @@ export const nodesConfig: NodeConfig[] = [
       }
     ]
   },
-  // Charts nodes
+
   {
     id: 'bar-chart',
     name: 'Bar Chart',
@@ -594,7 +594,7 @@ export const nodesConfig: NodeConfig[] = [
       }
     ]
   },
-  // Action nodes
+
   {
     id: 'comparer',
     name: 'Comparer',

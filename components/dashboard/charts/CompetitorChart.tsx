@@ -11,16 +11,15 @@ import {
   ChartOptions
 } from 'chart.js'
 import { Bar } from 'react-chartjs-2'
-import { 
-  MoreHorizontal, 
-  Download, 
+import {
+  MoreHorizontal,
+  Download,
   Maximize2,
   TrendingUp,
   TrendingDown,
   Target
 } from 'lucide-react'
 
-// Register Chart.js components
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -43,7 +42,6 @@ interface CompetitorChartProps {
   interaction?: 'drill-down' | 'hover-only'
 }
 
-// Chart.js tooltip configuration
 const customTooltip = {
   backgroundColor: 'rgba(255, 255, 255, 0.95)',
   titleColor: '#374151',
@@ -76,9 +74,9 @@ const customTooltip = {
   }
 }
 
-export default function CompetitorChart({ 
-  title, 
-  data, 
+export default function CompetitorChart({
+  title,
+  data,
   animation = 'bar-stack',
   interaction = 'hover-only'
 }: CompetitorChartProps) {
@@ -86,7 +84,6 @@ export default function CompetitorChart({
   const [sortBy, setSortBy] = useState<'sov' | 'alphabetical'>('sov')
   const chartRef = useRef<ChartJS<'bar'>>(null)
 
-  // Check if data exists and is valid
   if (!data || !Array.isArray(data) || data.length === 0) {
     return (
       <motion.div
@@ -105,7 +102,6 @@ export default function CompetitorChart({
     )
   }
 
-  // Sort data based on selected criteria
   const sortedData = [...data].sort((a, b) => {
     if (sortBy === 'sov') {
       return b.sov - a.sov
@@ -114,14 +110,12 @@ export default function CompetitorChart({
     }
   })
 
-  // Add rank to data and ensure SoV values are positive
   const rankedData = sortedData.map((item, index) => ({
     ...item,
     rank: index + 1,
-    sov: Math.max(0, item.sov) // Ensure SoV is never negative
+    sov: Math.max(0, item.sov)
   }))
 
-  // Prepare Chart.js data
   const chartData = {
     labels: rankedData.map(item => item.brand),
     datasets: [
@@ -133,12 +127,11 @@ export default function CompetitorChart({
         borderWidth: 0,
         borderRadius: 6,
         borderSkipped: false,
-        brandData: rankedData // Store additional data for tooltip
+        brandData: rankedData
       }
     ]
   }
 
-  // Chart.js options
   const options: ChartOptions<'bar'> = {
     indexAxis: 'y' as const,
     responsive: true,
@@ -190,7 +183,6 @@ export default function CompetitorChart({
     }
   }
 
-
   const getMarketLeader = () => {
     return rankedData[0]
   }
@@ -203,7 +195,6 @@ export default function CompetitorChart({
   const marketLeader = getMarketLeader()
   const yourBrandPosition = getYourBrandPosition()
 
-
   return (
     <motion.div
       initial={{ opacity: 0, x: 20 }}
@@ -211,7 +202,7 @@ export default function CompetitorChart({
       transition={{ duration: 0.6, delay: 0.4 }}
       className="bg-card border border-border rounded-lg p-6"
     >
-      {/* Header */}
+      {}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-4">
           <motion.h3
@@ -222,7 +213,7 @@ export default function CompetitorChart({
           >
             {title}
           </motion.h3>
-          
+
           {yourBrandPosition && (
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
@@ -237,17 +228,17 @@ export default function CompetitorChart({
             </motion.div>
           )}
         </div>
-        
+
         <div className="flex items-center gap-2">
-          {/* Sort Options */}
+          {}
           <div className="flex items-center bg-muted rounded-md p-1">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setSortBy('sov')}
               className={`px-2 py-1 text-xs font-medium rounded-md transition-colors ${
-                sortBy === 'sov' 
-                  ? 'bg-background text-foreground shadow-sm' 
+                sortBy === 'sov'
+                  ? 'bg-background text-foreground shadow-sm'
                   : 'text-muted-foreground hover:text-foreground'
               }`}
             >
@@ -258,15 +249,15 @@ export default function CompetitorChart({
               whileTap={{ scale: 0.95 }}
               onClick={() => setSortBy('alphabetical')}
               className={`px-2 py-1 text-xs font-medium rounded-md transition-colors ${
-                sortBy === 'alphabetical' 
-                  ? 'bg-background text-foreground shadow-sm' 
+                sortBy === 'alphabetical'
+                  ? 'bg-background text-foreground shadow-sm'
                   : 'text-muted-foreground hover:text-foreground'
               }`}
             >
               A-Z
             </motion.button>
           </div>
-          
+
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -274,7 +265,7 @@ export default function CompetitorChart({
           >
             <Download className="h-4 w-4" />
           </motion.button>
-          
+
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -284,8 +275,8 @@ export default function CompetitorChart({
           </motion.button>
         </div>
       </div>
-      
-      {/* Market Leader Info */}
+
+      {}
       {marketLeader && (
         <motion.div
           initial={{ opacity: 0, y: -10 }}
@@ -301,17 +292,17 @@ export default function CompetitorChart({
           </div>
         </motion.div>
       )}
-      
-      {/* Chart */}
+
+      {}
       <div className="h-80 w-full">
-        <Bar 
+        <Bar
           ref={chartRef}
-          data={chartData} 
+          data={chartData}
           options={options}
         />
       </div>
-      
-      {/* Brand Rankings */}
+
+      {}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -326,8 +317,8 @@ export default function CompetitorChart({
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.9 + index * 0.1 }}
             className={`flex items-center justify-between p-3 rounded-lg transition-colors cursor-pointer ${
-              selectedBrand === item.brand 
-                ? 'bg-primary/10 border border-primary/20' 
+              selectedBrand === item.brand
+                ? 'bg-primary/10 border border-primary/20'
                 : 'bg-muted/50 hover:bg-muted'
             }`}
             onClick={() => setSelectedBrand(
@@ -338,8 +329,8 @@ export default function CompetitorChart({
               <div className="flex items-center justify-center w-6 h-6 rounded-full bg-muted text-xs font-bold">
                 {item.rank}
               </div>
-              <div 
-                className="w-3 h-3 rounded-full" 
+              <div
+                className="w-3 h-3 rounded-full"
                 style={{ backgroundColor: item.color }}
               />
               <span className="font-medium">{item.brand}</span>
@@ -348,8 +339,8 @@ export default function CompetitorChart({
           </motion.div>
         ))}
       </motion.div>
-      
-      {/* Selected Brand Details */}
+
+      {}
       {selectedBrand && (
         <motion.div
           initial={{ opacity: 0, height: 0 }}

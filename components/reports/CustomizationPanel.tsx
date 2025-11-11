@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
-import { 
-  Settings, 
-  Palette, 
-  FileText, 
-  BarChart3, 
-  Table, 
+import {
+  Settings,
+  Palette,
+  FileText,
+  BarChart3,
+  Table,
   TrendingUp,
   Check,
   Upload,
@@ -98,7 +98,7 @@ export default function CustomizationPanel() {
         </p>
       </div>
 
-      {/* Tab Navigation */}
+      {}
       <div className="flex border-b border-border mb-8">
         {tabs.map((tab) => (
           <button
@@ -123,7 +123,7 @@ export default function CustomizationPanel() {
         ))}
       </div>
 
-      {/* Tab Content */}
+      {}
       <div className="min-h-[400px]">
         {activeTab === 'sections' && (
           <motion.div
@@ -138,7 +138,7 @@ export default function CustomizationPanel() {
               </p>
             </div>
 
-            {/* Template Sections */}
+            {}
             {state.selectedTemplate?.sections.map((section, index) => (
               <motion.div
                 key={section.id}
@@ -167,7 +167,7 @@ export default function CustomizationPanel() {
                       </p>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-center gap-2">
                     {section.required && (
                       <span className="text-xs text-primary font-medium">Required</span>
@@ -182,7 +182,7 @@ export default function CustomizationPanel() {
               </motion.div>
             ))}
 
-            {/* Content Types */}
+            {}
             <div className="mt-8">
               <h4 className="font-medium mb-4">Content Types</h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -327,7 +327,7 @@ export default function CustomizationPanel() {
         )}
       </div>
 
-      {/* Summary */}
+      {}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -339,8 +339,8 @@ export default function CustomizationPanel() {
             <strong>Template:</strong> {state.selectedTemplate?.name}
           </div>
           <div>
-            <strong>Time Range:</strong> {state.config?.timeRange ? 
-              `${Math.ceil((state.config.timeRange.end.getTime() - state.config.timeRange.start.getTime()) / (1000 * 60 * 60 * 24))} days` : 
+            <strong>Time Range:</strong> {state.config?.timeRange ?
+              `${Math.ceil((state.config.timeRange.end.getTime() - state.config.timeRange.start.getTime()) / (1000 * 60 * 60 * 24))} days` :
               'Not set'
             }
           </div>

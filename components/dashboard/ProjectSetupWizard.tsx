@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { 
-  ArrowLeft, 
-  ArrowRight, 
-  Plus, 
-  X, 
+import {
+  ArrowLeft,
+  ArrowRight,
+  Plus,
+  X,
   Upload,
   Check,
   AlertCircle,
@@ -93,7 +93,7 @@ export default function ProjectSetupWizard({ isOpen, onClose, onComplete }: Proj
 
     setIsLoading(true)
     try {
-      // Simulate API call
+
       await new Promise(resolve => setTimeout(resolve, 2000))
       onComplete(projectData)
       onClose()
@@ -129,10 +129,10 @@ export default function ProjectSetupWizard({ isOpen, onClose, onComplete }: Proj
   const updateBrand = (id: string, field: keyof Brand, value: any) => {
     setProjectData(prev => ({
       ...prev,
-      brands: prev.brands.map(brand => 
+      brands: prev.brands.map(brand =>
         brand.id === id ? { ...brand, [field]: value } : brand
       ),
-      competitors: prev.competitors.map(brand => 
+      competitors: prev.competitors.map(brand =>
         brand.id === id ? { ...brand, [field]: value } : brand
       )
     }))
@@ -224,7 +224,7 @@ export default function ProjectSetupWizard({ isOpen, onClose, onComplete }: Proj
                         <X className="h-4 w-4" />
                       </button>
                     </div>
-                    
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-sm font-medium mb-1">Tên thương hiệu *</label>
@@ -236,7 +236,7 @@ export default function ProjectSetupWizard({ isOpen, onClose, onComplete }: Proj
                           placeholder="Ví dụ: Highlands Coffee"
                         />
                       </div>
-                      
+
                       <div>
                         <label className="block text-sm font-medium mb-1">Từ khóa (cách nhau bởi dấu phẩy)</label>
                         <input
@@ -299,7 +299,7 @@ export default function ProjectSetupWizard({ isOpen, onClose, onComplete }: Proj
                         <X className="h-4 w-4" />
                       </button>
                     </div>
-                    
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-sm font-medium mb-1">Tên đối thủ *</label>
@@ -311,7 +311,7 @@ export default function ProjectSetupWizard({ isOpen, onClose, onComplete }: Proj
                           placeholder="Ví dụ: Starbucks"
                         />
                       </div>
-                      
+
                       <div>
                         <label className="block text-sm font-medium mb-1">Từ khóa (cách nhau bởi dấu phẩy)</label>
                         <input
@@ -409,7 +409,7 @@ export default function ProjectSetupWizard({ isOpen, onClose, onComplete }: Proj
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
           className="bg-background rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-hidden"
         >
-          {/* Header */}
+          {}
           <div className="flex items-center justify-between p-6 border-b border-border">
             <div>
               <h2 className="text-xl font-semibold">Tạo Project Mới</h2>
@@ -425,7 +425,7 @@ export default function ProjectSetupWizard({ isOpen, onClose, onComplete }: Proj
             </button>
           </div>
 
-          {/* Progress Bar */}
+          {}
           <div className="px-6 py-4 border-b border-border">
             <div className="flex items-center gap-2">
               {steps.map((step, index) => (
@@ -455,12 +455,12 @@ export default function ProjectSetupWizard({ isOpen, onClose, onComplete }: Proj
             </div>
           </div>
 
-          {/* Content */}
+          {}
           <div className="p-6 max-h-96 overflow-y-auto">
             {renderStepContent()}
           </div>
 
-          {/* Footer */}
+          {}
           <div className="flex items-center justify-between p-6 border-t border-border">
             <button
               onClick={handlePrevious}

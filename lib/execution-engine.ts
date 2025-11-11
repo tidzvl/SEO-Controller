@@ -127,12 +127,12 @@ export class WorkflowExecutionEngine {
     incomingEdges.forEach(edge => {
       const sourceNode = this.context.nodes.find(n => n.id === edge.source)
       const sourceState = this.context.nodeStates.get(edge.source)
-      
+
       if (sourceNode && sourceState?.output) {
         const sourceHandle = edge.sourceHandle || 'output-0'
         const targetHandle = edge.targetHandle || 'input-0'
         const outputValue = sourceState.output[sourceHandle]
-        
+
         if (outputValue !== undefined) {
           inputData.set(targetHandle, outputValue)
         }
@@ -147,7 +147,7 @@ export class WorkflowExecutionEngine {
     if (!node) return
 
     const nodeState = this.context.nodeStates.get(nodeId)!
-    
+
     nodeState.status = 'running'
     onUpdate(this.context)
 
@@ -156,7 +156,6 @@ export class WorkflowExecutionEngine {
       const isBasicNode = config.group === 'Basic'
       const isSocialMediaNode = config.group === 'Social Media'
 
-      // Validate Social Media nodes have selectedFunction
       if (isSocialMediaNode && !node.data.selectedFunction) {
         throw new Error(`Social Media node "${config.name}" must have a function selected. Please configure the node.`)
       }
@@ -164,11 +163,11 @@ export class WorkflowExecutionEngine {
       if (isBasicNode) {
         const outputValues = node.data.outputValues || {}
         const outputHandles = config.links.filter((link: any) => link.type === 'output')
-        
+
         outputHandles.forEach((handle: any, index: number) => {
           const handleKey = `output-${index}`
           const value = outputValues[handleKey]
-          
+
           if (value && value.trim() !== '') {
             try {
               nodeState.output![handleKey] = JSON.parse(value)
@@ -182,11 +181,11 @@ export class WorkflowExecutionEngine {
       } else {
         const inputData = this.getNodeInputData(nodeId)
         const inputHandles = config.links.filter((link: any) => link.type === 'input')
-        
+
         for (const [index, handle] of inputHandles.entries()) {
           const handleKey = `input-${index}`
           const value = inputData.get(handleKey)
-          
+
           if (value === undefined) {
             throw new Error(`Missing input data for ${handle.label}`)
           }
@@ -197,26 +196,25 @@ export class WorkflowExecutionEngine {
         }
 
         const requirementHandles = config.links.filter((link: any) => link.type === 'requirement')
-        
+
         for (const [index, handle] of requirementHandles.entries()) {
           const handleKey = `requirement-${index}`
-          
-          // Check from connected edges first, then manual input
+
           let value = inputData.get(handleKey)
-          
+
           if (value === undefined) {
-            // Fallback to manual input from requirementValues
+
             const requirementValues = node.data.requirementValues || {}
             value = requirementValues[handleKey]
           }
-          
+
           if (!value || (typeof value === 'string' && value.trim() === '')) {
             throw new Error(`Missing requirement: ${handle.label}`)
           }
         }
 
         await this.simulateNodeExecution(node, inputData)
-        
+
         nodeState.status = 'success'
       }
 
@@ -251,7 +249,7 @@ export class WorkflowExecutionEngine {
     outputHandles.forEach((handle: any, index: number) => {
       const handleKey = `output-${index}`
       const firstInputValue = Array.from(inputData.values())[0]
-      
+
       nodeState.output![handleKey] = {
         processed: true,
         data: firstInputValue,
@@ -266,7 +264,7 @@ export class WorkflowExecutionEngine {
 
       for (const nodeId of executionOrder) {
         const outgoingEdges = this.context.edges.filter(edge => edge.source === nodeId)
-        
+
         outgoingEdges.forEach(edge => {
           const edgeState = this.context.edgeStates.get(edge.id)!
           edgeState.status = 'running'

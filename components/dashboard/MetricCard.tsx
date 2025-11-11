@@ -27,7 +27,7 @@ const TrendIcon = ({ trend }: { trend: 'up' | 'down' | 'neutral' }) => {
 const CounterAnimation = ({ value, color }: { value: string; color: string }) => {
   const numericValue = parseFloat(value.replace(/[^\d.-]/g, ''))
   const suffix = value.replace(/[\d.-]/g, '')
-  
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -38,7 +38,7 @@ const CounterAnimation = ({ value, color }: { value: string; color: string }) =>
       <motion.span
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ 
+        transition={{
           delay: 0.3,
           duration: 0.8,
           ease: "easeOut"
@@ -64,7 +64,7 @@ const CounterAnimation = ({ value, color }: { value: string; color: string }) =>
 const GaugeAnimation = ({ value, color }: { value: string; color: string }) => {
   const numericValue = parseFloat(value.replace(/[^\d.-]/g, ''))
   const percentage = Math.min(Math.abs(numericValue) * 100, 100)
-  
+
   return (
     <div className="relative">
       <motion.div
@@ -76,7 +76,7 @@ const GaugeAnimation = ({ value, color }: { value: string; color: string }) => {
         <motion.span
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ 
+          transition={{
             delay: 0.3,
             duration: 0.8,
             ease: "easeOut"
@@ -86,13 +86,13 @@ const GaugeAnimation = ({ value, color }: { value: string; color: string }) => {
           {value}
         </motion.span>
       </motion.div>
-      
-      {/* Gauge visualization */}
+
+      {}
       <div className="relative w-full h-2 bg-muted rounded-full overflow-hidden">
         <motion.div
           initial={{ width: 0 }}
           animate={{ width: `${percentage}%` }}
-          transition={{ 
+          transition={{
             delay: 0.5,
             duration: 1.2,
             ease: "easeOut"
@@ -108,7 +108,7 @@ const GaugeAnimation = ({ value, color }: { value: string; color: string }) => {
 
 const ProgressAnimation = ({ value, color }: { value: string; color: string }) => {
   const numericValue = parseFloat(value.replace(/[^\d.-]/g, ''))
-  
+
   return (
     <div className="relative">
       <motion.div
@@ -120,7 +120,7 @@ const ProgressAnimation = ({ value, color }: { value: string; color: string }) =
         <motion.span
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ 
+          transition={{
             delay: 0.3,
             duration: 0.8,
             ease: "easeOut"
@@ -130,13 +130,13 @@ const ProgressAnimation = ({ value, color }: { value: string; color: string }) =
           {value}
         </motion.span>
       </motion.div>
-      
-      {/* Progress bar */}
+
+      {}
       <div className="relative w-full h-2 bg-muted rounded-full overflow-hidden">
         <motion.div
           initial={{ width: 0 }}
           animate={{ width: `${numericValue}%` }}
-          transition={{ 
+          transition={{
             delay: 0.5,
             duration: 1.5,
             ease: "easeOut"
@@ -148,14 +148,14 @@ const ProgressAnimation = ({ value, color }: { value: string; color: string }) =
   )
 }
 
-export default function MetricCard({ 
-  title, 
-  value, 
-  delta, 
-  trend, 
-  animation, 
+export default function MetricCard({
+  title,
+  value,
+  delta,
+  trend,
+  animation,
   color,
-  tooltip 
+  tooltip
 }: MetricCardProps) {
   const { i18n } = useTranslation()
   const renderValue = () => {
@@ -177,7 +177,7 @@ export default function MetricCard({
             <motion.span
               initial={{ opacity: 0, scale: 0.5 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ 
+              transition={{
                 delay: 0.3,
                 duration: 0.8,
                 ease: "easeOut"
@@ -193,7 +193,7 @@ export default function MetricCard({
 
   const cardContent = (
     <motion.div
-      whileHover={{ 
+      whileHover={{
         scale: 1.02,
         boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
       }}
@@ -217,16 +217,16 @@ export default function MetricCard({
           <TrendIcon trend={trend} />
         </motion.div>
       </div>
-      
+
       {renderValue()}
-      
+
       <motion.div
         initial={{ x: -10, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{ delay: 0.4 }}
         className={`text-sm flex items-center gap-1 ${
-          trend === 'up' ? 'text-green-600' : 
-          trend === 'down' ? 'text-red-600' : 
+          trend === 'up' ? 'text-green-600' :
+          trend === 'down' ? 'text-red-600' :
           'text-gray-600'
         }`}
       >

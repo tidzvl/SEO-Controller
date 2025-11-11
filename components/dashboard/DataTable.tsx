@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { 
-  MoreHorizontal, 
-  Download, 
+import {
+  MoreHorizontal,
+  Download,
   Maximize2,
   ArrowUpDown,
   ArrowUp,
@@ -32,9 +32,9 @@ interface DataTableProps {
 type SortField = 'title' | 'platform' | 'engagement' | 'reach'
 type SortDirection = 'asc' | 'desc'
 
-export default function DataTable({ 
-  title, 
-  data, 
+export default function DataTable({
+  title,
+  data,
   animation = 'row-reveal',
   interaction = 'sort-filter'
 }: DataTableProps) {
@@ -58,25 +58,25 @@ export default function DataTable({
 
   const getSortedData = () => {
     let filteredData = data
-    
+
     if (filterPlatform !== 'all') {
       filteredData = data.filter(item => item.platform === filterPlatform)
     }
-    
+
     return filteredData.sort((a, b) => {
       const aValue = a[sortField]
       const bValue = b[sortField]
-      
+
       if (typeof aValue === 'string' && typeof bValue === 'string') {
-        return sortDirection === 'asc' 
+        return sortDirection === 'asc'
           ? aValue.localeCompare(bValue)
           : bValue.localeCompare(aValue)
       }
-      
+
       if (typeof aValue === 'number' && typeof bValue === 'number') {
         return sortDirection === 'asc' ? aValue - bValue : bValue - aValue
       }
-      
+
       return 0
     })
   }
@@ -85,8 +85,8 @@ export default function DataTable({
     if (sortField !== field) {
       return <ArrowUpDown className="h-4 w-4 text-muted-foreground" />
     }
-    
-    return sortDirection === 'asc' 
+
+    return sortDirection === 'asc'
       ? <ArrowUp className="h-4 w-4 text-primary" />
       : <ArrowDown className="h-4 w-4 text-primary" />
   }
@@ -127,7 +127,7 @@ export default function DataTable({
       transition={{ duration: 0.6, delay: 0.8 }}
       className="bg-card border border-border rounded-lg p-6"
     >
-      {/* Header */}
+      {}
       <div className="flex items-center justify-between mb-6">
         <motion.h3
           initial={{ opacity: 0, x: -20 }}
@@ -137,9 +137,9 @@ export default function DataTable({
         >
           {title}
         </motion.h3>
-        
+
         <div className="flex items-center gap-2">
-          {/* Platform Filter */}
+          {}
           <div className="flex items-center bg-muted rounded-md p-1">
             {platforms.map((platform) => (
               <motion.button
@@ -148,8 +148,8 @@ export default function DataTable({
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setFilterPlatform(platform)}
                 className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${
-                  filterPlatform === platform 
-                    ? 'bg-background text-foreground shadow-sm' 
+                  filterPlatform === platform
+                    ? 'bg-background text-foreground shadow-sm'
                     : 'text-muted-foreground hover:text-foreground'
                 }`}
               >
@@ -157,7 +157,7 @@ export default function DataTable({
               </motion.button>
             ))}
           </div>
-          
+
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -165,7 +165,7 @@ export default function DataTable({
           >
             <Download className="h-4 w-4" />
           </motion.button>
-          
+
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -175,8 +175,8 @@ export default function DataTable({
           </motion.button>
         </div>
       </div>
-      
-      {/* Table */}
+
+      {}
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead>
@@ -184,7 +184,7 @@ export default function DataTable({
               <th className="text-left py-3 px-4 font-medium text-muted-foreground">
                 #
               </th>
-              <th 
+              <th
                 className={`text-left py-3 px-4 font-medium text-muted-foreground ${
                   interaction === 'sort-filter' ? 'cursor-pointer hover:text-foreground' : ''
                 }`}
@@ -195,7 +195,7 @@ export default function DataTable({
                   {interaction === 'sort-filter' && getSortIcon('title')}
                 </div>
               </th>
-              <th 
+              <th
                 className={`text-left py-3 px-4 font-medium text-muted-foreground ${
                   interaction === 'sort-filter' ? 'cursor-pointer hover:text-foreground' : ''
                 }`}
@@ -206,7 +206,7 @@ export default function DataTable({
                   {interaction === 'sort-filter' && getSortIcon('platform')}
                 </div>
               </th>
-              <th 
+              <th
                 className={`text-left py-3 px-4 font-medium text-muted-foreground ${
                   interaction === 'sort-filter' ? 'cursor-pointer hover:text-foreground' : ''
                 }`}
@@ -217,7 +217,7 @@ export default function DataTable({
                   {interaction === 'sort-filter' && getSortIcon('engagement')}
                 </div>
               </th>
-              <th 
+              <th
                 className={`text-left py-3 px-4 font-medium text-muted-foreground ${
                   interaction === 'sort-filter' ? 'cursor-pointer hover:text-foreground' : ''
                 }`}
@@ -302,8 +302,8 @@ export default function DataTable({
           </tbody>
         </table>
       </div>
-      
-      {/* Selected Row Details */}
+
+      {}
       <AnimatePresence>
         {selectedRow && (
           <motion.div
@@ -317,7 +317,7 @@ export default function DataTable({
               {(() => {
                 const item = data.find(d => d.id === selectedRow)
                 if (!item) return null
-                
+
                 return (
                   <>
                     <div>Title: {item.title}</div>
@@ -331,8 +331,8 @@ export default function DataTable({
           </motion.div>
         )}
       </AnimatePresence>
-      
-      {/* Summary Stats */}
+
+      {}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -353,7 +353,7 @@ export default function DataTable({
         </div>
         <div className="text-center">
           <div className="text-2xl font-bold text-purple-600">
-            {((sortedData.reduce((sum, item) => sum + item.engagement, 0) / 
+            {((sortedData.reduce((sum, item) => sum + item.engagement, 0) /
                sortedData.reduce((sum, item) => sum + item.reach, 0)) * 100).toFixed(1)}%
           </div>
           <div className="text-sm text-muted-foreground">Avg Engagement Rate</div>

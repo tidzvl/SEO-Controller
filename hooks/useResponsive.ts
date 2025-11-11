@@ -60,40 +60,33 @@ export function useResponsive(breakpoints: BreakpointConfig = defaultBreakpoints
       })
     }
 
-    // Initial state
     updateState()
 
-    // Add event listener
     window.addEventListener('resize', updateState)
 
-    // Cleanup
     return () => window.removeEventListener('resize', updateState)
   }, [breakpoints])
 
   return state
 }
 
-// Hook for specific breakpoint checks
 export function useBreakpoint(breakpoint: keyof BreakpointConfig) {
   const { screenWidth } = useResponsive()
   const breakpoints = defaultBreakpoints
-  
+
   return screenWidth >= breakpoints[breakpoint]
 }
 
-// Hook for mobile detection
 export function useIsMobile() {
   const { isMobile } = useResponsive()
   return isMobile
 }
 
-// Hook for tablet detection
 export function useIsTablet() {
   const { isTablet } = useResponsive()
   return isTablet
 }
 
-// Hook for desktop detection
 export function useIsDesktop() {
   const { isDesktop } = useResponsive()
   return isDesktop

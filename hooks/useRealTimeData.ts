@@ -58,18 +58,16 @@ interface UseRealTimeDataReturn {
   refresh: () => void
 }
 
-// Mock data generator
 const generateMockData = (): RealTimeData => {
   const now = new Date()
   const baseTime = now.getTime()
-  
-  // Generate trend data for last 7 days
+
   const trends = Array.from({ length: 7 }, (_, i) => {
     const date = new Date(baseTime - (6 - i) * 24 * 60 * 60 * 1000)
     return {
       date: date.toISOString().split('T')[0],
       mentions: Math.floor(Math.random() * 1000) + 500,
-      sentiment: (Math.random() - 0.5) * 2 // -1 to 1
+      sentiment: (Math.random() - 0.5) * 2
     }
   })
 
@@ -134,7 +132,7 @@ export const useRealTimeData = ({
   const [isConnecting, setIsConnecting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null)
-  
+
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
   const wsRef = useRef<WebSocket | null>(null)
   const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null)
@@ -148,21 +146,15 @@ export const useRealTimeData = ({
     setError(null)
 
     try {
-      // Simulate WebSocket connection
-      // In real implementation, this would be:
-      // const ws = new WebSocket(`wss://api.smap.com/ws/${projectId}`)
-      
-      // For demo, we'll simulate connection
+
       setTimeout(() => {
         setIsConnected(true)
         setIsConnecting(false)
         setLastUpdate(new Date())
         reconnectAttempts.current = 0
-        
-        // Generate initial data
+
         setData(generateMockData())
-        
-        // Start data updates
+
         intervalRef.current = setInterval(() => {
           setData(prevData => {
             const newData = generateMockData()
@@ -184,17 +176,17 @@ export const useRealTimeData = ({
       clearInterval(intervalRef.current)
       intervalRef.current = null
     }
-    
+
     if (wsRef.current) {
       wsRef.current.close()
       wsRef.current = null
     }
-    
+
     if (reconnectTimeoutRef.current) {
       clearTimeout(reconnectTimeoutRef.current)
       reconnectTimeoutRef.current = null
     }
-    
+
     setIsConnected(false)
     setIsConnecting(false)
     setError(null)
@@ -207,23 +199,21 @@ export const useRealTimeData = ({
     }
   }, [isConnected])
 
-  // Auto-connect on mount
   useEffect(() => {
     if (autoConnect) {
       connect()
     }
-    
+
     return () => {
       disconnect()
     }
-  }, [autoConnect]) // Remove connect and disconnect from dependencies
+  }, [autoConnect])
 
-  // Cleanup on unmount
   useEffect(() => {
     return () => {
       disconnect()
     }
-  }, []) // Remove disconnect from dependencies
+  }, [])
 
   return {
     data,

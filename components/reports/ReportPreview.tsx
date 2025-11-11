@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { 
-  ArrowLeft, 
-  Download, 
-  Eye, 
-  FileText, 
-  BarChart3, 
-  Table, 
+import {
+  ArrowLeft,
+  Download,
+  Eye,
+  FileText,
+  BarChart3,
+  Table,
   TrendingUp,
   CheckCircle,
   Clock,
@@ -96,7 +96,7 @@ export default function ReportPreview({ reportData, onBack }: ReportPreviewProps
 
   return (
     <div className="h-full flex flex-col">
-      {/* Header */}
+      {}
       <div className="p-6 border-b border-border bg-card/50">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
@@ -107,7 +107,7 @@ export default function ReportPreview({ reportData, onBack }: ReportPreviewProps
               <ArrowLeft className="h-4 w-4" />
               Back to Wizard
             </button>
-            
+
             <div>
               <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">
                 Report Preview
@@ -126,7 +126,7 @@ export default function ReportPreview({ reportData, onBack }: ReportPreviewProps
               <Eye className="h-4 w-4" />
               {activeTab === 'preview' ? 'View Status' : 'View Preview'}
             </button>
-            
+
             {reportData.status === 'completed' && (
               <button
                 onClick={() => downloadReport(reportData.id)}
@@ -139,7 +139,7 @@ export default function ReportPreview({ reportData, onBack }: ReportPreviewProps
           </div>
         </div>
 
-        {/* Tab Navigation */}
+        {}
         <div className="flex border-b border-border mt-6">
           <button
             onClick={() => setActiveTab('preview')}
@@ -159,7 +159,7 @@ export default function ReportPreview({ reportData, onBack }: ReportPreviewProps
               />
             )}
           </button>
-          
+
           <button
             onClick={() => setActiveTab('status')}
             className={`flex items-center gap-2 px-4 py-2 text-sm font-medium relative transition-colors ${
@@ -181,7 +181,7 @@ export default function ReportPreview({ reportData, onBack }: ReportPreviewProps
         </div>
       </div>
 
-      {/* Content */}
+      {}
       <div className="flex-1 overflow-auto">
         <div className="p-6">
           <AnimatePresence mode="wait">
@@ -193,19 +193,19 @@ export default function ReportPreview({ reportData, onBack }: ReportPreviewProps
                 exit={{ opacity: 0, x: -20 }}
                 className="max-w-4xl mx-auto"
               >
-                {/* Report Header */}
+                {}
                 <div className="text-center mb-8 p-8 bg-gradient-to-r from-blue-50 to-violet-50 rounded-lg border border-border">
                   <h2 className="text-3xl font-bold mb-2">{mockPreviewData.title}</h2>
                   <p className="text-muted-foreground">
-                    Generated on {new Date().toLocaleDateString()} • 
-                    Period: {state.config?.timeRange ? 
-                      `${state.config.timeRange.start.toLocaleDateString()} - ${state.config.timeRange.end.toLocaleDateString()}` : 
+                    Generated on {new Date().toLocaleDateString()} •
+                    Period: {state.config?.timeRange ?
+                      `${state.config.timeRange.start.toLocaleDateString()} - ${state.config.timeRange.end.toLocaleDateString()}` :
                       'Not specified'
                     }
                   </p>
                 </div>
 
-                {/* Report Sections */}
+                {}
                 <div className="space-y-8">
                   {mockPreviewData.sections.map((section, index) => (
                     <motion.div
@@ -276,13 +276,13 @@ export default function ReportPreview({ reportData, onBack }: ReportPreviewProps
                 className="max-w-2xl mx-auto"
               >
                 <div className="space-y-6">
-                  {/* Report Status */}
+                  {}
                   <div className="p-6 bg-card border border-border rounded-lg">
                     <div className="flex items-center gap-3 mb-4">
                       {getStatusIcon(reportData.status)}
                       <h3 className="text-lg font-semibold">Report Status</h3>
                     </div>
-                    
+
                     <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium border ${getStatusColor(reportData.status)}`}>
                       {reportData.status.charAt(0).toUpperCase() + reportData.status.slice(1)}
                     </div>
@@ -321,7 +321,7 @@ export default function ReportPreview({ reportData, onBack }: ReportPreviewProps
                     )}
                   </div>
 
-                  {/* Report Details */}
+                  {}
                   <div className="p-6 bg-card border border-border rounded-lg">
                     <h3 className="text-lg font-semibold mb-4">Report Details</h3>
                     <div className="space-y-3 text-sm">
@@ -348,7 +348,7 @@ export default function ReportPreview({ reportData, onBack }: ReportPreviewProps
                     </div>
                   </div>
 
-                  {/* Actions */}
+                  {}
                   {reportData.status === 'completed' && (
                     <div className="flex gap-3">
                       <button

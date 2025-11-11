@@ -1,10 +1,10 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { 
-  Hash, 
-  TrendingUp, 
+import {
+  Hash,
+  TrendingUp,
   TrendingDown,
-  Users, 
+  Users,
   MessageSquare,
   ExternalLink,
   BarChart3,
@@ -53,7 +53,7 @@ export default function TrendHashtagCard({ hashtag }: TrendHashtagCardProps) {
 
   const handleShare = (e: React.MouseEvent) => {
     e.stopPropagation()
-    // TODO: Implement share functionality
+
     console.log('Share hashtag:', hashtag.hashtag)
   }
 
@@ -63,7 +63,7 @@ export default function TrendHashtagCard({ hashtag }: TrendHashtagCardProps) {
       whileTap={{ scale: 0.98 }}
       className="bg-card border border-border rounded-lg p-6 hover:shadow-lg transition-all group"
     >
-      {/* Header */}
+      {}
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-2">
           <Hash className="h-5 w-5 text-primary" />
@@ -71,7 +71,7 @@ export default function TrendHashtagCard({ hashtag }: TrendHashtagCardProps) {
             {hashtag.hashtag}
           </h3>
         </div>
-        
+
         <div className="flex items-center gap-2">
           <button
             onClick={handleSave}
@@ -95,7 +95,7 @@ export default function TrendHashtagCard({ hashtag }: TrendHashtagCardProps) {
         </div>
       </div>
 
-      {/* Metrics */}
+      {}
       <div className="grid grid-cols-2 gap-4 mb-4">
         <div className="flex items-center gap-2">
           <Users className="h-4 w-4 text-muted-foreground" />
@@ -104,7 +104,7 @@ export default function TrendHashtagCard({ hashtag }: TrendHashtagCardProps) {
             <p className="text-xs text-muted-foreground">Volume</p>
           </div>
         </div>
-        
+
         <div className="flex items-center gap-2">
           <BarChart3 className="h-4 w-4 text-muted-foreground" />
           <div>
@@ -114,7 +114,7 @@ export default function TrendHashtagCard({ hashtag }: TrendHashtagCardProps) {
         </div>
       </div>
 
-      {/* Engagement Rate Badge */}
+      {}
       <div className="mb-4">
         <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium ${getEngagementColor(hashtag.engagementRate)}`}>
           {hashtag.engagementRate >= 5 ? (
@@ -126,7 +126,7 @@ export default function TrendHashtagCard({ hashtag }: TrendHashtagCardProps) {
         </div>
       </div>
 
-      {/* Platforms */}
+      {}
       <div className="mb-4">
         <p className="text-xs font-medium text-muted-foreground mb-2">Active Platforms</p>
         <div className="flex items-center gap-2">
@@ -144,7 +144,7 @@ export default function TrendHashtagCard({ hashtag }: TrendHashtagCardProps) {
         </div>
       </div>
 
-      {/* Additional Metrics */}
+      {}
       <div className="grid grid-cols-2 gap-4 mb-4">
         <div className="flex items-center gap-2">
           <Eye className="h-4 w-4 text-muted-foreground" />
@@ -153,7 +153,7 @@ export default function TrendHashtagCard({ hashtag }: TrendHashtagCardProps) {
             <p className="text-xs text-muted-foreground">Est. Reach</p>
           </div>
         </div>
-        
+
         <div className="flex items-center gap-2">
           <Heart className="h-4 w-4 text-muted-foreground" />
           <div>
@@ -163,7 +163,7 @@ export default function TrendHashtagCard({ hashtag }: TrendHashtagCardProps) {
         </div>
       </div>
 
-      {/* Sample Posts */}
+      {}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <MessageSquare className="h-4 w-4 text-muted-foreground" />
@@ -171,7 +171,7 @@ export default function TrendHashtagCard({ hashtag }: TrendHashtagCardProps) {
             {hashtag.samplePosts.length} sample posts
           </span>
         </div>
-        
+
         <button className="text-xs text-primary hover:text-primary/80 transition-colors">
           View samples →
         </button>

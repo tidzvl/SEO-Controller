@@ -14,7 +14,6 @@ export default function DashboardGrid() {
   const { filteredData, isLoading, state, setSelectedTopic } = useDashboard()
   const { i18n } = useTranslation()
 
-  // Get tooltip text based on language
   const getTooltip = (key: string) => {
     const tooltips = {
       sov: {
@@ -42,12 +41,11 @@ export default function DashboardGrid() {
         en: 'AI analysis confidence level, indicating the accuracy of data analysis results.'
       }
     }
-    
+
     const currentLang = i18n.language || 'vi'
     return tooltips[key as keyof typeof tooltips]?.[currentLang as keyof typeof tooltips[keyof typeof tooltips]] || tooltips[key as keyof typeof tooltips]?.vi
   }
 
-  // Use real-time data or fallback to mock data
   const data = filteredData || {
     metrics: {
       sov: 26.2,
@@ -161,7 +159,6 @@ export default function DashboardGrid() {
     ]
   }
 
-
   const metrics = [
     {
       id: 'sov',
@@ -224,7 +221,7 @@ export default function DashboardGrid() {
   return (
     <>
     <div className="p-6 space-y-6">
-      {/* Row 1: Key Metrics */}
+      {}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -243,7 +240,7 @@ export default function DashboardGrid() {
         ))}
       </motion.div>
 
-      {/* Row 2: Main Charts */}
+      {}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
@@ -251,20 +248,20 @@ export default function DashboardGrid() {
           transition={{ delay: 0.4, duration: 0.6 }}
           className="lg:col-span-2"
         >
-          <TrendChart 
+          <TrendChart
             title="Trend Analysis"
             data={data.trends}
             animation="line-draw"
             interaction="zoom-pan"
           />
         </motion.div>
-        
+
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.5, duration: 0.6 }}
         >
-          <SentimentChart 
+          <SentimentChart
             title="Sentiment Distribution"
             data={data.sentiment}
             animation="pie-reveal"
@@ -273,7 +270,7 @@ export default function DashboardGrid() {
         </motion.div>
       </div>
 
-      {/* Row 3: Competitive Analysis */}
+      {}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -281,7 +278,7 @@ export default function DashboardGrid() {
           transition={{ delay: 0.6, duration: 0.6 }}
         >
           {data.competitors && data.competitors.length > 0 ? (
-            <CompetitorChart 
+            <CompetitorChart
               title="Share of Voice Comparison"
               data={data.competitors}
               animation="bar-stack"
@@ -298,13 +295,13 @@ export default function DashboardGrid() {
             </div>
           )}
         </motion.div>
-        
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7, duration: 0.6 }}
         >
-          <TopicCloud 
+          <TopicCloud
             title="Trending Topics"
             data={data.topics}
             animation="word-cloud"
@@ -314,13 +311,13 @@ export default function DashboardGrid() {
         </motion.div>
       </div>
 
-      {/* Row 4: Detailed Analytics */}
+      {}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.8, duration: 0.6 }}
       >
-        <DataTable 
+        <DataTable
           title="Top Performing Content"
           data={data.content}
           animation="row-reveal"
@@ -329,7 +326,7 @@ export default function DashboardGrid() {
       </motion.div>
     </div>
 
-    {/* Topic Detail Modal */}
+    {}
     <TopicDetailModal
       topic={state.selectedTopic}
       isOpen={!!state.selectedTopic}

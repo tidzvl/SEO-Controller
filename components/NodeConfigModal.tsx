@@ -50,7 +50,6 @@ export default function NodeConfigModal({ open, onOpenChange, nodeData, edges, n
       setSelectedFunction(nodeData.selectedFunction || '')
       setFunctionFields(nodeData.functionFields || {})
 
-      // Calculate connected data from edges
       const inputs: Record<string, { value: string; sourceName: string }> = {}
       const requirements: Record<string, { value: string; sourceName: string }> = {}
 
@@ -60,15 +59,14 @@ export default function NodeConfigModal({ open, onOpenChange, nodeData, edges, n
           if (sourceNode && sourceNode.data.outputValues) {
             const targetHandle = edge.targetHandle || ''
             const sourceHandle = edge.sourceHandle || ''
-            
-            // Get the index from handle ID (e.g., "output-0" -> 0)
+
             const sourceIndex = sourceHandle.split('-')[1]
             const outputKey = `output-${sourceIndex}`
             const outputValue = sourceNode.data.outputValues[outputKey]
 
             if (outputValue) {
               const sourceName = sourceNode.data.displayName || sourceNode.data.config.name
-              
+
               if (targetHandle.startsWith('input-')) {
                 inputs[targetHandle] = { value: outputValue, sourceName }
               } else if (targetHandle.startsWith('requirement-')) {
@@ -88,21 +86,20 @@ export default function NodeConfigModal({ open, onOpenChange, nodeData, edges, n
   const inputHandles = nodeData.config.links.filter(link => link.type === 'input')
   const requirementHandles = nodeData.config.links.filter(link => link.type === 'requirement')
   const outputHandles = nodeData.config.links.filter(link => link.type === 'output')
-  
+
   const isBasicNode = nodeData.config.group === 'Basic'
   const isSocialMediaNode = nodeData.config.group === 'Social Media'
   const availableFunctions = isSocialMediaNode ? getSocialMediaFunctions(nodeData.config.name) : []
   const currentFunction = selectedFunction ? getFunctionById(nodeData.config.name, selectedFunction) : null
 
   const handleSave = () => {
-    // Validate Social Media nodes
+
     if (isSocialMediaNode) {
       if (!selectedFunction) {
         alert('Please select a function for this Social Media node')
         return
       }
-      
-      // Validate required fields
+
       if (currentFunction) {
         for (const field of currentFunction.fields) {
           if (field.required) {
@@ -243,7 +240,7 @@ export default function NodeConfigModal({ open, onOpenChange, nodeData, edges, n
                 {inputHandles.map((handle, index) => {
                   const handleKey = `input-${index}`
                   const connected = connectedData.inputs[handleKey]
-                  
+
                   return (
                     <div key={handleKey} className="mb-3">
                       <label className="text-sm font-medium mb-1.5 block">
@@ -263,8 +260,8 @@ export default function NodeConfigModal({ open, onOpenChange, nodeData, edges, n
                         })}
                         readOnly={!!connected}
                         className={`w-full px-3 py-2 border rounded-md ${
-                          connected 
-                            ? 'bg-primary/5 border-primary/30 text-foreground cursor-not-allowed' 
+                          connected
+                            ? 'bg-primary/5 border-primary/30 text-foreground cursor-not-allowed'
                             : 'bg-background border-border focus:outline-none focus:ring-2 focus:ring-primary/50'
                         }`}
                         placeholder={connected ? '' : `Enter ${handle.label.toLowerCase()}`}
@@ -281,7 +278,7 @@ export default function NodeConfigModal({ open, onOpenChange, nodeData, edges, n
                 {requirementHandles.map((handle, index) => {
                   const handleKey = `requirement-${index}`
                   const connected = connectedData.requirements[handleKey]
-                  
+
                   return (
                     <div key={handleKey} className="mb-3">
                       <label className="text-sm font-medium mb-1.5 block">
@@ -301,8 +298,8 @@ export default function NodeConfigModal({ open, onOpenChange, nodeData, edges, n
                           })}
                           readOnly={!!connected}
                           className={`w-full px-3 py-2 border rounded-md min-h-[80px] ${
-                            connected 
-                              ? 'bg-primary/5 border-primary/30 text-foreground cursor-not-allowed' 
+                            connected
+                              ? 'bg-primary/5 border-primary/30 text-foreground cursor-not-allowed'
                               : 'bg-background border-border focus:outline-none focus:ring-2 focus:ring-primary/50'
                           }`}
                           placeholder={connected ? '' : `Enter ${handle.label.toLowerCase()}`}
@@ -317,8 +314,8 @@ export default function NodeConfigModal({ open, onOpenChange, nodeData, edges, n
                           })}
                           readOnly={!!connected}
                           className={`w-full px-3 py-2 border rounded-md ${
-                            connected 
-                              ? 'bg-primary/5 border-primary/30 text-foreground cursor-not-allowed' 
+                            connected
+                              ? 'bg-primary/5 border-primary/30 text-foreground cursor-not-allowed'
                               : 'bg-background border-border focus:outline-none focus:ring-2 focus:ring-primary/50'
                           }`}
                           placeholder={connected ? '' : `Enter ${handle.label.toLowerCase()}`}
