@@ -77,7 +77,7 @@ export type ReportAction =
   | { type: 'SET_ERROR'; payload: string | null }
   | { type: 'SET_STEP'; payload: number }
   | { type: 'ADD_GENERATED_REPORT'; payload: GeneratedReport }
-  | { type: 'UPDATE_REPORT_STATUS'; payload: { id: string; status: string; progress?: number; downloadUrl?: string; error?: string } }
+  | { type: 'UPDATE_REPORT_STATUS'; payload: { id: string; status: string; progress?: number; downloadUrl?: string; error?: string; fileSize?: number; pageCount?: number } }
   | { type: 'RESET_WIZARD' }
 
 const initialState: ReportState = {

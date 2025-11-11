@@ -1,24 +1,163 @@
-Welcome to the NextJS base template bootstrapped using the `create-next-app`. This template supports TypeScript, but you can use normal JavaScript as well.
+# SEO Controller
 
-## Getting Started
+A comprehensive SEO monitoring and trend analysis platform built with Next.js, TypeScript, and React.
 
-Hit the run button to start the development server.
+## Features
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+- **Real-time Dashboard** - Monitor SEO metrics in real-time with WebSocket integration
+- **Trend Analysis** - Analyze trending topics, hashtags, and posts
+- **Custom Reports** - Generate and export customizable SEO reports
+- **Workflow Automation** - Visual workflow builder with drag-and-drop interface
+- **Multi-language Support** - i18n integration for internationalization
+- **Responsive Design** - Mobile-first design with Tailwind CSS
+- **Dark Mode** - Built-in theme switching
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on `/api/hello`. This endpoint can be edited in `pages/api/hello.ts`.
+## Tech Stack
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+- **Framework:** Next.js 15.2.3
+- **Language:** TypeScript 5.8.2
+- **UI Library:** React 19.0.0
+- **Styling:** Tailwind CSS 3.4.18
+- **Charts:** Chart.js, Recharts, React Flow
+- **State Management:** React Context API
+- **Internationalization:** next-i18next
 
-## Learn More
+## Quick Start
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+# Install dependencies
+npm install
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Run development server
+npm run dev
 
-## Productionizing your Next App
+# Open browser
+# http://localhost:5000
+```
 
-To make your next App run smoothly in production make sure to deploy your project with [Repl Deployments](https://docs.replit.com/hosting/deployments/about-deployments)!
+For detailed setup instructions, see [SETUP.md](SETUP.md)
 
-You can also produce a production build by running `npm run build` and [changing the run command](https://docs.replit.com/programming-ide/configuring-repl#run) to `npm run start`.
+## Project Structure
+
+```
+SEO-Controller/
+├── components/          # React components
+│   ├── dashboard/      # Dashboard components
+│   ├── reports/        # Report components
+│   ├── trend/          # Trend analysis components
+│   └── FlowCanvas.tsx  # Workflow builder
+├── pages/              # Next.js pages
+│   ├── dashboard.tsx   # Dashboard page
+│   ├── trend-analysis.tsx
+│   ├── workflow.tsx
+│   └── index.tsx
+├── contexts/           # React contexts
+├── hooks/              # Custom hooks
+├── services/           # API services
+├── lib/                # Utilities
+├── config/             # Configuration
+└── public/             # Static assets
+```
+
+## Available Scripts
+
+```bash
+npm run dev      # Start development server (port 5000)
+npm run build    # Build for production
+npm start        # Start production server
+npm run lint     # Run ESLint
+```
+
+## Docker Support
+
+Build and run with Docker:
+
+```bash
+# Build image
+docker-compose build
+
+# Run container
+docker-compose up
+
+# Run in background
+docker-compose up -d
+```
+
+See [docker-build.md](docker-build.md) for more details.
+
+## Environment Variables
+
+Copy `.env.example` to `.env` and configure:
+
+```env
+NODE_ENV=development
+PORT=5000
+HOSTNAME=0.0.0.0
+```
+
+## Documentation
+
+- [SETUP.md](SETUP.md) - Complete setup guide for new machines
+- [docker-build.md](docker-build.md) - Docker build and deployment guide
+- [CHART_DATA_STRUCTURES.md](CHART_DATA_STRUCTURES.md) - Chart data structures
+
+## Key Features
+
+### Real-time Dashboard
+- Live metrics updates via WebSocket
+- Customizable metric cards
+- Interactive charts and visualizations
+- Project selector and time range filters
+
+### Trend Analysis
+- Trending topics discovery
+- Hashtag tracking
+- Post analysis
+- Sentiment analysis
+- Competitor monitoring
+
+### Report Generation
+- Custom report builder
+- Multiple templates
+- Data source selection
+- Export functionality
+
+### Workflow Automation
+- Visual workflow designer
+- Node-based interface
+- Pre-built templates
+- Custom node configuration
+
+## Browser Support
+
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+
+## Contributing
+
+1. Create a new branch: `git checkout -b feature/your-feature`
+2. Make your changes
+3. Commit: `git commit -m "feat: add your feature"`
+4. Push: `git push origin feature/your-feature`
+5. Create a Pull Request
+
+## Troubleshooting
+
+See [SETUP.md - Troubleshooting](SETUP.md#troubleshooting-xử-lý-lỗi) section for common issues and solutions.
+
+## License
+
+Private - All rights reserved
+
+## Support
+
+For issues and questions:
+- Check [SETUP.md](SETUP.md) documentation
+- Review existing GitHub issues
+- Contact the development team
+
+---
+
+**Built with ❤️ using Next.js and TypeScript**

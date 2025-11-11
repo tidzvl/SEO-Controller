@@ -24,28 +24,28 @@ export default function ProjectProcessingState() {
       title: 'Thu thập dữ liệu',
       description: 'Đang thu thập dữ liệu từ các nguồn social media',
       icon: <TrendingUp className="h-5 w-5" />,
-      status: 'processing' as const
+      status: 'processing' as 'processing' | 'pending' | 'completed'
     },
     {
       id: 'brand-analysis',
       title: 'Phân tích thương hiệu',
       description: 'Đang phân tích và nhận diện thương hiệu',
       icon: <Target className="h-5 w-5" />,
-      status: 'pending' as const
+      status: 'pending' as 'processing' | 'pending' | 'completed'
     },
     {
       id: 'sentiment-analysis',
       title: 'Phân tích sentiment',
       description: 'Đang phân tích cảm xúc và xu hướng',
       icon: <Users className="h-5 w-5" />,
-      status: 'pending' as const
+      status: 'pending' as 'processing' | 'pending' | 'completed'
     },
     {
       id: 'dashboard-setup',
       title: 'Thiết lập dashboard',
       description: 'Đang chuẩn bị dashboard và báo cáo',
       icon: <BarChart3 className="h-5 w-5" />,
-      status: 'pending' as const
+      status: 'pending' as 'processing' | 'pending' | 'completed'
     }
   ]
 
